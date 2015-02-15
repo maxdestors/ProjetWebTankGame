@@ -3,11 +3,24 @@
 <head>
 	<title>Tank game</title>
 	<link rel="stylesheet" type="text/css" href="style.css" />
+
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+
 	<script type="text/javascript" src="js/classes/tank.js"></script>
 	<script type="text/javascript" src="js/classes/chat.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 </head>
 <body>
 
+	<div class="users">
+		<b>USERS</b>
+		<div id="users"></div>
+	</div>
+	<div class="chatMsg">
+		<div id="conversation" class="chatMsg"></div>
+		<input id="data" style="width:200px;" />
+		<input type="button" id="datasend" value="send" />
+	</div>
 </body>
 </html>

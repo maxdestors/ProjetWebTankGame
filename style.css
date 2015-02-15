@@ -1,0 +1,17 @@
+.users {
+	/*float:left;*/
+	width:100px;
+	border-right:1px solid black;
+	height:200px;
+	padding:10px;
+	overflow:scroll-y;
+}
+
+.chatMsg {
+	/*float:left;*/
+	border: 1px solid black;
+	width:300px;
+	height:250px;
+	/*overflow:scroll-y;*/
+	padding:10px;
+}
