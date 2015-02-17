@@ -9,7 +9,7 @@ var app = express()
   , io = require('socket.io').listen(server);
 
 // launch the http server on given port
-server.listen(80);
+server.listen(28080);
 
 // Indicate where static files are located. Without this, no external js file, no css...
 app.use(express.static(__dirname + '/'));

@@ -10,8 +10,20 @@
 .chatMsg {
 	/*float:left;*/
 	border: 1px solid black;
-	width:300px;
+}
+
+#conversation {
+	/*overflow: scroll;*/
 	height:250px;
-	/*overflow:scroll-y;*/
+	overflow-y: scroll;
+	overflow-x: hidden;
 	padding:10px;
+
+}
+
+#tankCanvas {
+	margin-left: 30px;
+	height: 600px;
+	width: 600px;
+	border: 1px solid black;
 }
