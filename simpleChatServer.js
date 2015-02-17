@@ -12,11 +12,11 @@ var app = express()
 server.listen(28080);
 
 // Indicate where static files are located. Without this, no external js file, no css...
-app.use(express.static(__dirname + '/'));
+app.use(express.static(__dirname + '/view/'));
 
 // routing
 app.get('/', function (req, res) {
-	res.sendfile(__dirname + '/index.html');
+	res.sendfile(__dirname + '/view/index.html');
 });
 
 // usernames which are currently connected to the chat
@@ -26,6 +26,8 @@ io.sockets.on('connection', function (socket) {
 
 	// when the client emits 'sendchat', this listens and executes
 	socket.on('sendchat', function (data) {
+
+		// html special char 
 		data = data.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 		// we tell the client to execute 'updatechat' with 2 parameters
 		io.sockets.emit('updatechat', socket.username, data);
