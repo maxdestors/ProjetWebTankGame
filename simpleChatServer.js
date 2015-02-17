@@ -26,6 +26,7 @@ io.sockets.on('connection', function (socket) {
 
 	// when the client emits 'sendchat', this listens and executes
 	socket.on('sendchat', function (data) {
+		data = data.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 		// we tell the client to execute 'updatechat' with 2 parameters
 		io.sockets.emit('updatechat', socket.username, data);
 	});
