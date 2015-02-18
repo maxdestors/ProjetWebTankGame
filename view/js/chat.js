@@ -1,51 +1,87 @@
+/**
+ * Created by Romain on 18/02/2015.
+ */
+
+do{  // TODO dans notre tp
+    var username = prompt("What's your name?");   // STOCKE NOM DU JOUEUR
+
+} while(username.length < 4);
+var conversation, data, datasend, users;      // VARIABLE USEFUL
+
 var socket = io.connect();
 
-// on connection to server, ask for user's name with an anonymous callback
-socket.on('connect', function(){
-	// call the server-side function 'adduser' and send one parameter (value of prompt)
-	socket.emit('adduser', prompt("What's your name?"));
+// CONNEXION SERVER ET DEMANDE PSEUDO
+socket.on('connect', function(){      // call the server-side function 'adduser' and send one parameter (value of prompt)
+    socket.emit('adduser', username);
 });
 
-// listener, whenever the server emits 'updatechat', this updates the chat body 
+// UPDATE TCHAT
 socket.on('updatechat', function (username, data) {
-	var doWeScroll = false;
-	if ($("#conversation")[0].scrollHeight - $("#conversation")[0].clientHeight <= $("#conversation")[0].scrollTop) {
-		doWeScroll = true;
-	}
-
-	$('#conversation').append('<b>'+username + ':</b> ' + data + '<br>');
-	
-	if (doWeScroll) {
-		$("#conversation").scrollTop($("#conversation")[0].scrollHeight);
-	}
+    var chatMessage = "<b>" + username + ":</b> " + data + "<br>";
+    conversation.innerHTML += chatMessage;
 });
 
-// listener, whenever the server emits 'updateusers', this updates the username list
-socket.on('updateusers', function(data) {
-	$('#users').empty();
-	$.each(data, function(key, value) {
-		$('#users').append('<div>' + key + '</div>');
-	});
+// POSITION DU JOUEUR
+socket.on('updatepos', function (username, newPos) {
+    updatePlayerNewPos(newPos);   // appel fonction jeu.js
 });
 
-// on load of page
-$(function(){
-	// when the client clicks SEND
-	$('#datasend').click( function() {
-		var message = $('#data').val();
-		$('#data').val('');
-		// tell server to execute 'sendchat' and send along one parameter
-		socket.emit('sendchat', message);
-	});
-
-	// when the client hits ENTER on their keyboard
-	$('#data').keypress(function(e) {
-		if(e.which == 13) {
-			$(this).blur();
-			$('#datasend').focus().click();
-			$('#data').focus();
-			$("#conversation").scrollTop($("#conversation")[0].scrollHeight);
-		}
-	});
+// SERVEUR EMET UPDATE ROOM
+socket.on('updaterooms', function(rooms, current_room) {
+    $('#rooms').empty();
+    $.each(rooms, function(key, value) {
+        if(value == current_room){
+            $('#rooms').append('<div>' + value + '</div>');
+        }
+        else {
+            $('#rooms').append('<div><a href="#" onclick="switchRoom(\''+value+'\')">' + value + '</a></div>');
+        }
+    });
 });
 
+function switchRoom(room){
+    socket.emit('switchRoom', room);
+}
+
+// UPDATE LISTE AVEC LE NOUVEAU JOUEUR
+socket.on('updateusers', function(listOfUsers) {
+    users.innerHTML = "";
+    for(var name in listOfUsers) {
+        var userLineOfHTML = '<div>' + name + '</div>';
+        users.innerHTML += userLineOfHTML;
+    }
+});
+
+// GESTION LISTE JOUEUR AVEC LES DECONNEXIONS
+socket.on('updatePlayers', function(listOfplayers) {
+    updatePlayers(listOfplayers);   // appel fonction jeu.js
+});
+
+// ONLOAD : AU CHARGEMENT DE LA PAGE
+window.addEventListener("load", function()
+{
+    conversation = document.querySelector("#conversation");
+    data = document.querySelector("#data");
+    datasend = document.querySelector("#datasend");
+    users = document.querySelector("#users");
+
+    datasend.addEventListener("click", function(evt) {       // BOUTON ENVOYER
+        sendMessage();
+    });
+
+    data.addEventListener("keypress", function(evt) {        // TEST APPUI ENTER + TEST SI DANS INPUT
+        // if pressed ENTER, then send
+        if(evt.keyCode == 13) {
+            this.focus();
+            sendMessage();
+        }
+    });
+
+    function sendMessage() {                                 // ENVOIE DU MESSAGE SENDCHAT AU SERVER
+        var message = data.value;
+        if(message != "") {   // TODO dans notre tp
+            data.value = "";  // on efface l'input
+            socket.emit('sendchat', message);
+        }
+    }
+});

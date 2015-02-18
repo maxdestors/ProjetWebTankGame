@@ -1,1 +1,1 @@
-node mainServer.js
+node server.js

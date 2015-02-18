@@ -1,37 +1,28 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Tank game</title>
-	<link rel="stylesheet" type="text/css" href="style.css" />
-
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-	<script src="/socket.io/socket.io.js"></script>
-
-	<script type="text/javascript" src="js/chat.js"></script>
-	<script type="text/javascript" src="js/classes/tank.class.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>WebSocket TP Buffa</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/classes/jeu.js"></script>
+    <script src="js/chat.js"></script>
 </head>
-<body>
-<table>
-	<tr>
-		<td>
-			
-			<div class="users">
-				<b>USERS</b>
-				<div id="users"></div>
-			</div>
-			<div class="chatMsg">
-				<div id="conversation"></div>
-				<input id="data" size="25" />
-				<input type="button" id="datasend" value="send" />
-			</div>
-		</td>
-		<td>
-			<canvas id="tankCanvas">Canvas non supporté go dl un meilleur navigateur noob !</canvas>
-		</td>
 
-	</tr>
-</table>
-
+<body onload="init();">
+<div id="boxinfo">
+    <b>ROOMS</b>
+    <div id="rooms"></div>
+    <br/>
+    <b>USERS</b>
+    <div id="users"></div>
+</div>
+<p><canvas width=430 height=430 id="tankCanvas"></canvas></p>
+<div id="chat">
+    <div id="conversation"></div>
+    <input id="data" />
+    <input type="button" id="datasend" value="Envoyer" />
+</div>
 </body>
 </html>
