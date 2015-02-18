@@ -24,6 +24,11 @@ var usernames = {};
 
 io.sockets.on('connection', function (socket) {
 
+
+	/*******************
+	 *		Chat
+	 *******************/
+
 	// when the client emits 'sendchat', this listens and executes
 	socket.on('sendchat', function (data) {
 
@@ -56,4 +61,13 @@ io.sockets.on('connection', function (socket) {
 		// echo globally that this client has left
 		socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
 	});
+
+
+
+	/*******************
+	 *	  Tank Game
+	 *******************/
+
+
+
 });

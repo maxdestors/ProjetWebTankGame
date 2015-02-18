@@ -8,7 +8,16 @@ socket.on('connect', function(){
 
 // listener, whenever the server emits 'updatechat', this updates the chat body 
 socket.on('updatechat', function (username, data) {
+	var doWeScroll = false;
+	if ($("#conversation")[0].scrollHeight - $("#conversation")[0].clientHeight <= $("#conversation")[0].scrollTop) {
+		doWeScroll = true;
+	}
+
 	$('#conversation').append('<b>'+username + ':</b> ' + data + '<br>');
+	
+	if (doWeScroll) {
+		$("#conversation").scrollTop($("#conversation")[0].scrollHeight);
+	}
 });
 
 // listener, whenever the server emits 'updateusers', this updates the username list
@@ -35,6 +44,7 @@ $(function(){
 			$(this).blur();
 			$('#datasend').focus().click();
 			$('#data').focus();
+			$("#conversation").scrollTop($("#conversation")[0].scrollHeight);
 		}
 	});
 });

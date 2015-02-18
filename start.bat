@@ -1,1 +1,1 @@
-node simpleChatServer.js
+node mainServer.js
