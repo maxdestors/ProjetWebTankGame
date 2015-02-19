@@ -24,17 +24,15 @@ function traiteMouseDown(evt) {
 function traiteMouseMove(evt) {
     //console.log("mousemove");
     mousePos = getMousePos(canvas, evt);
-     console.log(mousePos.x + " " + mousePos.y);
-
     allPlayers[username].x = mousePos.x;
     allPlayers[username].y = mousePos.y;
-
     //console.log("On envoie sendPos");
     var pos = {'user':username, 'pos':mousePos}
-    socket.emit('sendpos', pos);
+    socket.emit('sendpos', pos);                   // ENVOIE DES COORDONNES
 }
 
-function updatePlayerNewPos(newPos) {
+
+function updatePlayerNewPos(newPos) {              // SERT A CHAT.JS
     allPlayers[newPos.user].x = newPos.pos.x;
     allPlayers[newPos.user].y = newPos.pos.y;
 }
@@ -46,7 +44,10 @@ function updatePlayerNewPos(newPos) {
 function updatePlayers(listOfPlayers) {
     allPlayers = listOfPlayers;
 }
-
+/**
+ * Dessine le tank du joueur
+ * @param player
+ */
 function drawPlayer(player) {
     ctx.fillRect(player.x, player.y, 20, 20)
     ctx.fillStyle = 'blue';

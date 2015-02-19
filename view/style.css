@@ -1,6 +1,5 @@
 body {
-    background-image: url("img/bg.png");
-    background-repeat: repeat;
+    background: url("img/bg.png") repeat;
     font-family: Arial, sans-serif;
     font-size: 13px;
     margin-top:20px;
