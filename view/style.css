@@ -92,11 +92,12 @@ h4 {
     background-color: #090909;
     color: #FFF;
     float:left;
-    margin: 15px 15px 0 46px;
+    margin: 5px 15px 0 46px;
     padding:10px;
     border: 3px solid #111111;
     width:600px;
-    height:400px;
+    min-height:250px;
+    max-height:400px;
     overflow:scroll-y;
     overflow-x: hidden;
 }
@@ -115,16 +116,20 @@ h4 {
     background-color: #090909;
     width:140px;
     border: 3px solid #111111;
-    height:400px;
+    min-height:250px;
+    max-height:400px;
     padding:10px;
     overflow:scroll-y;
-    margin: 15px 0 0;
+    margin: 5px 0 0;
 }
 #boxinfo div {
     padding:0 0 5px 5px;
 }
-
-
 #data {
-    width:200px;
+    background-color: #132E1E;
+    border:3px solid #37B76D;
+    padding: 5px;
+    margin-left:15px;
+    width:300px;
+    color:#FFF;
 }

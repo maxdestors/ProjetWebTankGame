@@ -2,12 +2,11 @@
  * Created by Romain on 18/02/2015.
  */
 
-do{  // TODO dans notre tp
+do{  // TODO rom
     var username = prompt("What's your name?");   // STOCKE NOM DU JOUEUR
-
 } while(username.length < 4);
-var conversation, data, datasend, users;      // VARIABLE USEFUL
 
+var conversation, data, datasend, users;          // VARIABLES USEFUL
 var socket = io.connect();
 
 // CONNEXION SERVER ET DEMANDE PSEUDO
@@ -79,7 +78,7 @@ window.addEventListener("load", function()
 
     function sendMessage() {                                 // ENVOIE DU MESSAGE SENDCHAT AU SERVER
         var message = data.value;
-        if(message != "") {   // TODO dans notre tp
+        if(message != "") {   // TODO rom
             data.value = "";  // on efface l'input
             socket.emit('sendchat', message);
         }

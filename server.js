@@ -40,14 +40,14 @@ io.sockets.on('connection', function (socket)
         socket.username = ent.encode(username);      // sorte de session pour stocker username
         usernames[username] = username;  // ajout du nom du client a la liste global
 
-        socket.room = 'room1';           // room 1 par défaut
-        socket.join('room1');
+        socket.room = 'Room n°1';           // room 1 par défaut
+        socket.join('Room n°1');
 
-        socket.emit('updatechat', 'SERVER', 'you have connected to room1');  // info au client qu'il s'est connecté
-        socket.broadcast.to('room1').emit('updatechat', 'SERVER', username + ' has connected to this room');  // info a tous les clients sauf le client courant que qqun s'est connecté
+        socket.emit('updatechat', 'SERVER', 'vous êtes connecté à la Room n°1.');  // info au client qu'il s'est connecté
+        socket.broadcast.to('Room n°1').emit('updatechat', 'SERVER', username + "s'est connecté à cette Room");  // info a tous les clients sauf le client courant que qqun s'est connecté
         io.sockets.emit('updateusers', usernames);  // on demande a chaque client de mettre a jour la liste des clients sur sa page
 
-        socket.emit('updaterooms', rooms, 'room1'); // maj des rooms
+        socket.emit('updaterooms', rooms, 'Room n°1'); // maj des rooms
 
         var player = {'x':0, 'y':0, 'v':0}          // transmission des coordonnées
         listOfPlayers[username] = player;
@@ -74,7 +74,7 @@ io.sockets.on('connection', function (socket)
         io.sockets.emit('updateusers', usernames);      // maj de la liste des joueurs dans le chat
         delete listOfPlayers[socket.username];		    // suppression du joueur
         io.sockets.emit('updatePlayers',listOfPlayers);
-        socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');  // on dit à tout le monde quel joueur a quitté
+        socket.broadcast.emit('updatechat', 'SERVER', socket.username + " s'est déconnecté");  // on dit à tout le monde quel joueur a quitté
         socket.leave(socket.room);
     });
 });
