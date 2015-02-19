@@ -17,7 +17,7 @@ socket.on('connect', function(){      // call the server-side function 'adduser'
 
 // UPDATE TCHAT
 socket.on('updatechat', function (username, data) {
-    var chatMessage = "<b>" + username + ":</b> " + data + "<br>";
+    var chatMessage = "<div><b>" + username + ":</b> " + data + "</br></div>";
     conversation.innerHTML += chatMessage;
 });
 
@@ -31,10 +31,10 @@ socket.on('updaterooms', function(rooms, current_room) {
     $('#rooms').empty();
     $.each(rooms, function(key, value) {
         if(value == current_room){
-            $('#rooms').append('<div>' + value + '</div>');
+            $('#rooms').append('<div style="color:#37B76D">- ' + value + '</div>');
         }
         else {
-            $('#rooms').append('<div><a href="#" onclick="switchRoom(\''+value+'\')">' + value + '</a></div>');
+            $('#rooms').append('<div>- <a href="#" onclick="switchRoom(\''+value+'\')">' + value + '</a></div>');
         }
     });
 });
@@ -47,7 +47,7 @@ function switchRoom(room){
 socket.on('updateusers', function(listOfUsers) {
     users.innerHTML = "";
     for(var name in listOfUsers) {
-        var userLineOfHTML = '<div>' + name + '</div>';
+        var userLineOfHTML = '<div>- ' + name + '</div>';
         users.innerHTML += userLineOfHTML;
     }
 });

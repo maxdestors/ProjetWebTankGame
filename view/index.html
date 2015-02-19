@@ -11,18 +11,36 @@
 </head>
 
 <body onload="init();">
-<div id="boxinfo">
-    <b>ROOMS</b>
-    <div id="rooms"></div>
-    <br/>
-    <b>USERS</b>
-    <div id="users"></div>
-</div>
-<p><canvas width=430 height=430 id="tankCanvas"></canvas></p>
-<div id="chat">
-    <div id="conversation"></div>
-    <input id="data" />
-    <input type="button" id="datasend" value="Envoyer" />
-</div>
+    <div id="container">
+        <h1> TANK GAME </h1>
+        <div id="menu">
+            <li><a class="btn" href="#">HOME</a></li>
+            <li><a class="btn" href="#">RULES</a></li>
+            <li><a class="btn" href="#">GAME</a></li>
+            <li><a class="btn" href="#">ABOUT</a></li>
+        </div>
+
+        <div class="clearfloat"></div>
+
+        <p id="game">
+            <canvas width=800 height=500 id="tankCanvas"></canvas>
+        </p>
+
+        <div id="boxchat">
+            <div id="conversation"></div>
+            <input id="data" />
+            <input type="button" id="datasend" value="Envoyer" />
+        </div>
+
+        <div id="boxinfo">
+            <h4>ROOMS</h4>
+            <div id="rooms"></div>
+            <br/>
+            <h4>USERS</h4>
+            <div id="users"></div>
+        </div>
+
+        <div class="clearfloat"></div>
+    </div>
 </body>
 </html>

@@ -5,6 +5,7 @@ var express = require('express');
 // VARIABLES POUR LES MODULES REQUIS
 var app = express()
     , http = require('http')
+    , ent = require('ent')
     , server = http.createServer(app)
     , io = require('socket.io').listen(server);
 
@@ -21,13 +22,13 @@ app.get('/', function (req, res) {
 // PSEUDO DES PERSONNES CONNECTES AU CHAT
 var usernames = {};
 var listOfPlayers = {};
-var rooms = ['room1','room2','room3'];
+var rooms = ['Room n°1','Room n°2','Room n°3'];
 
 // CONNEXION ET TRAITEMENT DES MESSAGES
 io.sockets.on('connection', function (socket)
 {
     socket.on('sendchat', function (data) {                           // CLIENT A EMIS SENDCHAT, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATECHAT
-        io.sockets.in(socket.room).emit('updatechat', socket.username, data);
+        io.sockets.in(socket.room).emit('updatechat', socket.username, ent.encode(data));
     });
 
     socket.on('sendpos', function (newPos) {                          // CLIENT A EMIS SENDPOS, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATEPOS
@@ -36,7 +37,7 @@ io.sockets.on('connection', function (socket)
 
     socket.on('adduser', function(username)                           // CLIENT A EMIS ADDUSER, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATEPOS
     {
-        socket.username = username;      // sorte de session pour stocker username
+        socket.username = ent.encode(username);      // sorte de session pour stocker username
         usernames[username] = username;  // ajout du nom du client a la liste global
 
         socket.room = 'room1';           // room 1 par défaut
