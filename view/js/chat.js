@@ -2,30 +2,40 @@
  * Created by Romain on 18/02/2015.
  */
 
-do{  // TODO rom
-    var username = prompt("What's your name?");   // STOCKE NOM DU JOUEUR
-} while(username.length < 4);
+do
+{   // TODO rom
+    var username = prompt("Votre pseudo ?");      // STOCKE NOM DU JOUEUR
+}
+while(username.length < 4);
 
 var conversation, data, datasend, users;          // VARIABLES USEFUL
 var socket = io.connect();
 
-// CONNEXION SERVER ET DEMANDE PSEUDO
+/**
+ *  CONNEXION SERVER ET DEMANDE PSEUDO
+ */
 socket.on('connect', function(){      // call the server-side function 'adduser' and send one parameter (value of prompt)
     socket.emit('adduser', username);
 });
 
-// UPDATE TCHAT
+/**
+ * UPDATE TCHAT
+ */
 socket.on('updatechat', function (username, data) {
     var chatMessage = "<div><b>" + username + ":</b> " + data + "</br></div>";
     conversation.innerHTML += chatMessage;
 });
 
-// POSITION DU JOUEUR
+/**
+ * POSITION DU JOUEUR
+ */
 socket.on('updatepos', function (username, newPos) {
     updatePlayerNewPos(newPos);   // appel fonction jeu.js
 });
 
-// SERVEUR EMET UPDATE ROOM
+/**
+ * SERVEUR EMET UPDATE ROOM
+ */
 socket.on('updaterooms', function(rooms, current_room) {
     $('#rooms').empty();
     $.each(rooms, function(key, value) {
@@ -38,11 +48,17 @@ socket.on('updaterooms', function(rooms, current_room) {
     });
 });
 
+/**
+ * CHANGEMENT DE SALLE
+ * @param room
+ */
 function switchRoom(room){
     socket.emit('switchRoom', room);
 }
 
-// UPDATE LISTE AVEC LE NOUVEAU JOUEUR
+/**
+ * UPDATE LISTE AVEC LE NOUVEAU JOUEURs
+ */
 socket.on('updateusers', function(listOfUsers) {
     users.innerHTML = "";
     for(var name in listOfUsers) {
@@ -51,12 +67,16 @@ socket.on('updateusers', function(listOfUsers) {
     }
 });
 
-// GESTION LISTE JOUEUR AVEC LES DECONNEXIONS
+/**
+ * GESTION LISTE JOUEUR AVEC LES DECONNEXIONS
+ */
 socket.on('updatePlayers', function(listOfplayers) {
     updatePlayers(listOfplayers);   // appel fonction jeu.js
 });
 
-// ONLOAD : AU CHARGEMENT DE LA PAGE
+/**
+ * ONLOAD : AU CHARGEMENT DE LA PAGE
+ */
 window.addEventListener("load", function()
 {
     conversation = document.querySelector("#conversation");
@@ -64,11 +84,13 @@ window.addEventListener("load", function()
     datasend = document.querySelector("#datasend");
     users = document.querySelector("#users");
 
-    datasend.addEventListener("click", function(evt) {       // BOUTON ENVOYER
+    // BOUTON ENVOYER
+    datasend.addEventListener("click", function(evt) {
         sendMessage();
     });
 
-    data.addEventListener("keypress", function(evt) {        // TEST APPUI ENTER + TEST SI DANS INPUT
+    // TEST APPUI ENTER + TEST SI DANS INPUT
+    data.addEventListener("keypress", function(evt) {
         // if pressed ENTER, then send
         if(evt.keyCode == 13) {
             this.focus();
@@ -76,7 +98,8 @@ window.addEventListener("load", function()
         }
     });
 
-    function sendMessage() {                                 // ENVOIE DU MESSAGE SENDCHAT AU SERVER
+    // ENVOIE DU MESSAGE SENDCHAT AU SERVER
+    function sendMessage() {
         var message = data.value;
         if(message != "") {   // TODO rom
             data.value = "";  // on efface l'input
