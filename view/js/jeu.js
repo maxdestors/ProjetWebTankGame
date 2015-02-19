@@ -2,11 +2,13 @@
  * Created by Romain on 18/02/2015.
  */
 
-var canvas, ctx, mousePos;
 
-// Autres joueurs
+var canvas, ctx, mousePos;
 var allPlayers = {};
 
+/**
+ * INITIALISATION
+ */
 function init() {
     console.log("init");
     canvas = document.querySelector("#tankCanvas");
@@ -17,6 +19,25 @@ function init() {
     anime();
 }
 
+/**
+ * ANIMATION
+ */
+function anime() {
+    if (username != undefined) {
+        // 1 On efface l'écran
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // 2 On dessine des objets
+        drawAllPlayers();
+    }
+    // 4 On rappelle la fonction d'animation à 60 im/s
+    requestAnimationFrame(anime);
+}
+
+
+/**
+ * Traitement souris
+ * @param evt
+ */
 function traiteMouseDown(evt) {
     //console.log("mousedown");
 }
@@ -27,11 +48,22 @@ function traiteMouseMove(evt) {
     allPlayers[username].x = mousePos.x;
     allPlayers[username].y = mousePos.y;
     //console.log("On envoie sendPos");
-    var pos = {'user':username, 'pos':mousePos}
+    var pos = {'user': username, 'pos': mousePos}
     socket.emit('sendpos', pos);                   // ENVOIE DES COORDONNES
 }
 
+function getMousePos(canvas, evt) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+        x: evt.clientX - rect.left,
+        y: evt.clientY - rect.top
+    };
+}
 
+/**
+ * MAJ des positions
+ * @param newPos
+ */
 function updatePlayerNewPos(newPos) {              // SERT A CHAT.JS
     allPlayers[newPos.user].x = newPos.pos.x;
     allPlayers[newPos.user].y = newPos.pos.y;
@@ -44,6 +76,7 @@ function updatePlayerNewPos(newPos) {              // SERT A CHAT.JS
 function updatePlayers(listOfPlayers) {
     allPlayers = listOfPlayers;
 }
+
 /**
  * Dessine le tank du joueur
  * @param player
@@ -53,27 +86,11 @@ function drawPlayer(player) {
     ctx.fillStyle = 'blue';
 }
 
+/**
+ * Dessine tous les joueurs
+ */
 function drawAllPlayers() {
-    for(var name in allPlayers) {
+    for (var name in allPlayers) {
         drawPlayer(allPlayers[name]);
     }
-}
-
-function getMousePos(canvas, evt) {
-    var rect = canvas.getBoundingClientRect();
-    return {
-        x: evt.clientX - rect.left,
-        y: evt.clientY - rect.top
-    };
-}
-
-function anime() {
-    if(username != undefined ) {
-        // 1 On efface l'écran
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        // 2 On dessine des objets
-        drawAllPlayers();
-    }
-    // 4 On rappelle la fonction d'animation à 60 im/s
-    requestAnimationFrame(anime);
 }

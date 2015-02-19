@@ -46,26 +46,19 @@ var GF = function(){
     function drawMyMonster(x, y) {
         // draw a big monster !
         // head
-
         // save the context
         ctx.save();
-
         // translate the coordinate system, draw relative to it
         ctx.translate(x, y);
-
         // (0, 0) is the top left corner of the monster.
         ctx.strokeRect(0, 0, 100, 100);
-
         // eyes
         ctx.fillRect(20, 20, 10, 10);
         ctx.fillRect(65, 20, 10, 10);
-
         // nose
         ctx.strokeRect(45, 40, 10, 40);
-
         // mouth
         ctx.strokeRect(35, 84, 30, 10);
-
         // teeth
         ctx.fillRect(38, 84, 10, 10);
         ctx.fillRect(52, 84, 10, 10);

@@ -5,7 +5,7 @@ var express = require('express');
 // VARIABLES POUR LES MODULES REQUIS
 var app = express()
     , http = require('http')
-    , ent = require('ent')
+    , ent = require('ent')// encode les caracteres speciaux, equivalent à htmlentities
     , server = http.createServer(app)
     , io = require('socket.io').listen(server);
 

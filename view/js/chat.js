@@ -37,13 +37,13 @@ socket.on('updatepos', function (username, newPos) {
  * SERVEUR EMET UPDATE ROOM
  */
 socket.on('updaterooms', function(rooms, current_room) {
-    $('#rooms').empty();
+    document.getElementById("rooms").innerHTML = null;
     $.each(rooms, function(key, value) {
         if(value == current_room){
-            $('#rooms').append('<div style="color:#37B76D">- ' + value + '</div>');
+            document.getElementById("rooms").innerHTML += '<div style="color:#37B76D">- ' + value + '</div>';
         }
         else {
-            $('#rooms').append('<div>- <a href="#" onclick="switchRoom(\''+value+'\')">' + value + '</a></div>');
+            document.getElementById("rooms").innerHTML += '<div>- <a href="#" onclick="switchRoom(\'' + value + '\')">' + value + '</a></div>';
         }
     });
 });
