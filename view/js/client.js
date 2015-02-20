@@ -35,7 +35,7 @@ socket.on('updatechat', function (username, data) {
  * SERVEUR EMET UPDATE ROOM
  */
 socket.on('updaterooms', function (rooms, current_room) {
-	rms = document.querySelector("#rooms");
+	var rms = document.querySelector("#rooms");
 	rms.innerHTML = null;
 	$.each(rooms, function(key, value) {
 		if(value === current_room){
@@ -77,8 +77,8 @@ window.addEventListener("load", function ()
 	datasend = document.querySelector("#datasend");
 	users = document.querySelector("#users");
 
-	game = new GF(); 
-	game.start();
+	game = new Jeu();
+	game.init();
 
 
 	// BOUTON ENVOYER
@@ -109,12 +109,12 @@ window.addEventListener("load", function ()
  * POSITION DU JOUEUR
  */
 socket.on('updatepos', function (username, newPos) {
-	game.updateXY(newPos);   // appel fonction jeu.js
+	game.updatePlayerNewPos(newPos);   // appel fonction jeu.js
 });
 
 /**
  * GESTION LISTE JOUEUR AVEC LES DECONNEXIONS
  */
 socket.on('updatePlayers', function (listOfplayers) {
-	// updatePlayers(listOfplayers);   // appel fonction jeu.js
+	game.updatePlayers(listOfplayers);   // appel fonction jeu.js
 });
