@@ -27,16 +27,18 @@ var rooms = ['Room n°1','Room n°2','Room n°3'];
 // CONNEXION ET TRAITEMENT DES MESSAGES
 io.sockets.on('connection', function (socket)
 {
-	socket.on('sendchat', function (data) {						   // CLIENT A EMIS SENDCHAT, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATECHAT
+    // CLIENT A EMIS SENDCHAT, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATECHAT
+	socket.on('sendchat', function (data) {
 		io.sockets.in(socket.room).emit('updatechat', socket.username, ent.encode(data));
 	});
 
-	socket.on('sendpos', function (newPos) {						  // CLIENT A EMIS SENDPOS, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATEPOS
+    // CLIENT A EMIS SENDPOS, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATEPOS
+	socket.on('sendpos', function (newPos) {
 		socket.broadcast.emit('updatepos', socket.username, newPos);
-		socket.emit('updatepos', socket.username, newPos);
 	});
 
-	socket.on('adduser', function(username)						   // CLIENT A EMIS ADDUSER, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATEPOS
+    // CLIENT A EMIS ADDUSER, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATEPOS
+	socket.on('adduser', function(username)
 	{
 		socket.username = ent.encode(username);	  // sorte de session pour stocker username
 		usernames[username] = username;  // ajout du nom du client a la liste global

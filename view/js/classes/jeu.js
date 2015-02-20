@@ -2,24 +2,33 @@
  * Created by Romain on 18/02/2015.
  */
 
-var Jeu = function(){
+var Jeu = function()
+{
+	var canvas, ctx, w, h;
 
-	var canvas, ctx, mousePos;
+    var mousePos;
 	var allPlayers = {};
+
     var frameCount = 0;
     var lastTime;
+    var fpsContainer;
     var fps;
 
 	/**
 	 * INITIALISATION
 	 */
-	var init = function () {
-		console.log("init");
+	var init = function ()
+    {
+		console.log("initialisation ok");
 		canvas = document.querySelector("#tankCanvas");
+        w = canvas.width;
+        h = canvas.height;
 		ctx = canvas.getContext('2d');
+        // affiche FPS
+        showFPS();
 		// Les écouteurs
-		canvas.addEventListener("mousedown", traiteMouseDown);
-		canvas.addEventListener("mousemove", traiteMouseMove);
+        canvas.addEventListener("mousedown", traiteMouseDown);
+        canvas.addEventListener("mousemove", traiteMouseMove);
         requestAnimationFrame(mainLoop);
 	};
 
@@ -30,15 +39,11 @@ var Jeu = function(){
     {
         measureFPS(time);
 		if (username != undefined) {
-			// 1 On efface l'écran
-			ctx.clearRect(0, 0, canvas.width, canvas.height);
-			// 2 On dessine des objets
+            clearCanvas();
 			drawAllPlayers();
 		}
-		// 4 On rappelle la fonction d'animation à 60 im/s
 		requestAnimationFrame(mainLoop);
 	}
-
 
 	/**
 	 * Traitement souris
@@ -49,11 +54,9 @@ var Jeu = function(){
 	}
 
 	function traiteMouseMove(evt) {
-		//console.log("mousemove");
 		mousePos = getMousePos(canvas, evt);
 		allPlayers[username].x = mousePos.x;
 		allPlayers[username].y = mousePos.y;
-		//console.log("On envoie sendPos");
 		var pos = {'user': username, 'pos': mousePos}
 		socket.emit('sendpos', pos);				   // ENVOIE DES COORDONNES
 	}
@@ -67,7 +70,7 @@ var Jeu = function(){
 	}
 
 	/**
-	 * MAJ des positions
+	 * MAJ des positions de chaque joueur
 	 * @param newPos
 	 */
 	function updatePlayerNewPos (newPos) {			  // SERT A CHAT.JS
@@ -88,8 +91,8 @@ var Jeu = function(){
 	 * @param player
 	 */
 	function drawPlayer(player) {
-		ctx.fillRect(player.x, player.y, 20, 20)
-		ctx.fillStyle = 'blue';
+        ctx.fillRect(player.x, player.y, 30, 30)
+        ctx.fillStyle = 'black';
 	}
 
 	/**
@@ -118,10 +121,24 @@ var Jeu = function(){
             frameCount = 0;
             lastTime = newTime;
         }
+        fpsContainer.innerHTML = 'FPS: ' + fps;
         frameCount++;
     };
 
-    //our GameFramework returns a public API visible from outside its scope
+    function showFPS() {
+        fpsContainer = document.createElement('div');
+        fpsContainer.setAttribute('style', 'color: red');
+        document.body.appendChild(fpsContainer);
+    }
+
+    /**
+     * Nettoie canvas, efface l'ecran
+     */
+    function clearCanvas() {
+        ctx.clearRect(0, 0, w, h);
+    }
+
+    // methodes publiques
     return {
         init: init,
         updatePlayers: updatePlayers,
