@@ -1,48 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
-    <meta charset="UTF-8">
-    <title>Tank Game Project</title>
-    <link rel="stylesheet" type="text/css" href="style.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="js/jeu.js"></script>
-    <script src="js/chat.js"></script>
+	<meta charset="UTF-8">
+	<title>Tank Game Project</title>
+	<link rel="stylesheet" type="text/css" href="style.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="js/jeu.js"></script>
+	<script src="js/chat.js"></script>
 </head>
 
-<body onload="init();">    <!-- TODO virer onload -->
-    <div id="container">
-        <h1> TANK GAME </h1>
-        <div id="menu">
-            <li><a class="btn" href="#">HOME</a></li>
-            <li><a class="btn" href="#">RULES</a></li>
-            <li><a class="btn" href="#">GAME</a></li>
-            <li><a class="btn" href="#">ABOUT</a></li>
-        </div>
+<body onload="init();">	<!-- TODO virer onload -->
+	<div id="container">
+		<h1> TANK GAME </h1>
+		<div id="menu">
+			<li><a class="btn" href="#">HOME</a></li>
+			<li><a class="btn" href="#">RULES</a></li>
+			<li><a class="btn" href="#">GAME</a></li>
+			<li><a class="btn" href="#">ABOUT</a></li>
+		</div>
 
-        <div class="clearfloat"></div>
+		<div class="clearfloat"></div>
 
-        <p id="game">
-            <canvas width=800 height=500 id="tankCanvas"></canvas>
-        </p>
+		<p id="game">
+			<canvas width=800 height=500 id="tankCanvas"></canvas>
+		</p>
 
-        <div id="boxchat">
-            <div id="conversation"></div>
-            <form action="" id="form">
-                <input id="data" />
-                <input type="button" id="datasend" value="Envoyer" />
-            </form>
-        </div>
+		<div id="boxchat">
+			<div id="conversation"></div>
+			<form action="" id="form">
+				<input id="data" />
+				<input type="button" id="datasend" value="Envoyer" />
+			</form>
+		</div>
 
-        <div id="boxinfo">
-            <h4>ROOMS</h4>
-            <div id="rooms"></div>
-            <br/>
-            <h4>USERS</h4>
-            <div id="users"></div>
-        </div>
+		<div id="boxinfo">
+			<h4>ROOMS</h4>
+			<div id="rooms"></div>
+			<br/>
+			<h4>USERS</h4>
+			<div id="users"></div>
+		</div>
 
-        <div class="clearfloat"></div>
-    </div>
+		<div class="clearfloat"></div>
+	</div>
 </body>
 </html>
