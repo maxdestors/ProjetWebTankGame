@@ -8,8 +8,12 @@ do
 }
 while(username.length < 4);
 
+// var game = new JEU();
+
 var conversation, data, datasend, users;		  // VARIABLES USEFUL
+var game;
 var socket = io.connect();
+
 
 /**
  *  CONNEXION SERVER ET DEMANDE PSEUDO
@@ -26,17 +30,11 @@ socket.on('updatechat', function (username, data) {
 	conversation.innerHTML += chatMessage;
 });
 
-/**
- * POSITION DU JOUEUR
- */
-socket.on('updatepos', function (username, newPos) {
-	updatePlayerNewPos(newPos);   // appel fonction jeu.js
-});
 
 /**
  * SERVEUR EMET UPDATE ROOM
  */
-socket.on('updaterooms', function(rooms, current_room) {
+socket.on('updaterooms', function (rooms, current_room) {
 	rms = document.querySelector("#rooms");
 	rms.innerHTML = null;
 	$.each(rooms, function(key, value) {
@@ -60,7 +58,7 @@ function switchRoom(room){
 /**
  * UPDATE LISTE AVEC LE NOUVEAU JOUEURs
  */
-socket.on('updateusers', function(listOfUsers) {
+socket.on('updateusers', function (listOfUsers) {
 	users.innerHTML = "";
 	for(var name in listOfUsers) {
 		var userLineOfHTML = '<div>- ' + name + '</div>';
@@ -68,30 +66,28 @@ socket.on('updateusers', function(listOfUsers) {
 	}
 });
 
-/**
- * GESTION LISTE JOUEUR AVEC LES DECONNEXIONS
- */
-socket.on('updatePlayers', function(listOfplayers) {
-	updatePlayers(listOfplayers);   // appel fonction jeu.js
-});
 
 /**
  * ONLOAD : AU CHARGEMENT DE LA PAGE
  */
-window.addEventListener("load", function()
+window.addEventListener("load", function ()
 {
 	conversation = document.querySelector("#conversation");
 	data = document.querySelector("#data");
 	datasend = document.querySelector("#datasend");
 	users = document.querySelector("#users");
 
+	game = new GF(); 
+	game.start();
+
+
 	// BOUTON ENVOYER
-	datasend.addEventListener("click", function(evt) {
+	datasend.addEventListener("click", function (evt) {
 		sendMessage();
 	});
 
 	// TEST APPUI ENTER + TEST SI DANS INPUT
-	data.addEventListener("keypress", function(evt) {
+	data.addEventListener("keypress", function (evt) {
 		// if pressed ENTER, then send
 		if(evt.keyCode === 13) {
 			this.focus();
@@ -99,6 +95,7 @@ window.addEventListener("load", function()
 		}
 	});
 
+});
 	// ENVOIE DU MESSAGE SENDCHAT AU SERVER
 	function sendMessage() {
 		var message = data.value;
@@ -107,4 +104,17 @@ window.addEventListener("load", function()
 			socket.emit('sendchat', message);
 		}
 	}
+
+/**
+ * POSITION DU JOUEUR
+ */
+socket.on('updatepos', function (username, newPos) {
+	game.updateXY(newPos);   // appel fonction jeu.js
+});
+
+/**
+ * GESTION LISTE JOUEUR AVEC LES DECONNEXIONS
+ */
+socket.on('updatePlayers', function (listOfplayers) {
+	// updatePlayers(listOfplayers);   // appel fonction jeu.js
 });

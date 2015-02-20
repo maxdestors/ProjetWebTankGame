@@ -7,6 +7,8 @@
 var GF = function(){
 	// Vars relative to the canvas
 	var canvas, ctx, w, h;
+	var x,y;
+	var mousePos;
 
 	// vars for counting frames/s, used by the measureFPS function
 	var frameCount = 0;
@@ -75,7 +77,7 @@ var GF = function(){
 		clearCanvas();
 
 		// draw the monster
-		drawMyMonster(10+Math.random()*10, 10+Math.random()*10);
+		drawMyMonster(x, y);
 
 		// call the animation loop every 1/60th of second
 		requestAnimationFrame(mainLoop);
@@ -92,16 +94,42 @@ var GF = function(){
 		// often useful
 		w = canvas.width;
 		h = canvas.height;
+		x = 10;
+		y = 10;
 
 		// important, we will draw with this object
 		ctx = canvas.getContext('2d');
+		canvas.addEventListener("mousemove", traiteMouseMove);
 
 		// start the animation
 		requestAnimationFrame(mainLoop);
 	};
 
+	var updateXY = function (pos) {
+		console.log("pos.x: "+pos.x);
+		x = pos.x;
+		y = pos.y;
+	}
+	function traiteMouseMove(evt) {
+		//console.log("mousemove");
+		mousePos = getMousePos(canvas, evt);
+	
+		// console.log("mousePos.x: "+mousePos.x);
+		var pos = mousePos;
+		socket.emit('sendpos', pos);				   // ENVOIE DES COORDONNES
+	}
+	function getMousePos(canvas, evt) {
+		var rect = canvas.getBoundingClientRect();
+		return {
+			x: evt.clientX - rect.left,
+			y: evt.clientY - rect.top
+		};
+	}
+
+
 	//our GameFramework returns a public API visible from outside its scope
 	return {
-		start: start
+		start: start,
+		updateXY: updateXY
 	};
 };

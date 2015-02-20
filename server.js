@@ -33,6 +33,7 @@ io.sockets.on('connection', function (socket)
 
 	socket.on('sendpos', function (newPos) {						  // CLIENT A EMIS SENDPOS, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATEPOS
 		socket.broadcast.emit('updatepos', socket.username, newPos);
+		socket.emit('updatepos', socket.username, newPos);
 	});
 
 	socket.on('adduser', function(username)						   // CLIENT A EMIS ADDUSER, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATEPOS
