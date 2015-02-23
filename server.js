@@ -12,11 +12,11 @@ var app = express()
 server.listen(28080);	  // LANCEMENT SERVER SUR LE PORT 8080
 
 // INDICATION D'OU SONT LES FICHIERS LOCAUX
-app.use(express.static(__dirname + '/view/'));
+app.use(express.static(__dirname + '/client/'));
 
 // ON ROUTE VERS PAGE D'INDEX
 app.get('/', function (req, res) {
-	res.sendfile(__dirname + '/view/index.html');
+	res.sendfile(__dirname + '/client/index.html');
 });
 
 // PSEUDO DES PERSONNES CONNECTES AU CHAT
