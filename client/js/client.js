@@ -14,6 +14,36 @@ var conversation, data, datasend, users;		  // VARIABLES USEFUL
 var game;
 var socket = io.connect();
 
+/**
+ * ONLOAD : AU CHARGEMENT DE LA PAGE
+ */
+window.addEventListener("load", function ()
+{
+	conversation = document.querySelector("#conversation");
+	data = document.querySelector("#data");
+	datasend = document.querySelector("#datasend");
+	users = document.querySelector("#users"); 
+
+	game = new Jeu();
+	game.init();
+
+
+	// BOUTON ENVOYER
+	datasend.addEventListener("click", function (evt) {
+		sendMessage();
+	});
+
+	// TEST APPUI ENTER + TEST SI DANS INPUT
+	data.addEventListener("keypress", function (evt) {
+		// if pressed ENTER, then send
+		if(evt.keyCode === 13) {
+			this.focus();
+			sendMessage();
+		}
+	});
+
+});
+
 
 /**
  *  CONNEXION SERVER ET DEMANDE PSEUDO
@@ -67,43 +97,14 @@ socket.on('updateusers', function (listOfUsers) {
 });
 
 
-/**
- * ONLOAD : AU CHARGEMENT DE LA PAGE
- */
-window.addEventListener("load", function ()
-{
-	conversation = document.querySelector("#conversation");
-	data = document.querySelector("#data");
-	datasend = document.querySelector("#datasend");
-	users = document.querySelector("#users");
-
-	game = new Jeu();
-	game.init();
-
-
-	// BOUTON ENVOYER
-	datasend.addEventListener("click", function (evt) {
-		sendMessage();
-	});
-
-	// TEST APPUI ENTER + TEST SI DANS INPUT
-	data.addEventListener("keypress", function (evt) {
-		// if pressed ENTER, then send
-		if(evt.keyCode === 13) {
-			this.focus();
-			sendMessage();
-		}
-	});
-
-});
-	// ENVOIE DU MESSAGE SENDCHAT AU SERVER
-	function sendMessage() {
-		var message = data.value;
-		if(message != "") {   // TODO rom
-			data.value = "";  // on efface l'input
-			socket.emit('sendchat', message);
-		}
+// ENVOIE DU MESSAGE SENDCHAT AU SERVER
+function sendMessage() {
+	var message = data.value;
+	if(message != "") {   // TODO rom
+		data.value = "";  // on efface l'input
+		socket.emit('sendchat', message);
 	}
+}
 
 /**
  * POSITION DU JOUEUR

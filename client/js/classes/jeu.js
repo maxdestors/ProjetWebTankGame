@@ -6,40 +6,40 @@ var Jeu = function()
 {
 	var canvas, ctx, w, h;
 
-    var mousePos;
+	var mousePos;
 	var allPlayers = {};
 
-    var frameCount = 0;
-    var lastTime;
-    var fpsContainer;
-    var fps;
+	var frameCount = 0;
+	var lastTime;
+	var fpsContainer;
+	var fps;
 
 	/**
 	 * INITIALISATION
 	 */
 	var init = function ()
-    {
+	{
 		console.log("initialisation ok");
 		canvas = document.querySelector("#tankCanvas");
-        w = canvas.width;
-        h = canvas.height;
+		w = canvas.width;
+		h = canvas.height;
 		ctx = canvas.getContext('2d');
-        // affiche FPS
-        showFPS();
+		// affiche FPS
+		showFPS();
 		// Les écouteurs
-        canvas.addEventListener("mousedown", traiteMouseDown);
-        canvas.addEventListener("mousemove", traiteMouseMove);
-        requestAnimationFrame(mainLoop);
+		canvas.addEventListener("mousedown", traiteMouseDown);
+		canvas.addEventListener("mousemove", traiteMouseMove);
+		requestAnimationFrame(mainLoop);
 	};
 
 	/**
 	 * ANIMATION MAINLOOP
 	 */
 	function mainLoop(time)
-    {
-        measureFPS(time);
+	{
+		measureFPS(time);
 		if (username != undefined) {
-            clearCanvas();
+			clearCanvas();
 			drawAllPlayers();
 		}
 		requestAnimationFrame(mainLoop);
@@ -91,8 +91,8 @@ var Jeu = function()
 	 * @param player
 	 */
 	function drawPlayer(player) {
-        ctx.fillRect(player.x, player.y, 30, 30)
-        ctx.fillStyle = 'black';
+		ctx.fillStyle = 'black';
+		ctx.fillRect(player.x, player.y, 30, 30)
 	}
 
 	/**
@@ -104,44 +104,44 @@ var Jeu = function()
 		}
 	}
 
-    /**
-     * FPS
-     * @param newTime
-     */
-    var measureFPS = function(newTime){
-        // test for the very first invocation
-        if(lastTime === undefined) {
-            lastTime = newTime;
-            return;
-        }
-        //calculate the difference between last & current frame
-        var diffTime = newTime - lastTime;
-        if (diffTime >= 1000) {
-            fps = frameCount;
-            frameCount = 0;
-            lastTime = newTime;
-        }
-        fpsContainer.innerHTML = 'FPS: ' + fps;
-        frameCount++;
-    };
+	/**
+	 * FPS
+	 * @param newTime
+	 */
+	var measureFPS = function(newTime){
+		// test for the very first invocation
+		if(lastTime === undefined) {
+			lastTime = newTime;
+			return;
+		}
+		//calculate the difference between last & current frame
+		var diffTime = newTime - lastTime;
+		if (diffTime >= 1000) {
+			fps = frameCount;
+			frameCount = 0;
+			lastTime = newTime;
+		}
+		fpsContainer.innerHTML = 'FPS: ' + fps;
+		frameCount++;
+	};
 
-    function showFPS() {
-        fpsContainer = document.createElement('div');
-        fpsContainer.setAttribute('style', 'color: red');
-        document.body.appendChild(fpsContainer);
-    }
+	function showFPS() {
+		fpsContainer = document.createElement('div');
+		fpsContainer.setAttribute('style', 'color: red');
+		document.body.appendChild(fpsContainer);
+	}
 
-    /**
-     * Nettoie canvas, efface l'ecran
-     */
-    function clearCanvas() {
-        ctx.clearRect(0, 0, w, h);
-    }
+	/**
+	 * Nettoie canvas, efface l'ecran
+	 */
+	function clearCanvas() {
+		ctx.clearRect(0, 0, w, h);
+	}
 
-    // methodes publiques
-    return {
-        init: init,
-        updatePlayers: updatePlayers,
-        updatePlayerNewPos: updatePlayerNewPos
-    };
+	// methodes publiques
+	return {
+		init: init,
+		updatePlayers: updatePlayers,
+		updatePlayerNewPos: updatePlayerNewPos
+	};
 };
