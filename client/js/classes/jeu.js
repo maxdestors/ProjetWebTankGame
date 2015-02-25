@@ -8,11 +8,19 @@ var Jeu = function()
 
 	var mousePos;
 	var allPlayers = {};
+	var tanks;
 
 	var frameCount = 0;
 	var lastTime;
 	var fpsContainer;
 	var fps;
+
+	//deltatime
+	var prevTime;
+	var deltaTime;
+
+	//tmp
+	var tank;
 
 	/**
 	 * INITIALISATION
@@ -20,6 +28,12 @@ var Jeu = function()
 	var init = function ()
 	{
 		console.log("initialisation ok");
+
+		//tmp
+		tank = new Tank();
+		tank.init();
+
+		//canvas
 		canvas = document.querySelector("#tankCanvas");
 		w = canvas.width;
 		h = canvas.height;
@@ -29,6 +43,10 @@ var Jeu = function()
 		// Les écouteurs
 		canvas.addEventListener("mousedown", traiteMouseDown);
 		canvas.addEventListener("mousemove", traiteMouseMove);
+		document.addEventListener('keydown', traiteKeyDown, false);
+		document.addEventListener('keyup', traiteKeyUp, false);
+
+		prevTime = new Date().getTime();
 		requestAnimationFrame(mainLoop);
 	};
 
@@ -38,9 +56,13 @@ var Jeu = function()
 	function mainLoop(time)
 	{
 		measureFPS(time);
+		manageDeltaTime(time);
 		if (username != undefined) {
 			clearCanvas();
 			drawAllPlayers();
+			//tmp
+			tank.move(deltaTime/1000);
+			tank.draw(ctx);
 		}
 		requestAnimationFrame(mainLoop);
 	}
@@ -55,8 +77,8 @@ var Jeu = function()
 
 	function traiteMouseMove(evt) {
 		mousePos = getMousePos(canvas, evt);
-		allPlayers[username].x = mousePos.x;
-		allPlayers[username].y = mousePos.y;
+		//allPlayers[username].x = mousePos.x;
+		//allPlayers[username].y = mousePos.y;
 		var pos = {'user': username, 'pos': mousePos}
 		socket.emit('sendpos', pos);				   // ENVOIE DES COORDONNES
 	}
@@ -68,12 +90,52 @@ var Jeu = function()
 			y: evt.clientY - rect.top
 		};
 	}
+	/**
+	 * Traitement clavier
+	 * @param evt
+	 */
+	function traiteKeyDown(evt) {
+		// console.log("keyDown: "+evt.keyCode);
+		// 37      Left arrow
+		// 38      Up arrow
+		// 39      Right arrow
+		// 40      Down arrow
+		if (evt.keyCode === 37) {
+			tank.setIsRotatingLeft(true);
+		}
+		if (evt.keyCode === 38) {
+			tank.setIsMovingForward(true);
+		}
+		if (evt.keyCode === 39) {
+			tank.setIsRotatingRight(true);
+		}
+		if (evt.keyCode === 40) {
+			tank.setIsMovingBackward(true);
+		}
+	}
+	function traiteKeyUp(evt) {
+		// console.log("keyUp");
+		if (evt.keyCode === 37) {
+			tank.setIsRotatingLeft(false);
+		}
+		if (evt.keyCode === 38) {
+			tank.setIsMovingForward(false);
+		}
+		if (evt.keyCode === 39) {
+			tank.setIsRotatingRight(false);
+		}
+		if (evt.keyCode === 40) {
+			tank.setIsMovingBackward(false);
+		}
+
+	}
+
 
 	/**
 	 * MAJ des positions de chaque joueur
 	 * @param newPos
 	 */
-	function updatePlayerNewPos (newPos) {			  // SERT A CHAT.JS
+	function updatePlayerNewPos (newPos) {			  // SERT A client.JS
 		allPlayers[newPos.user].x = newPos.pos.x;
 		allPlayers[newPos.user].y = newPos.pos.y;
 	};
@@ -84,6 +146,13 @@ var Jeu = function()
 	 */
 	function updatePlayers (listOfPlayers) {
 		allPlayers = listOfPlayers;
+	};
+	/**
+	 * MAJ du tableau des tanks (connexion et deconnexion
+	 * @param listOfTanks
+	 */
+	function updatePlayers (listOfTanks) {
+		tanks = listOfTanks;
 	};
 
 	/**
@@ -120,15 +189,21 @@ var Jeu = function()
 			fps = frameCount;
 			frameCount = 0;
 			lastTime = newTime;
+			fpsContainer.innerHTML = 'FPS: ' + fps;
 		}
-		fpsContainer.innerHTML = 'FPS: ' + fps;
 		frameCount++;
 	};
 
 	function showFPS() {
 		fpsContainer = document.createElement('div');
 		fpsContainer.setAttribute('style', 'color: red');
-		document.body.appendChild(fpsContainer);
+		document.querySelector('#game').appendChild(fpsContainer);
+	}
+
+	function manageDeltaTime() {
+		var newTime = new Date().getTime();
+		deltaTime = newTime - prevTime;
+		prevTime = newTime;
 	}
 
 	/**
