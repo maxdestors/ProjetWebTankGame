@@ -14,7 +14,7 @@ var Tank = function () {
 	var isRotatingRight;
 
 	/* const */
-	const speedForward = 70;
+	const speedForward = 80;
 	const speedBackward = 40;
 	const rotateSpeed = 4;
 

@@ -25,7 +25,7 @@ window.addEventListener("load", function ()
 	users = document.querySelector("#users"); 
 
 	game = new Jeu();
-	game.init();
+	game.init(username);
 
 
 	// BOUTON ENVOYER

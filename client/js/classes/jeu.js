@@ -7,6 +7,7 @@ var Jeu = function()
 	var canvas, ctx, w, h;
 
 	var mousePos;
+	var userName;
 	var allPlayers = {};
 	var tanks;
 
@@ -25,10 +26,10 @@ var Jeu = function()
 	/**
 	 * INITIALISATION
 	 */
-	var init = function ()
+	var init = function (newuserName)
 	{
 		console.log("initialisation ok");
-
+		userName = newuserName;
 		//tmp
 		tank = new Tank();
 		tank.init();
@@ -57,7 +58,7 @@ var Jeu = function()
 	{
 		measureFPS(time);
 		manageDeltaTime(time);
-		if (username != undefined) {
+		if (userName != undefined) {
 			clearCanvas();
 			drawAllPlayers();
 			//tmp
@@ -77,9 +78,10 @@ var Jeu = function()
 
 	function traiteMouseMove(evt) {
 		mousePos = getMousePos(canvas, evt);
-		//allPlayers[username].x = mousePos.x;
-		//allPlayers[username].y = mousePos.y;
-		var pos = {'user': username, 'pos': mousePos}
+		
+		allPlayers[userName].x = mousePos.x;
+		allPlayers[userName].y = mousePos.y;
+		var pos = {'user': userName, 'pos': mousePos}
 		socket.emit('sendpos', pos);				   // ENVOIE DES COORDONNES
 	}
 
