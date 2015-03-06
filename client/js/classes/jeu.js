@@ -124,7 +124,7 @@ var Jeu = function()
 		}
 	}
 	function traiteKeyUp(evt) {
-		// console.log("keyUp");
+		//console.log("keyUp"+evt.keyCode);
 		if (evt.keyCode === 37) {
 			if (allPlayers[userName].tank.getIsRotatingLeft()) {
 				allPlayers[userName].tank.setIsRotatingLeft(false);
@@ -132,19 +132,19 @@ var Jeu = function()
 			}
 		}
 		if (evt.keyCode === 38) {
-			if (allPlayers[userName].tank.getIsRotatingLeft()) {
+			if (allPlayers[userName].tank.getIsMovingForward()) {
 				allPlayers[userName].tank.setIsMovingForward(false);
 				sendUpdateUserTank();
 			}
 		}
 		if (evt.keyCode === 39) {
-			if (allPlayers[userName].tank.getIsRotatingLeft()) {
+			if (allPlayers[userName].tank.getIsRotatingRight()) {
 				allPlayers[userName].tank.setIsRotatingRight(false);
 				sendUpdateUserTank();
 			}
 		}
 		if (evt.keyCode === 40) {
-			if (allPlayers[userName].tank.getIsRotatingLeft()) {
+			if (allPlayers[userName].tank.getIsMovingBackward()) {
 				allPlayers[userName].tank.setIsMovingBackward(false);
 				sendUpdateUserTank();
 			}
@@ -153,10 +153,7 @@ var Jeu = function()
 	}
 
 	function sendUpdateUserTank () {
-		//var userTank = {'user': userName, 'tank': allPlayers[userName].tank}
-		var test2 = allPlayers[userName].tank.getMembers();
-		socket.emit('sendUpdateUserTank', test2);
-		// socket.emit('sendUpdateUserTank', allPlayers[userName].tank);
+		socket.emit('sendUpdateUserTank', allPlayers[userName].tank.getMembers());
 	}
 
 
@@ -165,7 +162,9 @@ var Jeu = function()
 	 * @param newPos
 	 */
 	function updatePlayerTank (name, tank) {			  // SERT A client.JS
-		// console.log(tank);
+		if (userName == name) {
+			console.log('name');
+		}
 		allPlayers[name].tank.updateTank(tank);
 	};
 
@@ -175,15 +174,12 @@ var Jeu = function()
 	 */
 	function updatePlayers (listOfPlayers) {
 		allPlayers = listOfPlayers;
-		var cpt=0;
 		for (var name in allPlayers) {
-			cpt++;
 			if(allPlayers[name].tank == null) {
 				allPlayers[name].tank = new Tank();
 				allPlayers[name].tank.init(100, 100, 0, 'black');
 			}
 		}
-		console.log('updatePlayers: '+cpt);
 	};
 
 	/**

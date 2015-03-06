@@ -110,8 +110,6 @@ function sendMessage() {
  * POSITION DU JOUEUR
  */
 socket.on('sendUpdatePlayerTank', function (username, tank) {
-			console.log(tank);
-
 	game.updatePlayerTank(username, tank);   // appel fonction jeu.js
 });
 
