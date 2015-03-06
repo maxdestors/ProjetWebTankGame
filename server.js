@@ -9,7 +9,7 @@ var app = express()
 	, server = http.createServer(app)
 	, io = require('socket.io').listen(server);
 
-server.listen(28080);	  // LANCEMENT SERVER SUR LE PORT 8080
+server.listen(28080);     // LANCEMENT SERVER SUR LE PORT 8080
 
 // INDICATION D'OU SONT LES FICHIERS LOCAUX
 app.use(express.static(__dirname + '/client/'));
@@ -27,23 +27,41 @@ var rooms = ['Room n°1','Room n°2','Room n°3'];
 // CONNEXION ET TRAITEMENT DES MESSAGES
 io.sockets.on('connection', function (socket)
 {
-    // CLIENT A EMIS SENDCHAT, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATECHAT
+
+	/* 
+	** GAME
+	*/
+	
+	// CLIENT A EMIS updateUserTank, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER updatePlayerTank
+	socket.on('sendUpdateUserTank', function (newTank) {
+		socket.broadcast.emit('sendUpdatePlayerTank', socket.username, newTank);
+	});
+
+
+
+	/* 
+	** CHAT
+	*/
+
+	// CLIENT A EMIS SENDCHAT, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATECHAT
 	socket.on('sendchat', function (data) {
 		io.sockets.in(socket.room).emit('updatechat', socket.username, ent.encode(data));
 	});
 
-    // CLIENT A EMIS SENDPOS, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATEPOS
+	/*/ CLIENT A EMIS SENDPOS, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATEPOS
 	socket.on('sendpos', function (newPos) {
 		socket.broadcast.emit('updatepos', socket.username, newPos);
 	});
+	//*/
 
-    // CLIENT A EMIS ADDUSER, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATEPOS
+
+	// CLIENT A EMIS ADDUSER, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATEPOS
 	socket.on('adduser', function(username)
 	{
-		socket.username = ent.encode(username);	  // sorte de session pour stocker username
+		socket.username = ent.encode(username);   // sorte de session pour stocker username
 		usernames[username] = username;  // ajout du nom du client a la liste global
 
-		socket.room = 'Room n°1';		   // room 1 par défaut
+		socket.room = 'Room n°1';          // room 1 par défaut
 		socket.join('Room n°1');
 
 		socket.emit('updatechat', 'SERVER', 'vous êtes connecté à la Room n°1.');  // info au client qu'il s'est connecté
@@ -52,8 +70,7 @@ io.sockets.on('connection', function (socket)
 
 		socket.emit('updaterooms', rooms, 'Room n°1'); // maj des rooms
 
-		var player = {'x':0, 'y':0, 'v':0}		  // transmission des coordonnées
-		listOfPlayers[username] = player;
+		listOfPlayers[username] = {'tank':null};
 		io.sockets.emit('updatePlayers',listOfPlayers);
 	});
 
@@ -73,9 +90,9 @@ io.sockets.on('connection', function (socket)
 	// DECONNEXION DU CLIENT
 	socket.on('disconnect', function()
 	{
-		delete usernames[socket.username];			  // supprrime le nom de la liste
-		io.sockets.emit('updateusers', usernames);	  // maj de la liste des joueurs dans le chat
-		delete listOfPlayers[socket.username];			// suppression du joueur
+		delete usernames[socket.username];            // supprrime le nom de la liste
+		io.sockets.emit('updateusers', usernames);    // maj de la liste des joueurs dans le chat
+		delete listOfPlayers[socket.username];          // suppression du joueur
 		io.sockets.emit('updatePlayers',listOfPlayers);
 		socket.broadcast.emit('updatechat', 'SERVER', socket.username + " s'est déconnecté");  // on dit à tout le monde quel joueur a quitté
 		socket.leave(socket.room);

@@ -20,11 +20,11 @@ var Tank = function () {
 
 
 
-	var init = function () {
-		x = 50;
-		y = 50;
-		angle = 0;
-		color = 'black';
+	var init = function (newX, newY, newAngle, newColor) {
+		x = newX;
+		y = newY;
+		angle = newAngle;
+		color = newColor;
 		isMovingForward = false;
 		isMovingBackward = false;
 		isRotatingLeft = false;
@@ -77,6 +77,47 @@ var Tank = function () {
 		isRotatingRight = newSet;
 	}
 
+	var getIsMovingForward = function () {
+		return isMovingForward;
+	}
+	var getIsMovingBackward = function () {
+		return isMovingBackward;
+	}
+	var getIsRotatingLeft = function () {
+		return isRotatingLeft;
+	}
+	var getIsRotatingRight = function () {
+		return isRotatingRight;
+	}
+
+
+	var updateTank = function (newtank) {
+		x = newtank.x;
+		y = newtank.y;
+		angle = newtank.angle;
+		weaponAngle = newtank.weaponAngle;
+		color = newtank.color;
+
+		isMovingForward = newtank.isMovingForward;
+		isMovingBackward = newtank.isMovingBackward;
+		isRotatingLeft = newtank.isRotatingLeft;
+		isRotatingRight = newtank.isRotatingRight;
+	}
+	var getMembers = function (newtank) {
+		return {
+			'x' : x,
+			'y' : y,
+			'angle' : angle,
+			'weaponAngle' : weaponAngle,
+			'color' : color,
+
+			'isMovingForward' : isMovingForward,
+			'isMovingBackward' : isMovingBackward,
+			'isRotatingLeft' : isRotatingLeft,
+			'isRotatingRight' : isRotatingRight
+		}
+	}
+
 
 	var draw = function (ctx) {
 		ctx.save();
@@ -103,10 +144,17 @@ var Tank = function () {
 		setIsMovingBackward: setIsMovingBackward,
 		setIsRotatingLeft: setIsRotatingLeft,
 		setIsRotatingRight: setIsRotatingRight,
+		//get params
+		getIsMovingForward: getIsMovingForward,
+		getIsMovingBackward: getIsMovingBackward,
+		getIsRotatingLeft: getIsRotatingLeft,
+		getIsRotatingRight: getIsRotatingRight,
 		//func
 		init: init,
 		move: move,
-		draw: draw
+		draw: draw,
+		updateTank: updateTank,
+		getMembers: getMembers
 	}
 
 }

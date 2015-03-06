@@ -6,10 +6,9 @@ var Jeu = function()
 {
 	var canvas, ctx, w, h;
 
-	var mousePos;
+	//var mousePos;
 	var userName;
 	var allPlayers = {};
-	var tanks;
 
 	var frameCount = 0;
 	var lastTime;
@@ -20,8 +19,6 @@ var Jeu = function()
 	var prevTime;
 	var deltaTime;
 
-	//tmp
-	var tank;
 
 	/**
 	 * INITIALISATION
@@ -31,8 +28,8 @@ var Jeu = function()
 		console.log("initialisation ok");
 		userName = newuserName;
 		//tmp
-		tank = new Tank();
-		tank.init();
+		//tank = new Tank();
+		//tank.init();
 
 		//canvas
 		canvas = document.querySelector("#tankCanvas");
@@ -60,10 +57,8 @@ var Jeu = function()
 		manageDeltaTime(time);
 		if (userName != undefined) {
 			clearCanvas();
+			moveAllPlayers();
 			drawAllPlayers();
-			//tmp
-			tank.move(deltaTime/1000);
-			tank.draw(ctx);
 		}
 		requestAnimationFrame(mainLoop);
 	}
@@ -77,12 +72,13 @@ var Jeu = function()
 	}
 
 	function traiteMouseMove(evt) {
-		mousePos = getMousePos(canvas, evt);
+		/*mousePos = getMousePos(canvas, evt);
 		
 		allPlayers[userName].x = mousePos.x;
 		allPlayers[userName].y = mousePos.y;
 		var pos = {'user': userName, 'pos': mousePos}
 		socket.emit('sendpos', pos);				   // ENVOIE DES COORDONNES
+		*/
 	}
 
 	function getMousePos(canvas, evt) {
@@ -103,33 +99,64 @@ var Jeu = function()
 		// 39      Right arrow
 		// 40      Down arrow
 		if (evt.keyCode === 37) {
-			tank.setIsRotatingLeft(true);
+			if (!allPlayers[userName].tank.getIsRotatingLeft()) {
+				allPlayers[userName].tank.setIsRotatingLeft(true);
+				sendUpdateUserTank();
+			}
 		}
 		if (evt.keyCode === 38) {
-			tank.setIsMovingForward(true);
+			if (!allPlayers[userName].tank.getIsMovingForward()) {
+				allPlayers[userName].tank.setIsMovingForward(true);
+				sendUpdateUserTank();
+			}
 		}
 		if (evt.keyCode === 39) {
-			tank.setIsRotatingRight(true);
+			if (!allPlayers[userName].tank.getIsRotatingRight()) {
+				allPlayers[userName].tank.setIsRotatingRight(true);
+				sendUpdateUserTank();
+			}
 		}
 		if (evt.keyCode === 40) {
-			tank.setIsMovingBackward(true);
+			if (!allPlayers[userName].tank.getIsMovingBackward()) {
+				allPlayers[userName].tank.setIsMovingBackward(true);
+				sendUpdateUserTank();
+			}
 		}
 	}
 	function traiteKeyUp(evt) {
 		// console.log("keyUp");
 		if (evt.keyCode === 37) {
-			tank.setIsRotatingLeft(false);
+			if (allPlayers[userName].tank.getIsRotatingLeft()) {
+				allPlayers[userName].tank.setIsRotatingLeft(false);
+				sendUpdateUserTank();
+			}
 		}
 		if (evt.keyCode === 38) {
-			tank.setIsMovingForward(false);
+			if (allPlayers[userName].tank.getIsRotatingLeft()) {
+				allPlayers[userName].tank.setIsMovingForward(false);
+				sendUpdateUserTank();
+			}
 		}
 		if (evt.keyCode === 39) {
-			tank.setIsRotatingRight(false);
+			if (allPlayers[userName].tank.getIsRotatingLeft()) {
+				allPlayers[userName].tank.setIsRotatingRight(false);
+				sendUpdateUserTank();
+			}
 		}
 		if (evt.keyCode === 40) {
-			tank.setIsMovingBackward(false);
+			if (allPlayers[userName].tank.getIsRotatingLeft()) {
+				allPlayers[userName].tank.setIsMovingBackward(false);
+				sendUpdateUserTank();
+			}
 		}
 
+	}
+
+	function sendUpdateUserTank () {
+		//var userTank = {'user': userName, 'tank': allPlayers[userName].tank}
+		var test2 = allPlayers[userName].tank.getMembers();
+		socket.emit('sendUpdateUserTank', test2);
+		// socket.emit('sendUpdateUserTank', allPlayers[userName].tank);
 	}
 
 
@@ -137,9 +164,9 @@ var Jeu = function()
 	 * MAJ des positions de chaque joueur
 	 * @param newPos
 	 */
-	function updatePlayerNewPos (newPos) {			  // SERT A client.JS
-		allPlayers[newPos.user].x = newPos.pos.x;
-		allPlayers[newPos.user].y = newPos.pos.y;
+	function updatePlayerTank (name, tank) {			  // SERT A client.JS
+		// console.log(tank);
+		allPlayers[name].tank.updateTank(tank);
 	};
 
 	/**
@@ -148,22 +175,23 @@ var Jeu = function()
 	 */
 	function updatePlayers (listOfPlayers) {
 		allPlayers = listOfPlayers;
-	};
-	/**
-	 * MAJ du tableau des tanks (connexion et deconnexion
-	 * @param listOfTanks
-	 */
-	function updatePlayers (listOfTanks) {
-		tanks = listOfTanks;
+		var cpt=0;
+		for (var name in allPlayers) {
+			cpt++;
+			if(allPlayers[name].tank == null) {
+				allPlayers[name].tank = new Tank();
+				allPlayers[name].tank.init(100, 100, 0, 'black');
+			}
+		}
+		console.log('updatePlayers: '+cpt);
 	};
 
 	/**
 	 * Dessine le tank du joueur
-	 * @param player
+	 * @param tank
 	 */
-	function drawPlayer(player) {
-		ctx.fillStyle = 'black';
-		ctx.fillRect(player.x, player.y, 30, 30)
+	function drawTank(userTank) {
+		userTank.tank.draw(ctx);
 	}
 
 	/**
@@ -171,7 +199,26 @@ var Jeu = function()
 	 */
 	function drawAllPlayers() {
 		for (var name in allPlayers) {
-			drawPlayer(allPlayers[name]);
+			drawTank(allPlayers[name]);
+		}
+	}
+
+	/**
+	 * bouge le tank du joueur
+	 * @param tank
+	 */
+	function moveTank(userTank) {
+		userTank.tank.move(deltaTime/1000);
+	}
+
+	/**
+	 * bouge tous les joueurs
+	 */
+	function moveAllPlayers() {
+		for (var name in allPlayers) {
+			//console.log(name);
+			// allPlayers[name].tank.move(deltaTime/1000);
+			moveTank(allPlayers[name]);
 		}
 	}
 
@@ -219,6 +266,6 @@ var Jeu = function()
 	return {
 		init: init,
 		updatePlayers: updatePlayers,
-		updatePlayerNewPos: updatePlayerNewPos
+		updatePlayerTank: updatePlayerTank
 	};
 };
