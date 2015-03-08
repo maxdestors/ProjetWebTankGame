@@ -9,7 +9,6 @@ var Jeu = function()
 	//var mousePos;
 	var userName;
 	var allPlayers = {};
-
 	var frameCount = 0;
 	var lastTime;
 	var fpsContainer;
@@ -19,9 +18,8 @@ var Jeu = function()
 	var prevTime;
 	var deltaTime;
 
-
 	/**
-	 * INITIALISATION
+	 *  INITIALISATION
 	 */
 	var init = function (newuserName)
 	{
@@ -31,18 +29,20 @@ var Jeu = function()
 		//tank = new Tank();
 		//tank.init();
 
-		//canvas
+		// Le canvas
 		canvas = document.querySelector("#tankCanvas");
 		w = canvas.width;
 		h = canvas.height;
 		ctx = canvas.getContext('2d');
-		// affiche FPS
+
+		// affiche FPS pour debug
 		showFPS();
+
 		// Les écouteurs
-		canvas.addEventListener("mousedown", traiteMouseDown);
-		canvas.addEventListener("mousemove", traiteMouseMove);
-		document.addEventListener('keydown', traiteKeyDown, false);
-		document.addEventListener('keyup', traiteKeyUp, false);
+        //canvas.addEventListener("mousedown", traiteMouseDown);
+        //canvas.addEventListener("mousemove", traiteMouseMove);
+        document.addEventListener('keydown', traiteKeyDown, false);
+        document.addEventListener('keyup', traiteKeyUp, false);
 
 		prevTime = new Date().getTime();
 		requestAnimationFrame(mainLoop);
@@ -70,7 +70,6 @@ var Jeu = function()
 	function traiteMouseDown(evt) {
 		//console.log("mousedown");
 	}
-
 	function traiteMouseMove(evt) {
 		/*mousePos = getMousePos(canvas, evt);
 		
@@ -80,15 +79,15 @@ var Jeu = function()
 		socket.emit('sendpos', pos);				   // ENVOIE DES COORDONNES
 		*/
 	}
-
 	function getMousePos(canvas, evt) {
-		var rect = canvas.getBoundingClientRect();
+		/*var rect = canvas.getBoundingClientRect();
 		return {
 			x: evt.clientX - rect.left,
 			y: evt.clientY - rect.top
-		};
+		};*/
 	}
-	/**
+
+    /**
 	 * Traitement clavier
 	 * @param evt
 	 */
@@ -149,7 +148,6 @@ var Jeu = function()
 				sendUpdateUserTank();
 			}
 		}
-
 	}
 
 	function sendUpdateUserTank () {
@@ -158,7 +156,7 @@ var Jeu = function()
 
 
 	/**
-	 * MAJ des positions de chaque joueur
+	 * MAJ des positions de chaque tank
 	 * @param newPos
 	 */
 	function updatePlayerTank (name, tank) {			  // SERT A client.JS
@@ -169,7 +167,7 @@ var Jeu = function()
 	};
 
 	/**
-	 * MAJ du tableau des joueurs (connexion et deconnexion
+	 * MAJ du tableau des joueurs (connexion et deconnexion)
 	 * @param listOfPlayers
 	 */
 	function updatePlayers (listOfPlayers) {
@@ -204,11 +202,11 @@ var Jeu = function()
 	 * @param tank
 	 */
 	function moveTank(userTank) {
-		userTank.tank.move(deltaTime/1000);
+        userTank.tank.move(deltaTime/1000);
 	}
 
 	/**
-	 * bouge tous les joueurs
+	 * Bouge tous les joueurs
 	 */
 	function moveAllPlayers() {
 		for (var name in allPlayers) {
@@ -219,7 +217,7 @@ var Jeu = function()
 	}
 
 	/**
-	 * FPS
+	 * Mesure des FPS
 	 * @param newTime
 	 */
 	var measureFPS = function(newTime){

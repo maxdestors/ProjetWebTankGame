@@ -19,7 +19,6 @@ var Tank = function () {
 	const rotateSpeed = 4;
 
 
-
 	var init = function (newX, newY, newAngle, newColor) {
 		x = newX;
 		y = newY;
@@ -29,12 +28,11 @@ var Tank = function () {
 		isMovingBackward = false;
 		isRotatingLeft = false;
 		isRotatingRight = false;
-	}
+	};
 
 	function moveForward(deltaTime) {
 		x += speedForward*Math.cos(angle)*deltaTime;
 		y += speedForward*Math.sin(angle)*deltaTime;
-
 	}
 	function moveBackward(deltaTime) {
 		x += (-speedBackward)*Math.cos(angle)*deltaTime;
@@ -49,47 +47,52 @@ var Tank = function () {
 	}
 
 	var move = function (deltaTime) {
-		if (isMovingForward) {
-			moveForward(deltaTime);
-		}
-		else if (isMovingBackward) {
-			moveBackward(deltaTime);
-		}
+        console.log("x:" +x+ "y:" +y);
+        if (isMovingForward) {          // && x > 30 && y > 25
+            moveForward(deltaTime);
+        }
+        if (isMovingBackward) {
+            moveBackward(deltaTime);
+        }
 		if (isRotatingLeft) {
 			rotateLeft(deltaTime);
 		}
 		if (isRotatingRight) {
 			rotateRight(deltaTime);
 		}
+	};
 
-	}
-
+    /**
+     *  Setters
+     */
 	var setIsMovingForward = function (newSet) {
 		isMovingForward = newSet;
-	}
+	};
 	var setIsMovingBackward = function (newSet) {
 		isMovingBackward = newSet;
-	}
+	};
 	var setIsRotatingLeft = function (newSet) {
 		isRotatingLeft = newSet;
-	}
+	};
 	var setIsRotatingRight = function (newSet) {
 		isRotatingRight = newSet;
-	}
+	};
 
+    /**
+     *  Getters
+     */
 	var getIsMovingForward = function () {
 		return isMovingForward;
-	}
+	};
 	var getIsMovingBackward = function () {
 		return isMovingBackward;
-	}
+	};
 	var getIsRotatingLeft = function () {
 		return isRotatingLeft;
-	}
+	};
 	var getIsRotatingRight = function () {
 		return isRotatingRight;
-	}
-
+	};
 
 	var updateTank = function (newtank) {
 		x = newtank.x;
@@ -102,8 +105,9 @@ var Tank = function () {
 		isMovingBackward = newtank.isMovingBackward;
 		isRotatingLeft = newtank.isRotatingLeft;
 		isRotatingRight = newtank.isRotatingRight;
-	}
-	var getMembers = function (newtank) {
+	};
+
+	var getMembers = function () {
 		return {
 			'x' : x,
 			'y' : y,
@@ -116,25 +120,24 @@ var Tank = function () {
 			'isRotatingLeft' : isRotatingLeft,
 			'isRotatingRight' : isRotatingRight
 		}
-	}
-
+	};
 
 	var draw = function (ctx) {
 		ctx.save();
-		//set pos
+		//sent pos
 		ctx.translate(x,y);
 		//draw tank body
 		ctx.rotate(angle);
 		ctx.fillStyle = color;
-		ctx.fillRect(-15, -10, 30, 20)
+		ctx.fillRect(-15, -10, 30, 20);
 		//draw tank weapon
 		ctx.rotate(weaponAngle-angle);
 		ctx.fillStyle = 'red';
-		ctx.fillRect(-10, -5, 40, 10)
+		ctx.fillRect(-10, -5, 40, 10);
 		// ctx.fillRect(0, 0, 1, 1)
 
 		ctx.restore();
-	}
+	};
 
 
 
@@ -153,8 +156,8 @@ var Tank = function () {
 		init: init,
 		move: move,
 		draw: draw,
-		updateTank: updateTank,
+        updateTank: updateTank,
 		getMembers: getMembers
 	}
 
-}
+};

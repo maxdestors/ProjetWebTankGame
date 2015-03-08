@@ -4,13 +4,13 @@
 
 do
 {   // TODO rom
-	var username = prompt("Votre pseudo ?");	  // STOCKE NOM DU JOUEUR
+	var username = prompt("Votre pseudo ?");	 // STOCKE NOM DU JOUEUR
 }
 while(username.length < 4);
 
 // var game = new JEU();
 
-var conversation, data, datasend, users;		  // VARIABLES USEFUL
+var conversation, data, datasend, users;	     // VARIABLES USEFUL
 var game;
 var socket = io.connect();
 
@@ -27,7 +27,6 @@ window.addEventListener("load", function ()
 	game = new Jeu();
 	game.init(username);
 
-
 	// BOUTON ENVOYER
 	datasend.addEventListener("click", function (evt) {
 		sendMessage();
@@ -41,9 +40,7 @@ window.addEventListener("load", function ()
 			sendMessage();
 		}
 	});
-
 });
-
 
 /**
  *  CONNEXION SERVER ET DEMANDE PSEUDO
@@ -59,7 +56,6 @@ socket.on('updatechat', function (username, data) {
 	var chatMessage = "<div><b>" + username + ":</b> " + data + "</br></div>";
 	conversation.innerHTML += chatMessage;
 });
-
 
 /**
  * SERVEUR EMET UPDATE ROOM
@@ -96,14 +92,15 @@ socket.on('updateusers', function (listOfUsers) {
 	}
 });
 
-
-// ENVOIE DU MESSAGE SENDCHAT AU SERVER
+/**
+ * ENVOIE DU MESSAGE SENDCHAT AU SERVER
+ */
 function sendMessage() {
-	var message = data.value;
-	if(message != "") {   // TODO rom
-		data.value = "";  // on efface l'input
-		socket.emit('sendchat', message);
-	}
+    var message = data.value;
+    if(message != "") {        // TODO rom
+        data.value = "";       // on efface l'input
+        socket.emit('sendchat', message);
+    }
 }
 
 /**

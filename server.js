@@ -28,8 +28,8 @@ var rooms = ['Room n°1','Room n°2','Room n°3'];
 io.sockets.on('connection', function (socket)
 {
 
-	/* 
-	** GAME
+	/**
+	*  GAME
 	*/
 	
 	// CLIENT A EMIS updateUserTank, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER updatePlayerTank
@@ -39,8 +39,8 @@ io.sockets.on('connection', function (socket)
 
 
 
-	/* 
-	** CHAT
+	/**
+	*  CHAT
 	*/
 
 	// CLIENT A EMIS SENDCHAT, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATECHAT
