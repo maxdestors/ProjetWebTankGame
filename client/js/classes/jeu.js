@@ -103,25 +103,29 @@ var Jeu = function()
 		// 38      Up arrow
 		// 39      Right arrow
 		// 40      Down arrow
-		if (evt.keyCode === 37) {
+        // 81      Q
+        // 90      Z
+        // 68      D
+        // 83      S
+		if (evt.keyCode === 81) {
 			if (!allPlayers[userName].tank.getIsRotatingLeft()) {
 				allPlayers[userName].tank.setIsRotatingLeft(true);
 				sendUpdateUserTank();
 			}
 		}
-		if (evt.keyCode === 38) {
+		if (evt.keyCode === 90) {
 			if (!allPlayers[userName].tank.getIsMovingForward()) {
 				allPlayers[userName].tank.setIsMovingForward(true);
 				sendUpdateUserTank();
 			}
 		}
-		if (evt.keyCode === 39) {
+		if (evt.keyCode === 68) {
 			if (!allPlayers[userName].tank.getIsRotatingRight()) {
 				allPlayers[userName].tank.setIsRotatingRight(true);
 				sendUpdateUserTank();
 			}
 		}
-		if (evt.keyCode === 40) {
+		if (evt.keyCode === 83) {
 			if (!allPlayers[userName].tank.getIsMovingBackward()) {
 				allPlayers[userName].tank.setIsMovingBackward(true);
 				sendUpdateUserTank();
@@ -130,25 +134,25 @@ var Jeu = function()
 	}
 	function traiteKeyUp(evt) {
 		//console.log("keyUp"+evt.keyCode);
-		if (evt.keyCode === 37) {
+		if (evt.keyCode === 81) {
 			if (allPlayers[userName].tank.getIsRotatingLeft()) {
 				allPlayers[userName].tank.setIsRotatingLeft(false);
 				sendUpdateUserTank();
 			}
 		}
-		if (evt.keyCode === 38) {
+		if (evt.keyCode === 90) {
 			if (allPlayers[userName].tank.getIsMovingForward()) {
 				allPlayers[userName].tank.setIsMovingForward(false);
 				sendUpdateUserTank();
 			}
 		}
-		if (evt.keyCode === 39) {
+		if (evt.keyCode === 68) {
 			if (allPlayers[userName].tank.getIsRotatingRight()) {
 				allPlayers[userName].tank.setIsRotatingRight(false);
 				sendUpdateUserTank();
 			}
 		}
-		if (evt.keyCode === 40) {
+		if (evt.keyCode === 83) {
 			if (allPlayers[userName].tank.getIsMovingBackward()) {
 				allPlayers[userName].tank.setIsMovingBackward(false);
 				sendUpdateUserTank();
