@@ -14,6 +14,8 @@ var Jeu = function()
 	var fpsContainer;
 	var fps;
 
+	var allMissiles = new Array();
+
 	//deltatime
 	var prevTime;
 	var deltaTime;
@@ -39,8 +41,8 @@ var Jeu = function()
 		showFPS();
 
 		// Les écouteurs
-        //canvas.addEventListener("mousedown", traiteMouseDown);
-        //canvas.addEventListener("mousemove", traiteMouseMove);
+        canvas.addEventListener("mousedown", traiteMouseDown);
+        canvas.addEventListener("mousemove", traiteMouseMove);
         document.addEventListener('keydown', traiteKeyDown, false);
         document.addEventListener('keyup', traiteKeyUp, false);
 
@@ -57,6 +59,10 @@ var Jeu = function()
 		manageDeltaTime(time);
 		if (userName != undefined) {
 			clearCanvas();
+
+			moveAllMissiles();
+			drawAllMissiles();
+
 			moveAllPlayers();
 			drawAllPlayers();
 		}
@@ -68,23 +74,24 @@ var Jeu = function()
 	 * @param evt
 	 */
 	function traiteMouseDown(evt) {
+		var missile = allPlayers[userName].tank.fire();
+		// socket.emit('sendNewMissile', missile.getMembers());
+		allMissiles.push(missile);
 		//console.log("mousedown");
 	}
 	function traiteMouseMove(evt) {
-		/*mousePos = getMousePos(canvas, evt);
+		mousePos = getMousePos(canvas, evt);
 		
-		allPlayers[userName].x = mousePos.x;
-		allPlayers[userName].y = mousePos.y;
-		var pos = {'user': userName, 'pos': mousePos}
-		socket.emit('sendpos', pos);				   // ENVOIE DES COORDONNES
-		*/
+		allPlayers[userName].tank.rotateWeapon(mousePos.x, mousePos.y);
+		// var pos = {'user': userName, 'pos': mousePos}
+		// socket.emit('sendpos', pos);				   // ENVOIE DES COORDONNES
 	}
 	function getMousePos(canvas, evt) {
-		/*var rect = canvas.getBoundingClientRect();
+		var rect = canvas.getBoundingClientRect();
 		return {
 			x: evt.clientX - rect.left,
 			y: evt.clientY - rect.top
-		};*/
+		};
 	}
 
     /**
@@ -210,10 +217,25 @@ var Jeu = function()
 	 */
 	function moveAllPlayers() {
 		for (var name in allPlayers) {
-			//console.log(name);
-			// allPlayers[name].tank.move(deltaTime/1000);
 			moveTank(allPlayers[name]);
 		}
+	}
+
+	/**
+	 * Bouge tous les missiles
+	 */
+	function moveAllMissiles() {
+		allMissiles.forEach(function(missile) { 
+			missile.move(deltaTime/1000);
+		});
+	}
+	/**
+	 * dessine tous les missiles
+	 */
+	function drawAllMissiles() {
+		allMissiles.forEach(function(missile) { 
+			missile.draw(ctx);
+		});
 	}
 
 	/**
@@ -227,7 +249,7 @@ var Jeu = function()
 			return;
 		}
 		//calculate the difference between last & current frame
-		var diffTime = newTime - lastTime;
+		diffTime = newTime - lastTime;
 		if (diffTime >= 1000) {
 			fps = frameCount;
 			frameCount = 0;
