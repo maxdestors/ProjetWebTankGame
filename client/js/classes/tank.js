@@ -26,6 +26,7 @@ var Tank = function () {
 		y = newY;
 		angle = newAngle;
 		color = newColor;
+		weaponAngle = 0;
 		isMovingForward = false;
 		isMovingBackward = false;
 		isRotatingLeft = false;
@@ -112,6 +113,10 @@ var Tank = function () {
 		weaponAngle = newtank.weaponAngle;
 		color = newtank.color;
 
+		mouseX = newtank.mouseX,
+		mouseY = newtank.mouseY,
+
+
 		isMovingForward = newtank.isMovingForward;
 		isMovingBackward = newtank.isMovingBackward;
 		isRotatingLeft = newtank.isRotatingLeft;
@@ -142,6 +147,9 @@ var Tank = function () {
 			'angle' : angle,
 			'weaponAngle' : weaponAngle,
 			'color' : color,
+
+			'mouseX' : mouseX,
+			'mouseY' : mouseY,
 
 			'isMovingForward' : isMovingForward,
 			'isMovingBackward' : isMovingBackward,

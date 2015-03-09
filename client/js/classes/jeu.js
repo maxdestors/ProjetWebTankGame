@@ -75,7 +75,7 @@ var Jeu = function()
 	 */
 	function traiteMouseDown(evt) {
 		var missile = allPlayers[userName].tank.fire();
-		// socket.emit('sendNewMissile', missile.getMembers());
+		socket.emit('sendNewMissile', missile.getMembers());
 		allMissiles.push(missile);
 		//console.log("mousedown");
 	}
@@ -83,8 +83,7 @@ var Jeu = function()
 		mousePos = getMousePos(canvas, evt);
 		
 		allPlayers[userName].tank.rotateWeapon(mousePos.x, mousePos.y);
-		// var pos = {'user': userName, 'pos': mousePos}
-		// socket.emit('sendpos', pos);				   // ENVOIE DES COORDONNES
+		sendUpdateUserTank();
 	}
 	function getMousePos(canvas, evt) {
 		var rect = canvas.getBoundingClientRect();
@@ -164,13 +163,23 @@ var Jeu = function()
 
 	/**
 	 * MAJ des positions de chaque tank
-	 * @param newPos
+	 * 
 	 */
 	function updatePlayerTank (name, tank) {			  // SERT A client.JS
 		if (userName == name) {
 			console.log('name');
 		}
 		allPlayers[name].tank.updateTank(tank);
+	};
+
+	/**
+	 * ajout d'un nouveau missile
+	 * 
+	 */
+	function addNewMissile (newMissile) {
+		var miss = new Missile();
+		miss.updateMissile(newMissile);
+		allMissiles.push(miss);
 	};
 
 	/**
@@ -282,6 +291,7 @@ var Jeu = function()
 	return {
 		init: init,
 		updatePlayers: updatePlayers,
-		updatePlayerTank: updatePlayerTank
+		updatePlayerTank: updatePlayerTank,
+		addNewMissile: addNewMissile
 	};
 };

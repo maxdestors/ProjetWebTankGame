@@ -36,6 +36,10 @@ io.sockets.on('connection', function (socket)
 	socket.on('sendUpdateUserTank', function (newTank) {
 		socket.broadcast.emit('sendUpdatePlayerTank', socket.username, newTank);
 	});
+	// envoie du nouveau missile
+	socket.on('sendNewMissile', function (newMissile) {
+		socket.broadcast.emit('sendAddMissile', newMissile);
+	});
 
 
 

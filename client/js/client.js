@@ -111,6 +111,13 @@ socket.on('sendUpdatePlayerTank', function (username, tank) {
 });
 
 /**
+ * Nouveau missile tiré
+ */
+socket.on('sendAddMissile', function (newMissile) {
+	game.addNewMissile(newMissile);   // appel fonction jeu.js
+});
+
+/**
  * GESTION LISTE JOUEUR AVEC LES DECONNEXIONS
  */
 socket.on('updatePlayers', function (listOfplayers) {
