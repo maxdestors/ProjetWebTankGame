@@ -21,7 +21,7 @@ var Tank = function () {
 	const rotateSpeed = 3;
 	const weaponRotateSpeed = 4;
 
-	const lengthWeapon = 28; // ou les missiles commence
+	const lengthWeapon = 18; // ou les missiles commence
 
     // test sprite
     var imgTank = null;
@@ -33,6 +33,8 @@ var Tank = function () {
 		y = newY;
 		angle = newAngle;
 		color = newColor;
+		mouseX = newX;
+		mouseY = newY;
 		weaponAngle = 0;
 		isMovingForward = false;
 		isMovingBackward = false;

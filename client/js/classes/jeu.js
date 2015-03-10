@@ -10,13 +10,13 @@ var Jeu = function()
 	var userName;
 	var allPlayers = {};
 
-    // missiles
-    var allMissiles = new Array();
+	// missiles
+	var allMissiles = new Array();
 
-    // sounds
-    var soundMiss, soundNewPlayer;
+	// sounds
+	var soundMiss, soundNewPlayer;
 
-    // fps
+	// fps
 	var frameCount = 0;
 	var lastTime;
 	var fpsContainer;
@@ -26,8 +26,8 @@ var Jeu = function()
 	var prevTime;
 	var deltaTime;
 
-    // sprites
-    var frame = 0;
+	// sprites
+	var frame = 0;
 
 	/**
 	 *  INITIALISATION
@@ -46,18 +46,18 @@ var Jeu = function()
 		h = canvas.height;
 		ctx = canvas.getContext('2d');
 
-        // charge les sons
-        soundMiss = new Audio("sound/missile.wav");
-        soundNewPlayer = new Audio("sound/welcome.wav");
+		// charge les sons
+		soundMiss = new Audio("sound/missile.wav");
+		soundNewPlayer = new Audio("sound/welcome.wav");
 
 		// affiche FPS pour debug
 		showFPS();
 
 		// Les écouteurs
-        canvas.addEventListener("mousedown", traiteMouseDown);
-        canvas.addEventListener("mousemove", traiteMouseMove);
-        document.addEventListener('keydown', traiteKeyDown, false);
-        document.addEventListener('keyup', traiteKeyUp, false);
+		canvas.addEventListener("mousedown", traiteMouseDown);
+		canvas.addEventListener("mousemove", traiteMouseMove);
+		document.addEventListener('keydown', traiteKeyDown, false);
+		document.addEventListener('keyup', traiteKeyUp, false);
 
 		prevTime = new Date().getTime();
 		requestAnimationFrame(mainLoop);
@@ -79,10 +79,10 @@ var Jeu = function()
 			moveAllPlayers();
 			drawAllPlayers();
 		}
-        frame++;
-        if (frame >= 8) {
-            frame = 0;
-        }
+		frame++;
+		if (frame >= 8) {
+			frame = 0;
+		}
 		requestAnimationFrame(mainLoop);
 	}
 
@@ -91,12 +91,12 @@ var Jeu = function()
 	 * @param evt
 	 */
 	function traiteMouseDown(evt) {
-        soundMiss.play();                                                   // TODO new missile sound
-        var missile = allPlayers[userName].tank.fire();
+		soundMiss.play();                                                   // TODO new missile sound
+		var missile = allPlayers[userName].tank.fire();
 		socket.emit('sendNewMissile', missile.getMembers());
-        allMissiles.push(missile);
-        //console.log("mousedown");
-    }
+		allMissiles.push(missile);
+		//console.log("mousedown");
+	}
 	function traiteMouseMove(evt) {
 		mousePos = getMousePos(canvas, evt);
 		allPlayers[userName].tank.rotateWeapon(mousePos.x, mousePos.y);
@@ -110,7 +110,7 @@ var Jeu = function()
 		};
 	}
 
-    /**
+	/**
 	 * Traitement clavier
 	 * @param evt
 	 */
@@ -120,10 +120,6 @@ var Jeu = function()
 		// 38   Up arrow      ||  90   Z
 		// 39   Right arrow   ||  68   D
 		// 40   Down arrow    ||  83   S
-        //
-        //
-        //
-        //
 		if (evt.keyCode === 81) {
 			if (!allPlayers[userName].tank.getIsRotatingLeft()) {
 				allPlayers[userName].tank.setIsRotatingLeft(true);
@@ -201,7 +197,7 @@ var Jeu = function()
 		var miss = new Missile();
 		miss.updateMissile(newMissile);
 		allMissiles.push(miss);
-        soundMiss.play();                                                   // TODO new missile sound
+		soundMiss.play();                                                   // TODO new missile sound
 	};
 
 
@@ -219,10 +215,10 @@ var Jeu = function()
 		}
 	};
 
-    // TODO new player sound
-    function soundPlayer () {
-        soundNewPlayer.play();
-    }
+	// TODO new player sound
+	function soundPlayer () {
+		soundNewPlayer.play();
+	}
 
 	/**
 	 * Dessine le tank du joueur
@@ -230,7 +226,7 @@ var Jeu = function()
 	 */
 	function drawTank(userTank) {
 		userTank.tank.draw(ctx, frame);
-    }
+	}
 
 	/**
 	 * Dessine tous les joueurs
@@ -246,7 +242,7 @@ var Jeu = function()
 	 * @param tank
 	 */
 	function moveTank(userTank) {
-        userTank.tank.move(deltaTime/1000);
+		userTank.tank.move(deltaTime/1000);
 	}
 
 	/**
@@ -321,7 +317,7 @@ var Jeu = function()
 	return {
 		init: init,
 		updatePlayers: updatePlayers,
-        soundPlayer: soundPlayer,
+		soundPlayer: soundPlayer,
 		updatePlayerTank: updatePlayerTank,
 		addNewMissile: addNewMissile
 	};

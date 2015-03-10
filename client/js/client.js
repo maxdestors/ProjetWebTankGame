@@ -63,7 +63,7 @@ socket.on('updatechat', function (username, data) {
 socket.on('updaterooms', function (rooms, current_room) {
 	var rms = document.querySelector("#rooms");
 	rms.innerHTML = null;
-	$.each(rooms, function(key, value) {
+	rooms.forEach(function(key, value) {
 		if(value === current_room){
 			rms.innerHTML += '<div style="color:#37B76D">- ' + value + '</div>';
 		}
