@@ -25,7 +25,7 @@ var Tank = function () {
 	const rotateSpeed = 3;
 	const weaponRotateSpeed = 4;
 
-	const lengthWeapon = 18; // ou les missiles commence
+	const lengthWeapon = 18;     // ou les missiles commence
 
     // test sprite
     var imgTank = null;
@@ -107,7 +107,7 @@ var Tank = function () {
 
 		if (isMovingForward) {          // && x > 30 && y > 25
 			moveForward(deltaTime);
-			//rayon de 40 autour du centre du tank
+			//rayon de 10 autour du centre du tank avec un bord de 10
 			if (x < 20 || y < 20 || x > 780 || y > 480) {
 				moveBackward(deltaTime*speedForward/speedBackward);
 			}
@@ -272,7 +272,7 @@ var Tank = function () {
             imgTank,
             frame * 29,             // coordonnée x de départ
             0,                      // coordonnée y de départ
-            29,                     // largeur du morceau d'image
+            28,                     // largeur du morceau d'image
             24,                     // hauteur du morceau d'image
             -14.5,                  // x pos par rapport au canvas
             -12,                    // y pos par rapport au canvas
