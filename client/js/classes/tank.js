@@ -20,6 +20,8 @@ var Tank = function () {
 	const speedBackward = 40;
 	const rotateSpeed = 4;
 
+	const lengthWeapon = 28; // ou les missiles commence
+
 
 	var init = function (newX, newY, newAngle, newColor) {
 		x = newX;
@@ -86,7 +88,10 @@ var Tank = function () {
 
 	var fire = function () {
 		var newMissile = new Missile();
-		newMissile.init(x, y, 3, weaponAngle, 160, color);
+		//positionne le missile au bout de la tourelle
+		xMiss = x + Math.cos(weaponAngle)*lengthWeapon;
+		yMiss = y + Math.sin(weaponAngle)*lengthWeapon;
+		newMissile.init(xMiss, yMiss, 3, weaponAngle, 160, color);
 		return newMissile;
 	};
 

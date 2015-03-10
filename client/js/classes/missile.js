@@ -49,7 +49,7 @@ var Missile = function () {
 		ctx.rotate(angle);
 		ctx.beginPath();
 		ctx.fillStyle = color;
-		ctx.arc(28, 0, rayon, 0, 2 * Math.PI);
+		ctx.arc(0, 0, rayon, 0, 2 * Math.PI);
 		ctx.fill();
 
 		ctx.restore();
