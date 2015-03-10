@@ -59,19 +59,29 @@ var Tank = function () {
 		// TODO apply colision
 
 		//console.log("x:" +x+ "y:" +y);
+
 		if (isMovingForward) {          // && x > 30 && y > 25
 			moveForward(deltaTime);
+			//rayon de 40 autour du centre du tank
+			if (x < 40 || y < 40 || x > 760 || y > 460) {
+				moveBackward(deltaTime*speedForward/speedBackward);
+			}
 		}
 		// else permet de ne pas envancer et reculer en meme temps (difference entre les deux vitesses)
 		else if (isMovingBackward) {
 			moveBackward(deltaTime);
+			if (x < 40 || y < 40 || x > 760 || y > 460) {
+				moveForward(deltaTime*speedBackward/speedForward);
+			}
 		}
 		if (isRotatingLeft) {
+			//collision pour l'instant en cercle donc pas l'incidence sur la rotation
 			rotateLeft(deltaTime);
 		}
 		if (isRotatingRight) {
 			rotateRight(deltaTime);
 		}
+		//tourrelle n'as pas de colision
 		weaponAngle = Math.atan2( mouseY - y, mouseX - x );
 	};
 
