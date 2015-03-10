@@ -12,7 +12,7 @@ a:hover {
 	color:#2ECC71;
 }
 h1 {
-	font-size:30px;
+	font-size:40px;
 	font-family: 'Trebuchet MS', sans-serif;
 	color:#37B76D;
 	text-align:center;
@@ -124,4 +124,7 @@ h4 {
 	margin-left:15px;
 	width:300px;
 	color:#FFF;
+}
+#datasend {
+    margin-left:15px;
 }

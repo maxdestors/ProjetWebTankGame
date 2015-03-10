@@ -180,7 +180,7 @@ var Jeu = function()
 			console.log('name');
 		}
 		allPlayers[name].tank.updateTank(tank);
-	};
+	}
 
 	/**
 	 * ajout d'un nouveau missile
@@ -191,7 +191,7 @@ var Jeu = function()
 		miss.updateMissile(newMissile);
 		allMissiles.push(miss);
 		soundMiss.play();                                                   // TODO new missile sound
-	};
+	}
 
 
 	/**
@@ -203,10 +203,10 @@ var Jeu = function()
 		for (var name in allPlayers) {
 			if(allPlayers[name].tank == null) {
 				allPlayers[name].tank = new Tank();
-				allPlayers[name].tank.init(100, 100, 0, 'black');
+				allPlayers[name].tank.init(100, 100, 0, 'black');            // TODO couleur à virer
 			}
 		}
-	};
+	}
 
 	// TODO new player sound
 	function soundPlayer () {

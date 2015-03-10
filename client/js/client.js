@@ -4,9 +4,11 @@
 
 do
 {   // TODO rom
-	var username = prompt("Votre pseudo ?");	 // STOCKE NOM DU JOUEUR
+	var username = prompt("Votre pseudo ?");	     // STOCKE NOM DU JOUEUR
+    var regex = new RegExp('^[a-z0-9A-Z]{3,18}$');   // Pseudo de 3 à 18 caractères
+    var res = regex.test(username);
 }
-while(username.length < 4);
+while(res !== true);
 
 // var game = new JEU();
 
