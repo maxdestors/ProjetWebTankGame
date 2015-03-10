@@ -26,9 +26,6 @@ var Jeu = function()
 	var prevTime;
 	var deltaTime;
 
-	// sprites
-	var frame = 0;
-
 	/**
 	 *  INITIALISATION
 	 */
@@ -78,10 +75,6 @@ var Jeu = function()
 
 			moveAllPlayers();
 			drawAllPlayers();
-		}
-		frame++;
-		if (frame >= 8) {
-			frame = 0;
 		}
 		requestAnimationFrame(mainLoop);
 	}
@@ -225,7 +218,7 @@ var Jeu = function()
 	 * @param tank
 	 */
 	function drawTank(userTank) {
-		userTank.tank.draw(ctx, frame);
+		userTank.tank.draw(ctx);
 	}
 
 	/**

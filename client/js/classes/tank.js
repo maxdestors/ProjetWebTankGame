@@ -15,6 +15,10 @@ var Tank = function () {
 
 	var mouseX, mouseY;
 
+	var deltaDistance;
+	var frame;
+
+
 	/* const */
 	const speedForward = 80;
 	const speedBackward = 40;
@@ -40,6 +44,9 @@ var Tank = function () {
 		isMovingBackward = false;
 		isRotatingLeft = false;
 		isRotatingRight = false;
+
+		deltaDistance = 0;
+		frame = 0;
 
         // sprites
         imgTank = new Image();
@@ -70,9 +77,32 @@ var Tank = function () {
 		weaponAngle += rotateSpeed*deltaTime;
 	}
 
+	function animeTankForward(deltaTime) {
+		deltaDistance += speedForward*deltaTime;
+		console.log(deltaDistance);
+		if (deltaDistance >= 4) {
+			deltaDistance = 0;
+			frame++;
+			if (frame >= 8) {
+				frame = 0;
+			}
+		}
+	}
+
+	function animeTankBackward(deltaTime) {
+		deltaDistance += speedBackward*deltaTime;
+		console.log(deltaDistance);
+		if (deltaDistance >= 4) {
+			deltaDistance = 0;
+			frame--;
+			if (frame < 0) {
+				frame = 7;
+			}
+		}
+	}
+
 	var move = function (deltaTime) {
 		// TODO apply colision
-
 		//console.log("x:" +x+ "y:" +y);
 
 		if (isMovingForward) {          // && x > 30 && y > 25
@@ -81,12 +111,20 @@ var Tank = function () {
 			if (x < 40 || y < 40 || x > 760 || y > 460) {
 				moveBackward(deltaTime*speedForward/speedBackward);
 			}
+			else
+			{
+				animeTankForward(deltaTime);
+			}
 		}
 		// else permet de ne pas envancer et reculer en meme temps (difference entre les deux vitesses)
 		else if (isMovingBackward) {
 			moveBackward(deltaTime);
 			if (x < 40 || y < 40 || x > 760 || y > 460) {
 				moveForward(deltaTime*speedBackward/speedForward);
+			}
+			else
+			{
+				animeTankBackward(deltaTime);
 			}
 		}
 		if (isRotatingLeft) {
@@ -174,8 +212,8 @@ var Tank = function () {
 		weaponAngle = newtank.weaponAngle;
 		color = newtank.color;
 
-		mouseX = newtank.mouseX,
-		mouseY = newtank.mouseY,
+		mouseX = newtank.mouseX;
+		mouseY = newtank.mouseY;
 
 
 		isMovingForward = newtank.isMovingForward;
@@ -224,7 +262,7 @@ var Tank = function () {
 	 * Draw
 	 */
 
-	var draw = function (ctx, frame) {
+	var draw = function (ctx) {
 		ctx.save();
 		//sent pos
 		ctx.translate(x,y);
