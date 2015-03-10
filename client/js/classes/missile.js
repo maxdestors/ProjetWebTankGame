@@ -17,8 +17,12 @@ var Missile = function () {
 
 	var move = function (deltaTime) {
 		// TODO gestion colision
+		if (x < 10 || y < 10 || x > 790|| y > 490) {
+			return false;
+		}
 		x += speed*Math.cos(angle)*deltaTime;
 		y += speed*Math.sin(angle)*deltaTime;
+		return true;
 	}
 
 	var updateMissile = function (newMissile) {
