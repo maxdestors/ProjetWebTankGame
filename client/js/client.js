@@ -63,14 +63,14 @@ socket.on('updatechat', function (username, data) {
 socket.on('updaterooms', function (rooms, current_room) {
 	var rms = document.querySelector("#rooms");
 	rms.innerHTML = null;
-	rooms.forEach(function(key, value) {
-		if(value === current_room){
-			rms.innerHTML += '<div style="color:#37B76D">- ' + value + '</div>';
+	for (var i = 0; i < rooms.length; i++) {
+		if(rooms[i] === current_room){
+			rms.innerHTML += '<div style="color:#37B76D">- ' + rooms[i] + '</div>';
 		}
 		else {
-			rms.innerHTML += '<div>- <a href="#" onclick="switchRoom(\'' + value + '\')">' + value + '</a></div>';
+			rms.innerHTML += '<div>- <a href="#" onclick="switchRoom(\'' + rooms[i] + '\')">' + rooms[i] + '</a></div>';
 		}
-	});
+	}
 });
 
 /**
