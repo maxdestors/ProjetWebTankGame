@@ -284,7 +284,7 @@ var Jeu = function()
 			return;
 		}
 		//calculate the difference between last & current frame
-		diffTime = newTime - lastTime;
+		var diffTime = newTime - lastTime;
 		if (diffTime >= 1000) {
 			fps = frameCount;
 			frameCount = 0;

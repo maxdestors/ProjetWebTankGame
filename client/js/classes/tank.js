@@ -145,8 +145,8 @@ var Tank = function () {
 	var fire = function () {
 		var newMissile = new Missile();
 		//positionne le missile au bout de la tourelle
-		xMiss = x + Math.cos(weaponAngle)*lengthWeapon;
-		yMiss = y + Math.sin(weaponAngle)*lengthWeapon;
+		var xMiss = x + Math.cos(weaponAngle)*lengthWeapon;
+		var yMiss = y + Math.sin(weaponAngle)*lengthWeapon;
 		newMissile.init(xMiss, yMiss, 3, weaponAngle, 160, color);
 		return newMissile;
 	};
