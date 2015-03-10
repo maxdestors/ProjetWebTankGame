@@ -204,6 +204,7 @@ var Jeu = function()
         soundMiss.play();                                                   // TODO new missile sound
 	};
 
+
 	/**
 	 * MAJ du tableau des joueurs (connexion et deconnexion)
 	 * @param listOfPlayers
@@ -258,12 +259,14 @@ var Jeu = function()
 	}
 
 	/**
-	 * Bouge tous les missiles
+	 * Bouge tous les missiles et supprime
 	 */
 	function moveAllMissiles() {
-		allMissiles.forEach(function(missile) { 
-			missile.move(deltaTime/1000);
-		});
+		for (var i = allMissiles.length - 1; i >= 0; i--) {
+			if (!allMissiles[i].move(deltaTime/1000)) {
+				allMissiles.splice(i, 1);
+			}
+		};
 	}
 	/**
 	 * dessine tous les missiles

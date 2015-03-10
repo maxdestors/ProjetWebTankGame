@@ -18,7 +18,10 @@ var Tank = function () {
 	/* const */
 	const speedForward = 80;
 	const speedBackward = 40;
-	const rotateSpeed = 4;
+	const rotateSpeed = 3;
+	const weaponRotateSpeed = 4;
+
+	const lengthWeapon = 28; // ou les missiles commence
 
     // test sprite
     var imgTank = null;
@@ -58,29 +61,70 @@ var Tank = function () {
 
 	function rotateLeft(deltaTime) {
 		angle -= rotateSpeed*deltaTime;
+		weaponAngle -= rotateSpeed*deltaTime;
 	}
 	function rotateRight(deltaTime) {
 		angle += rotateSpeed*deltaTime;
+		weaponAngle += rotateSpeed*deltaTime;
 	}
 
 	var move = function (deltaTime) {
 		// TODO apply colision
 
 		//console.log("x:" +x+ "y:" +y);
+
 		if (isMovingForward) {          // && x > 30 && y > 25
 			moveForward(deltaTime);
+			//rayon de 40 autour du centre du tank
+			if (x < 40 || y < 40 || x > 760 || y > 460) {
+				moveBackward(deltaTime*speedForward/speedBackward);
+			}
 		}
 		// else permet de ne pas envancer et reculer en meme temps (difference entre les deux vitesses)
 		else if (isMovingBackward) {
 			moveBackward(deltaTime);
+			if (x < 40 || y < 40 || x > 760 || y > 460) {
+				moveForward(deltaTime*speedBackward/speedForward);
+			}
 		}
 		if (isRotatingLeft) {
+			//collision pour l'instant en cercle donc pas l'incidence sur la rotation
 			rotateLeft(deltaTime);
 		}
 		if (isRotatingRight) {
 			rotateRight(deltaTime);
 		}
-		weaponAngle = Math.atan2( mouseY - y, mouseX - x );
+		//tourrelle n'as pas de colision
+		var mouseAngle = Math.atan2( mouseY - y, mouseX - x );
+		// tester si autre sens de rotation plus court
+		//console.log('mouseAngle :'+mouseAngle+' weaponAngle :'+weaponAngle)
+		if (mouseAngle < -Math.PI/2 && weaponAngle > Math.PI/2) {
+			weaponAngle += weaponRotateSpeed*deltaTime;
+			if (weaponAngle > Math.PI) {
+				weaponAngle -= Math.PI*2;
+			}
+		}
+		else if (mouseAngle > Math.PI/2 && weaponAngle < -Math.PI/2) {
+			weaponAngle -= weaponRotateSpeed*deltaTime;
+			if (weaponAngle < -Math.PI) {
+				weaponAngle += Math.PI*2;
+			}
+		}
+		else if (mouseAngle > weaponAngle) {
+			weaponAngle += weaponRotateSpeed*deltaTime;
+			//precision evite l'oscilation
+			if (mouseAngle < weaponAngle) {
+				weaponAngle = mouseAngle;
+			}
+		}
+		else {
+			weaponAngle -= weaponRotateSpeed*deltaTime;
+			//precision evite l'oscilation
+			if (mouseAngle > weaponAngle) {
+				weaponAngle = mouseAngle;
+			}
+		}
+ 
 	};
 
 	/**
@@ -88,15 +132,20 @@ var Tank = function () {
 	 */
 
 	var rotateWeapon = function (newMouseX, newMouseY) {
+		// a rename
 		mouseX = newMouseX;
 		mouseY = newMouseY;
-		weaponAngle = Math.atan2( mouseY - y, mouseX - x );
+
+		// weaponAngle = Math.atan2( mouseY - y, mouseX - x );
 		//console.log(weaponAngle);
 	};
 
 	var fire = function () {
 		var newMissile = new Missile();
-		newMissile.init(x, y, 3, weaponAngle, 160, color);
+		//positionne le missile au bout de la tourelle
+		xMiss = x + Math.cos(weaponAngle)*lengthWeapon;
+		yMiss = y + Math.sin(weaponAngle)*lengthWeapon;
+		newMissile.init(xMiss, yMiss, 3, weaponAngle, 160, color);
 		return newMissile;
 	};
 
