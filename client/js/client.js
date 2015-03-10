@@ -90,6 +90,7 @@ socket.on('updateusers', function (listOfUsers) {
 		var userLineOfHTML = '<div>- ' + name + '</div>';
 		users.innerHTML += userLineOfHTML;
 	}
+    game.soundPlayer(listOfUsers);                              // TODO SOUND
 });
 
 /**

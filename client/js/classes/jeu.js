@@ -6,19 +6,28 @@ var Jeu = function()
 {
 	var canvas, ctx, w, h;
 
-	//var mousePos;
+	var mousePos;
 	var userName;
 	var allPlayers = {};
+
+    // missiles
+    var allMissiles = new Array();
+
+    // sounds
+    var soundMiss, soundNewPlayer;
+
+    // fps
 	var frameCount = 0;
 	var lastTime;
 	var fpsContainer;
 	var fps;
 
-	var allMissiles = new Array();
-
 	//deltatime
 	var prevTime;
 	var deltaTime;
+
+    // sprites
+    var frame = 0;
 
 	/**
 	 *  INITIALISATION
@@ -36,6 +45,10 @@ var Jeu = function()
 		w = canvas.width;
 		h = canvas.height;
 		ctx = canvas.getContext('2d');
+
+        // charge les sons
+        soundMiss = new Audio("sound/missile.wav");
+        soundNewPlayer = new Audio("sound/welcome.wav");
 
 		// affiche FPS pour debug
 		showFPS();
@@ -66,6 +79,10 @@ var Jeu = function()
 			moveAllPlayers();
 			drawAllPlayers();
 		}
+        frame++;
+        if (frame >= 8) {
+            frame = 0;
+        }
 		requestAnimationFrame(mainLoop);
 	}
 
@@ -74,14 +91,14 @@ var Jeu = function()
 	 * @param evt
 	 */
 	function traiteMouseDown(evt) {
-		var missile = allPlayers[userName].tank.fire();
+        soundMiss.play();                                                   // TODO new missile sound
+        var missile = allPlayers[userName].tank.fire();
 		socket.emit('sendNewMissile', missile.getMembers());
-		allMissiles.push(missile);
-		//console.log("mousedown");
-	}
+        allMissiles.push(missile);
+        //console.log("mousedown");
+    }
 	function traiteMouseMove(evt) {
 		mousePos = getMousePos(canvas, evt);
-		
 		allPlayers[userName].tank.rotateWeapon(mousePos.x, mousePos.y);
 		sendUpdateUserTank();
 	}
@@ -99,14 +116,14 @@ var Jeu = function()
 	 */
 	function traiteKeyDown(evt) {
 		// console.log("keyDown: "+evt.keyCode);
-		// 37      Left arrow
-		// 38      Up arrow
-		// 39      Right arrow
-		// 40      Down arrow
-        // 81      Q
-        // 90      Z
-        // 68      D
-        // 83      S
+		// 37   Left arrow    ||  81   Q
+		// 38   Up arrow      ||  90   Z
+		// 39   Right arrow   ||  68   D
+		// 40   Down arrow    ||  83   S
+        //
+        //
+        //
+        //
 		if (evt.keyCode === 81) {
 			if (!allPlayers[userName].tank.getIsRotatingLeft()) {
 				allPlayers[userName].tank.setIsRotatingLeft(true);
@@ -184,6 +201,7 @@ var Jeu = function()
 		var miss = new Missile();
 		miss.updateMissile(newMissile);
 		allMissiles.push(miss);
+        soundMiss.play();                                                   // TODO new missile sound
 	};
 
 	/**
@@ -200,13 +218,18 @@ var Jeu = function()
 		}
 	};
 
+    // TODO new player sound
+    function soundPlayer () {
+        soundNewPlayer.play();
+    }
+
 	/**
 	 * Dessine le tank du joueur
 	 * @param tank
 	 */
 	function drawTank(userTank) {
-		userTank.tank.draw(ctx);
-	}
+		userTank.tank.draw(ctx, frame);
+    }
 
 	/**
 	 * Dessine tous les joueurs
@@ -295,6 +318,7 @@ var Jeu = function()
 	return {
 		init: init,
 		updatePlayers: updatePlayers,
+        soundPlayer: soundPlayer,
 		updatePlayerTank: updatePlayerTank,
 		addNewMissile: addNewMissile
 	};

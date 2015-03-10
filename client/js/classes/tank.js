@@ -20,6 +20,10 @@ var Tank = function () {
 	const speedBackward = 40;
 	const rotateSpeed = 4;
 
+    // test sprite
+    var imgTank = null;
+    var imgTourelle = null;
+
 
 	var init = function (newX, newY, newAngle, newColor) {
 		x = newX;
@@ -31,6 +35,12 @@ var Tank = function () {
 		isMovingBackward = false;
 		isRotatingLeft = false;
 		isRotatingRight = false;
+
+        // sprites
+        imgTank = new Image();
+        imgTank.src = '../../img/green_tank.png';
+        imgTourelle = new Image();
+        imgTourelle.src = '../../img/tourelle.png';
 	};
 
 	/**
@@ -163,19 +173,30 @@ var Tank = function () {
 	 * Draw
 	 */
 
-	var draw = function (ctx) {
+	var draw = function (ctx, frame) {
 		ctx.save();
 		//sent pos
 		ctx.translate(x,y);
 		//draw tank body
 		ctx.rotate(angle);
-		ctx.fillStyle = color;
-		ctx.fillRect(-15, -10, 30, 20);
+		//ctx.fillStyle = color;
+		//ctx.fillRect(-15, -10, 30, 20);
+        ctx.drawImage(
+            imgTank,
+            frame * 29,             // coordonnée x de départ
+            0,                      // coordonnée y de départ
+            29,                     // largeur du morceau d'image
+            24,                     // hauteur du morceau d'image
+            -14.5,                  // x pos par rapport au canvas
+            -12,                    // y pos par rapport au canvas
+            29,                     // largeur du morceau d'image
+            24);                    // hauteur du morceau d'image
 		//draw tank weapon
 		ctx.rotate(weaponAngle-angle);
-		ctx.fillStyle = 'red';
-		ctx.fillRect(-10, -5, 40, 10);
+		//ctx.fillStyle = 'red';
+		//ctx.fillRect(-10, -5, 40, 10);
 		// ctx.fillRect(0, 0, 1, 1)
+        ctx.drawImage(imgTourelle, -16, -7);
 
 		ctx.restore();
 	};

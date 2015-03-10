@@ -19,7 +19,7 @@ var Missile = function () {
 		// TODO gestion colision
 		x += speed*Math.cos(angle)*deltaTime;
 		y += speed*Math.sin(angle)*deltaTime;
-	}
+	};
 
 	var updateMissile = function (newMissile) {
 		x = newMissile.x;

@@ -52,8 +52,8 @@ h4 {
 	color:#2ecc71;
 }
 #menu {
-	width:478px;
-	margin:20px auto;
+	width:478px;         /* 500px sur portable TODO */
+	margin:0px auto;
 }
 #menu li {
 	list-style: none;

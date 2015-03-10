@@ -39,7 +39,7 @@ io.sockets.on('connection', function (socket)
 	// envoie du nouveau missile
 	socket.on('sendNewMissile', function (newMissile) {
 		socket.broadcast.emit('sendAddMissile', newMissile);
-	});
+    });
 
 
 
@@ -70,7 +70,7 @@ io.sockets.on('connection', function (socket)
 
 		socket.emit('updatechat', 'SERVER', 'vous êtes connecté à la Room n°1.');  // info au client qu'il s'est connecté
 		socket.broadcast.to('Room n°1').emit('updatechat', 'SERVER', username + "s'est connecté à cette Room");  // info a tous les clients sauf le client courant que qqun s'est connecté
-		io.sockets.emit('updateusers', usernames);  // on demande a chaque client de mettre a jour la liste des clients sur sa page
+		io.sockets.emit('updateusers', usernames);     // on demande a chaque client de mettre a jour la liste des clients sur sa page
 
 		socket.emit('updaterooms', rooms, 'Room n°1'); // maj des rooms
 
