@@ -60,12 +60,48 @@ var Tank = function () {
 	 */
 
 	function moveForward(deltaTime) {
-		x += speedForward*Math.cos(angle)*deltaTime;
-		y += speedForward*Math.sin(angle)*deltaTime;
+		var move = false;
+		var moveX = speedForward*Math.cos(angle)*deltaTime;
+		var moveY = speedForward*Math.sin(angle)*deltaTime;
+		x += moveX;
+		if (x < 40 || y < 40 || x > 760 || y > 460) {
+			x -= moveX;
+		}
+		else {
+			move = true;
+		}
+		y += moveY;
+		if (x < 40 || y < 40 || x > 760 || y > 460) {
+			y -= moveY;
+		}
+		else {
+			move = true;
+		}
+		if (move) {
+			animeTankForward(deltaTime);
+		}
 	}
 	function moveBackward(deltaTime) {
-		x += (-speedBackward)*Math.cos(angle)*deltaTime;
-		y += (-speedBackward)*Math.sin(angle)*deltaTime;
+		var move = true;
+		var moveX = speedBackward*Math.cos(angle)*deltaTime;
+		var moveY = speedBackward*Math.sin(angle)*deltaTime;
+		x -= moveX;
+		if (x < 40 || y < 40 || x > 760 || y > 460) {
+			x += moveX;
+		}
+		else {
+			move = true;
+		}
+		y -= moveY;
+		if (x < 40 || y < 40 || x > 760 || y > 460) {
+			y += moveY;
+		}
+		else {
+			move = true;
+		}
+		if (move) {
+			animeTankBackward(deltaTime);
+		}
 	}
 
 	function rotateLeft(deltaTime) {
@@ -79,7 +115,6 @@ var Tank = function () {
 
 	function animeTankForward(deltaTime) {
 		deltaDistance += speedForward*deltaTime;
-		console.log(deltaDistance);
 		if (deltaDistance >= 4) {
 			deltaDistance = 0;
 			frame++;
@@ -91,7 +126,7 @@ var Tank = function () {
 
 	function animeTankBackward(deltaTime) {
 		deltaDistance += speedBackward*deltaTime;
-		console.log(deltaDistance);
+		// 4 nb de pixels avant chagement de frame
 		if (deltaDistance >= 4) {
 			deltaDistance = 0;
 			frame--;
@@ -107,25 +142,10 @@ var Tank = function () {
 
 		if (isMovingForward) {          // && x > 30 && y > 25
 			moveForward(deltaTime);
-			//rayon de 40 autour du centre du tank
-			if (x < 40 || y < 40 || x > 760 || y > 460) {
-				moveBackward(deltaTime*speedForward/speedBackward);
-			}
-			else
-			{
-				animeTankForward(deltaTime);
-			}
 		}
 		// else permet de ne pas envancer et reculer en meme temps (difference entre les deux vitesses)
 		else if (isMovingBackward) {
 			moveBackward(deltaTime);
-			if (x < 40 || y < 40 || x > 760 || y > 460) {
-				moveForward(deltaTime*speedBackward/speedForward);
-			}
-			else
-			{
-				animeTankBackward(deltaTime);
-			}
 		}
 		if (isRotatingLeft) {
 			//collision pour l'instant en cercle donc pas l'incidence sur la rotation
