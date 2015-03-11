@@ -4,13 +4,15 @@
 
 do
 {   // TODO rom
-	var username = prompt("Votre pseudo ?");	 // STOCKE NOM DU JOUEUR
+	var username = prompt("Votre pseudo ?");	            // STOCKE NOM DU JOUEUR
+    var regex = new RegExp('^[a-z0-9A-Zéèêàâîô]{3,17}$');   // Pseudo de 3 à 17 caractères autorisés
+    var res = regex.test(username);
 }
-while(username.length < 4);
+while(res !== true);
 
 // var game = new JEU();
 
-var conversation, data, datasend, users;	     // VARIABLES USEFUL
+var conversation, data, datasend, users;	                // VARIABLES USEFUL
 var game;
 var socket = io.connect();
 

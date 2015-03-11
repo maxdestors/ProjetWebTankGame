@@ -1,0 +1,15 @@
+{
+  "name": "ProjetWebTankGame",
+  "version": "0.0.1",
+  "main": "server.js",
+  "dependencies": {
+    "express": "~4.12.2",
+    "socket.io": "~1.3.4",
+    "ent": "~2.2.0"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Romain Palmero et Max Destors",
+  "description": "Jeu en javascript utilisant nodeJS"
+}

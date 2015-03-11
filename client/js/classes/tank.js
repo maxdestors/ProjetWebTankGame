@@ -25,7 +25,7 @@ var Tank = function () {
 	const rotateSpeed = 3;
 	const weaponRotateSpeed = 4;
 
-	const lengthWeapon = 18; // ou les missiles commence
+	const lengthWeapon = 18;     // ou les missiles commence
 
     // test sprite
     var imgTank = null;
@@ -50,9 +50,9 @@ var Tank = function () {
 
         // sprites
         imgTank = new Image();
-        imgTank.src = '../../img/green_tank.png';
+        imgTank.src = '../../img/grey_tank.png';
         imgTourelle = new Image();
-        imgTourelle.src = '../../img/tourelle.png';
+        imgTourelle.src = '../../img/grey_tourelle.png';
 	};
 
 	/**
@@ -142,10 +142,25 @@ var Tank = function () {
 
 		if (isMovingForward) {          // && x > 30 && y > 25
 			moveForward(deltaTime);
+			//rayon de 10 autour du centre du tank avec un bord de 10
+			if (x < 20 || y < 20 || x > 780 || y > 480) {
+				moveBackward(deltaTime*speedForward/speedBackward);
+			}
+			else
+			{
+				animeTankForward(deltaTime);
+			}
 		}
 		// else permet de ne pas envancer et reculer en meme temps (difference entre les deux vitesses)
 		else if (isMovingBackward) {
 			moveBackward(deltaTime);
+			if (x < 20 || y < 20 || x > 780 || y > 480) {
+				moveForward(deltaTime*speedBackward/speedForward);
+			}
+			else
+			{
+				animeTankBackward(deltaTime);
+			}
 		}
 		if (isRotatingLeft) {
 			//collision pour l'instant en cercle donc pas l'incidence sur la rotation
@@ -184,7 +199,6 @@ var Tank = function () {
 				weaponAngle = mouseAngle;
 			}
 		}
- 
 	};
 
 	/**
@@ -258,7 +272,6 @@ var Tank = function () {
 		return isRotatingRight;
 	};
 
-
 	var getMembers = function () {
 		return {
 			'x' : x,
@@ -294,7 +307,7 @@ var Tank = function () {
             imgTank,
             frame * 29,             // coordonnée x de départ
             0,                      // coordonnée y de départ
-            29,                     // largeur du morceau d'image
+            28,                     // largeur du morceau d'image
             24,                     // hauteur du morceau d'image
             -14.5,                  // x pos par rapport au canvas
             -12,                    // y pos par rapport au canvas
