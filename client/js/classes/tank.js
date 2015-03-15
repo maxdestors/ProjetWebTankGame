@@ -64,14 +64,14 @@ var Tank = function () {
 		var moveX = speedForward*Math.cos(angle)*deltaTime;
 		var moveY = speedForward*Math.sin(angle)*deltaTime;
 		x += moveX;
-		if (x < 40 || y < 40 || x > 760 || y > 460) {
+		if (x < 20 || y < 20 || x > 780 || y > 480) {
 			x -= moveX;
 		}
 		else {
 			move = true;
 		}
 		y += moveY;
-		if (x < 40 || y < 40 || x > 760 || y > 460) {
+		if (x < 20 || y < 20 || x > 780 || y > 480) {
 			y -= moveY;
 		}
 		else {
@@ -86,14 +86,14 @@ var Tank = function () {
 		var moveX = speedBackward*Math.cos(angle)*deltaTime;
 		var moveY = speedBackward*Math.sin(angle)*deltaTime;
 		x -= moveX;
-		if (x < 40 || y < 40 || x > 760 || y > 460) {
+		if (x < 20 || y < 20 || x > 780 || y > 480) {
 			x += moveX;
 		}
 		else {
 			move = true;
 		}
 		y -= moveY;
-		if (x < 40 || y < 40 || x > 760 || y > 460) {
+		if (x < 20 || y < 20 || x > 780 || y > 480) {
 			y += moveY;
 		}
 		else {
