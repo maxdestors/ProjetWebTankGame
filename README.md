@@ -1,6 +1,6 @@
-# Jeu de tank multijoueur avec tchat
+# Jeu de tank multi-joueurs avec tchat
 
-## Libraru utilisées
+## Librairies utilisées
 <ul>
   <li>node.js / npm</li>
   <li>socket.io</li>
@@ -8,12 +8,12 @@
   <li>ent</li>
 </ul>
 
-# Fonctionnalité
+## Fonctionnalités
 <ul>
   <li>TODO</li>
 </ul>
 
-## Setup and configuration
+## Setup et configurations
 
 Pour installer les dépendances : <code>npm install</code> 
 
