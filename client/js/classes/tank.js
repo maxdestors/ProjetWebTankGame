@@ -50,9 +50,9 @@ var Tank = function () {
 
         // sprites
         imgTank = new Image();
-        imgTank.src = '../../img/grey_tank.png';
+        imgTank.src = '../../img/tanks/grey_tank.png';
         imgTourelle = new Image();
-        imgTourelle.src = '../../img/grey_tourelle.png';
+        imgTourelle.src = '../../img/tanks/grey_tourelle.png';
 	};
 
 	/**
