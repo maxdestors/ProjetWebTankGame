@@ -2,25 +2,25 @@ body {
 	background: url("../img/site/bg.png") repeat;
 	font-family: Arial, sans-serif;
 	font-size: 13px;
-	margin-top:20px;
+	margin-top: 20px;
 }
 a {
 	text-decoration: underline;
 	color: aliceblue;
 }
 a:hover {
-	color:#2ECC71;
+	color: #2ECC71;
 }
 h1 {
-	font-size:40px;
+	font-size: 40px;
 	font-family: 'Trebuchet MS', sans-serif;
-	color:#37B76D;
-	text-align:center;
+	color: #37B76D;
+	text-align: center;
 }
 h4 {
 	text-align: center;
 	background-color: #3d9964;
-	padding:5px;
+	padding: 5px;
 }
 #container {
 	padding:5px;
@@ -32,7 +32,7 @@ h4 {
 	border-radius: 10px;
 }
 .btn {
-	font-size:17px;
+	font-size: 17px;
 	font-family: 'Trebuchet MS', sans-serif;
 	padding: 18px 35px 13px 35px;
 	margin: 0 1px 0 0;
@@ -45,29 +45,29 @@ h4 {
 }
 .btn:hover{
 	border-bottom: 4px solid #2ECC71;
-	transition-property:border-bottom .6s linear 0s;
-	-moz-transition:border-bottom .6s linear 0s;
-	-webkit-transition:border-bottom .6s linear 0s;
-	-o-transition:border-bottom .6s linear 0s;
-	color:#2ecc71;
+	transition-property: border-bottom .6s linear 0s;
+	-moz-transition: border-bottom .6s linear 0s;
+	-webkit-transition: border-bottom .6s linear 0s;
+	-o-transition: border-bottom .6s linear 0s;
+	color: #2ECC71;
 }
 #menu {
-	width:478px;         /* 500px sur portable TODO */
-	margin:0px auto;
+	width: 478px;         /* 500px sur portable TODO */
+	margin: 0px auto;
 }
 #menu li {
 	list-style: none;
 	padding: 0;
 	margin: 0;
-	background:#7F8C8D;
+	background: #7F8C8D;
 }
 
 #menu li .btn {
 	float: left;
-	box-shadow:0px 0px 3px #000;
-	border-right:1px solid #5A6876;
-	border-left:1px solid #5A6876;
-	border-top:1px solid #5A6876;
+	box-shadow: 0px 0px 3px #000;
+	border-right: 1px solid #5A6876;
+	border-left: 1px solid #5A6876;
+	border-top: 1px solid #5A6876;
 }
 .clearfloat {
 	clear: both;
@@ -87,10 +87,10 @@ h4 {
 	margin: 5px 15px 0 46px;
 	padding:10px;
 	border: 3px solid #111111;
-	width:600px;
-	min-height:250px;
-	max-height:400px;
-	overflow:scroll-y;
+	width: 600px;
+	min-height: 250px;
+	max-height: 400px;
+	overflow: scroll-y;
 	overflow-x: hidden;
 }
 #boxchat b {
@@ -103,28 +103,28 @@ h4 {
 	padding: 15px;
 }
 #boxinfo {
-	color:#FFF;
-	float:left;
+	color: #FFF;
+	float: left;
 	background-color: #090909;
-	width:140px;
+	width: 140px;
 	border: 3px solid #111111;
-	min-height:250px;
-	max-height:400px;
-	padding:10px;
-	overflow:scroll-y;
+	min-height: 250px;
+	max-height: 400px;
+	padding: 10px;
+	overflow: scroll-y;
 	margin: 5px 0 20px 0;
 }
 #boxinfo div {
-	padding:0 0 5px 5px;
+	padding: 0 0 5px 5px;
 }
 #data {
 	background-color: #132E1E;
-	border:3px solid #37B76D;
+	border: 3px solid #37B76D;
 	padding: 5px;
-	margin-left:15px;
-	width:300px;
-	color:#FFF;
+	margin-left: 15px;
+	width: 300px;
+	color: #FFF;
 }
 #datasend {
-    margin-left:15px;
+    margin-left: 15px;
 }
