@@ -1,6 +1,6 @@
 {
   "name": "ProjetWebTankGame",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "main": "server.js",
   "dependencies": {
     "express": "~4.12.2",
@@ -9,6 +9,13 @@
   },
   "scripts": {
     "start": "node server.js"
+  },
+  "engines": {
+    "node": "0.12.0"
+  },
+  "repository": {
+	"type": "git",
+	"url": "https://github.com/maxdestors/ProjetWebTankGame.git"
   },
   "author": "Romain Palmero et Max Destors",
   "description": "Jeu en javascript utilisant nodeJS"
