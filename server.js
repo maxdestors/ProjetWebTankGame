@@ -9,7 +9,9 @@ var app = express()
 	, server = http.createServer(app)
 	, io = require('socket.io').listen(server);
 
-server.listen(80);     // LANCEMENT SERVER SUR LE PORT 8080
+var port = process.env.PORT || 208080;
+
+server.listen(port);     // LANCEMENT SERVER SUR LE PORT 8080
 
 // INDICATION D'OU SONT LES FICHIERS LOCAUX
 app.use(express.static(__dirname + '/client/'));
