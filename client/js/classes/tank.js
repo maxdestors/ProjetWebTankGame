@@ -64,7 +64,6 @@ var Tank = function () {
 		var moveX = speedForward*Math.cos(angle)*deltaTime;
 		var moveY = speedForward*Math.sin(angle)*deltaTime;
 		x += moveX;
-		//rayon de 10 autour du centre du tank avec un bord de 10
 		if (x < 20 || y < 20 || x > 780 || y > 480) {
 			x -= moveX;
 		}
@@ -143,10 +142,25 @@ var Tank = function () {
 
 		if (isMovingForward) {          // && x > 30 && y > 25
 			moveForward(deltaTime);
+			//rayon de 10 autour du centre du tank avec un bord de 10
+			if (x < 20 || y < 20 || x > 780 || y > 480) {
+				moveBackward(deltaTime*speedForward/speedBackward);
+			}
+			else
+			{
+				animeTankForward(deltaTime);
+			}
 		}
 		// else permet de ne pas envancer et reculer en meme temps (difference entre les deux vitesses)
 		else if (isMovingBackward) {
 			moveBackward(deltaTime);
+			if (x < 20 || y < 20 || x > 780 || y > 480) {
+				moveForward(deltaTime*speedBackward/speedForward);
+			}
+			else
+			{
+				animeTankBackward(deltaTime);
+			}
 		}
 		if (isRotatingLeft) {
 			//collision pour l'instant en cercle donc pas l'incidence sur la rotation

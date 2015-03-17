@@ -19,20 +19,6 @@ app.get('/', function (req, res) {
 	res.sendfile(__dirname + '/client/index.html');
 });
 
-//Require classes
-var fs = require('fs');
-
-// file is included here:
-eval(fs.readFileSync('client/js/classes/tank.js')+'');
-eval(fs.readFileSync('client/js/classes/missile.js')+'');
-eval(fs.readFileSync('server/classes/room.js')+'');
-
-
-var room1 = new Room();
-room1.init();
-
-
-
 // PSEUDO DES PERSONNES CONNECTES AU CHAT
 var usernames = {};
 var listOfPlayers = {};
