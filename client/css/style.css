@@ -16,6 +16,7 @@ h1 {
 	font-family: 'Trebuchet MS', sans-serif;
 	color: #37B76D;
 	text-align: center;
+    letter-spacing: 0.5px;
 }
 h4 {
 	text-align: center;
@@ -32,6 +33,8 @@ h4 {
 	border-radius: 10px;
 }
 .btn {
+    /*background: #2c3e50;*/
+    background-image: linear-gradient(to bottom,#395168,#2C3E50);
 	font-size: 17px;
 	font-family: 'Trebuchet MS', sans-serif;
 	padding: 18px 35px 13px 35px;
@@ -40,16 +43,16 @@ h4 {
 	text-align: center;
 	color: #EEE;
 	cursor: pointer;
-	background: #2c3e50;
 	border-bottom: 4px solid #364F67;
 }
 .btn:hover{
-	border-bottom: 4px solid #2ECC71;
+    background-image: linear-gradient(to bottom,#2C3E50,#395168);
+    border-bottom: 4px solid #2ECC71;
 	transition-property: border-bottom .6s linear 0s;
 	-moz-transition: border-bottom .6s linear 0s;
 	-webkit-transition: border-bottom .6s linear 0s;
 	-o-transition: border-bottom .6s linear 0s;
-	color: #2ECC71;
+	color: #25DA72;
 }
 #menu {
 	width: 478px;         /* 500px sur portable TODO */
