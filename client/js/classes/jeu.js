@@ -93,7 +93,7 @@ var Jeu = function()
 	function traiteMouseMove(evt) {
 		mousePos = getMousePos(canvas, evt);
 		allPlayers[userName].tank.rotateWeapon(mousePos.x, mousePos.y);
-		sendUpdateUserTank();
+		//sendUpdateUserTank();
 	}
 	function getMousePos(canvas, evt) {
 		var rect = canvas.getBoundingClientRect();
@@ -115,26 +115,22 @@ var Jeu = function()
 		// 40   Down arrow    ||  83   S
 		if (evt.keyCode === 81) {
 			if (!allPlayers[userName].tank.getIsRotatingLeft()) {
-				allPlayers[userName].tank.setIsRotatingLeft(true);
-				sendUpdateUserTank();
+				sendNewMove('isMovingForward', true);
 			}
 		}
 		if (evt.keyCode === 90) {
 			if (!allPlayers[userName].tank.getIsMovingForward()) {
-				allPlayers[userName].tank.setIsMovingForward(true);
-				sendUpdateUserTank();
+				sendNewMove('isMovingBackward', true);
 			}
 		}
 		if (evt.keyCode === 68) {
 			if (!allPlayers[userName].tank.getIsRotatingRight()) {
-				allPlayers[userName].tank.setIsRotatingRight(true);
-				sendUpdateUserTank();
+				sendNewMove('isRotatingLeft', true);
 			}
 		}
 		if (evt.keyCode === 83) {
 			if (!allPlayers[userName].tank.getIsMovingBackward()) {
-				allPlayers[userName].tank.setIsMovingBackward(true);
-				sendUpdateUserTank();
+				sendNewMove('isRotatingRight', true);
 			}
 		}
 	}
@@ -142,32 +138,28 @@ var Jeu = function()
 		//console.log("keyUp"+evt.keyCode);
 		if (evt.keyCode === 81) {
 			if (allPlayers[userName].tank.getIsRotatingLeft()) {
-				allPlayers[userName].tank.setIsRotatingLeft(false);
-				sendUpdateUserTank();
+				sendNewMove('isMovingForward', false);
 			}
 		}
 		if (evt.keyCode === 90) {
 			if (allPlayers[userName].tank.getIsMovingForward()) {
-				allPlayers[userName].tank.setIsMovingForward(false);
-				sendUpdateUserTank();
+				sendNewMove('isMovingBackward', false);
 			}
 		}
 		if (evt.keyCode === 68) {
 			if (allPlayers[userName].tank.getIsRotatingRight()) {
-				allPlayers[userName].tank.setIsRotatingRight(false);
-				sendUpdateUserTank();
+				sendNewMove('isRotatingLeft', false);
 			}
 		}
 		if (evt.keyCode === 83) {
 			if (allPlayers[userName].tank.getIsMovingBackward()) {
-				allPlayers[userName].tank.setIsMovingBackward(false);
-				sendUpdateUserTank();
+				sendNewMove('isRotatingRight', false);
 			}
 		}
 	}
 
-	function sendUpdateUserTank () {
-		socket.emit('sendUpdateUserTank', allPlayers[userName].tank.getMembers());
+	function sendNewMove (newMove, state) {
+		socket.emit('sendNewMove', newMove, state);
 	}
 
 
@@ -176,7 +168,7 @@ var Jeu = function()
 	 * 
 	 */
 	function updatePlayerTank (name, tank) {			  // SERT A client.JS
-		if (userName == name) {
+		if (userName === name) {
 			console.log('name');
 		}
 		allPlayers[name].tank.updateTank(tank);
@@ -200,12 +192,13 @@ var Jeu = function()
 	 */
 	function updatePlayers (listOfPlayers) {
 		allPlayers = listOfPlayers;
-		for (var name in allPlayers) {
-			if(allPlayers[name].tank == null) {
+		console.log("allPlayers" + allPlayers);
+		/*for (var name in allPlayers) {
+			if(allPlayers[name].tank === null) {
 				allPlayers[name].tank = new Tank();
 				allPlayers[name].tank.init(100, 100, 0, 'black');            // TODO couleur à virer
 			}
-		}
+		}*/
 	}
 
 	// TODO new player sound
