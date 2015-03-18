@@ -4,7 +4,9 @@
 	<meta charset="UTF-8">
 	<title>Tank Game Project</title>
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
-	
+    <link rel="stylesheet" type="text/css" href="css/popup.css" />
+
+    <script src="js/popup.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="js/classes/missile.js"></script>
 	<script src="js/classes/tank.js"></script>
@@ -12,37 +14,48 @@
 	<script src="js/client.js"></script>
 </head>
 
-<body>
-	<div id="container">
-		<h1> TANK GAME </h1>
-		<div id="menu">
-			<li><a class="btn" href="#">HOME</a></li>
-			<li><a class="btn" href="#">RULES</a></li>
-			<li><a class="btn" href="#">GAME</a></li>
-			<li><a class="btn" href="#">ABOUT</a></li>
-		</div>
+    <body>
+        <!-- POPUP POUR DEMANDER PSEUDO
+        <div id="popup" class="popup-c">
+            <div id="popup-wrap">
+                <div id="popup-corps">
+                    <h2>Renseigner votre pseudo</h2>
+                    <input id="pseudo" placeholder="Pseudo" type="text" value="" autofocus required />
+                    <input type="submit" value="OK" onclick="visibility('popup')" />
+                </div>
+            </div>
+        </div>  -->
 
-		<div class="clearfloat"></div>
+        <div id="container">
+            <h1> TANK GAME </h1>
+            <div id="menu">
+                <li><a class="btn" href="#">HOME</a></li>
+                <li><a class="btn" href="#">RULES</a></li>
+                <li><a class="btn" href="#">GAME</a></li>
+                <li><a class="btn" href="#">ABOUT</a></li>
+            </div>
 
-		<p id="game">
-			<canvas width="800" height="500" id="tankCanvas"></canvas>
-		</p>
+            <div class="clearfloat"></div>
 
-		<div id="boxchat">
-			<div id="conversation"></div>
-            <input id="data" />
-            <input type="button" id="datasend" value="Envoyer" />
-		</div>
+            <p id="game">
+                <canvas width="800" height="500" id="tankCanvas"></canvas>
+            </p>
 
-		<div id="boxinfo">
-			<h4>ROOMS</h4>
-			<div id="rooms"></div>
-			<br/>
-			<h4>USERS</h4>
-			<div id="users"></div>
-		</div>
+            <div id="boxchat">
+                <div id="conversation"></div>
+                <input id="data" />
+                <input type="button" id="datasend" value="Envoyer" />
+            </div>
 
-		<div class="clearfloat"></div>
-	</div>
-</body>
+            <div id="boxinfo">
+                <h4>ROOMS</h4>
+                <div id="rooms"></div>
+                <br/>
+                <h4>USERS</h4>
+                <div id="users"></div>
+            </div>
+
+            <div class="clearfloat"></div>
+        </div>
+    </body>
 </html>

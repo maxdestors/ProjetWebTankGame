@@ -2,19 +2,12 @@
  * Created by Romain on 18/02/2015.
  */
 
-do
-{   // TODO rom
-	var username = prompt("Votre pseudo ?");	            // STOCKE NOM DU JOUEUR
-    var regex = new RegExp('^[a-z0-9A-Zéèêàâîô]{3,17}$');   // Pseudo de 3 à 17 caractères autorisés
-    var res = regex.test(username);
-}
-while(res !== true);
-
-// var game = new JEU();
-
-var conversation, data, datasend, users;	                // VARIABLES USEFUL
+var username, regex, res;
+var conversation, data, datasend, users;
 var game;
 var socket = io.connect();
+
+getPseudo();
 
 /**
  * ONLOAD : AU CHARGEMENT DE LA PAGE
@@ -24,13 +17,13 @@ window.addEventListener("load", function ()
 	conversation = document.querySelector("#conversation");
 	data = document.querySelector("#data");
 	datasend = document.querySelector("#datasend");
-	users = document.querySelector("#users"); 
+	users = document.querySelector("#users");
 
 	game = new Jeu();
 	game.init(username);
 
 	// BOUTON ENVOYER
-	datasend.addEventListener("click", function (evt) {
+	datasend.addEventListener("click", function() {
 		sendMessage();
 	});
 
@@ -126,3 +119,18 @@ socket.on('sendAddMissile', function (newMissile) {
 socket.on('updatePlayers', function (listOfplayers) {
 	game.updatePlayers(listOfplayers);   // appel fonction jeu.js
 });
+
+
+/**
+ * Obtenir le pseudo
+ */
+function getPseudo() {
+    do
+    {
+        username = prompt("Votre pseudo ?");	            // STOCKE NOM DU JOUEUR
+        //username = getUserName();
+        regex = new RegExp('^[a-z0-9A-Zéèêàâîô]{3,17}$');   // Pseudo de 3 à 17 caractères autorisés
+        res = regex.test(username);
+    }
+    while(res !== true);
+}

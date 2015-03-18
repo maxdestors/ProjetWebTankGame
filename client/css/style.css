@@ -1,8 +1,8 @@
 body {
 	background: url("../img/site/bg.png") repeat;
-	font-family: Arial, sans-serif;
+    font-family: Arial, sans-serif;
 	font-size: 13px;
-	margin-top: 20px;
+	margin: 20px 0;
 }
 a {
 	text-decoration: underline;
@@ -16,7 +16,7 @@ h1 {
 	font-family: 'Trebuchet MS', sans-serif;
 	color: #37B76D;
 	text-align: center;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.02em;
 }
 h4 {
 	text-align: center;
@@ -24,17 +24,18 @@ h4 {
 	padding: 5px;
 }
 #container {
+    background-color: #222;
+    box-shadow: 0 0 0 2px #409062;
+    border:5px solid #191919;
+    border-radius: 10px;
 	padding:5px;
 	width:900px;
 	min-height:900px;
 	margin: 0 auto;
-	background-color: #222;
-	border:5px solid #191919;
-	border-radius: 10px;
 }
 .btn {
     /*background: #2c3e50;*/
-    background-image: linear-gradient(to bottom,#395168,#2C3E50);
+    background-image: linear-gradient(to bottom, #395168, #2C3E50);
 	font-size: 17px;
 	font-family: 'Trebuchet MS', sans-serif;
 	padding: 18px 35px 13px 35px;
@@ -46,9 +47,8 @@ h4 {
 	border-bottom: 4px solid #364F67;
 }
 .btn:hover{
-    background-image: linear-gradient(to bottom,#2C3E50,#395168);
+    background-image: linear-gradient(to bottom, #2C3E50, #395168);
     border-bottom: 4px solid #2ECC71;
-	transition-property: border-bottom .6s linear 0s;
 	-moz-transition: border-bottom .6s linear 0s;
 	-webkit-transition: border-bottom .6s linear 0s;
 	-o-transition: border-bottom .6s linear 0s;

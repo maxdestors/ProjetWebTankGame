@@ -18,7 +18,6 @@ var Tank = function () {
 	var deltaDistance;
 	var frame;
 
-
 	/* const */
 	const speedForward = 80;
 	const speedBackward = 40;

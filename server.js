@@ -11,7 +11,7 @@ var app = express()
 
 var port = process.env.PORT || 28080;
 
-server.listen(port);     // LANCEMENT SERVER SUR LE PORT 8080
+server.listen(port);     // LANCEMENT SERVER SUR LE PORT 28080
 
 // INDICATION D'OU SONT LES FICHIERS LOCAUX
 app.use(express.static(__dirname + '/client/'));
