@@ -36,11 +36,11 @@ io.sockets.on('connection', function (socket)
 	
 	// CLIENT A EMIS updateUserTank, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER updatePlayerTank
 	socket.on('sendUpdateUserTank', function (newTank) {
-		socket.broadcast.emit('sendUpdatePlayerTank', socket.username, newTank);
+		socket.in(socket.room).emit('sendUpdatePlayerTank', socket.username, newTank);
 	});
 	// envoie du nouveau missile
 	socket.on('sendNewMissile', function (newMissile) {
-		socket.broadcast.emit('sendAddMissile', newMissile);
+		socket.in(socket.room).emit('sendAddMissile', newMissile);
     });
 
 
