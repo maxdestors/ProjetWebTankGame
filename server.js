@@ -9,7 +9,7 @@ var app = express()
 	, server = http.createServer(app)
 	, io = require('socket.io').listen(server);
 
-server.listen(80);     // LANCEMENT SERVER SUR LE PORT 8080
+server.listen(80);     // LANCEMENT SERdddER SUR LE PORT 8080
 
 // INDICATION D'OU SONT LES FICHIERS LOCAUX
 app.use(express.static(__dirname + '/client/'));
@@ -40,11 +40,12 @@ var roomsName = ['Room n°1','Room n°2','Room n°3'];
 // list des rooms instancié depuis la liste des noms de Rooms
 var rooms = {};
 for (var roomName in roomsName) {
+	console.log(roomsName[roomName]);
 	var tmpRoom = new Room();
-	tmpRoom.init(roomName);
-	rooms[roomName] = tmpRoom;
+	tmpRoom.init(roomsName[roomName]);
+	rooms[roomsName[roomName]] = tmpRoom;
 }
-console.log(rooms['Room n°1']);
+console.log(rooms);
 
 
 

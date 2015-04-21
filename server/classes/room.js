@@ -6,6 +6,8 @@ var Room = function()
 
 	var gameState;
 	var players;
+
+	var game;
 	
 	/**
 	 *  INITIALISATION
@@ -15,7 +17,13 @@ var Room = function()
 		title = roomTitle;
 		players = new Array();
 
-		console.log("init room");
+		game = new Jeu();
+		console.log("init room : " + title);
+	};
+
+
+	var startGame = function (name) {
+		game.init();
 	};
 
 	var addPlayer = function (name) {
@@ -33,9 +41,9 @@ var Room = function()
 		return players[name].newMove(newMovement, state);
 	};
 
-	var disp = function (name) {
+	var disp = function () {
 
-		var strDisp = 'players : ';
+		var strDisp = 'Room Title :' + title + 'players : ';
 		for (var i = players.length - 1; i >= 0; i--) {
 			strDisp += players[i].getName() + " : " + players[i].getType() + ", ";
 		}
@@ -73,6 +81,7 @@ var Room = function()
 	// methodes publiques
 	return {
 		init: init,
+		startGame: startGame,
 		removePlayer: removePlayer,
 		addPlayer: addPlayer,
 		newMove: newMove,
