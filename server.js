@@ -27,6 +27,7 @@ eval(fs.readFileSync('client/js/classes/tank.js')+'');
 eval(fs.readFileSync('client/js/classes/missile.js')+'');
 
 eval(fs.readFileSync('server/classes/player.js')+'');
+eval(fs.readFileSync('server/classes/jeuServ.js')+'');
 eval(fs.readFileSync('server/classes/room.js')+'');
 
 
