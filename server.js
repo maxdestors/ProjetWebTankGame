@@ -25,8 +25,8 @@ var fs = require('fs');
 // file is included here:
 eval(fs.readFileSync('client/js/classes/tank.js')+'');
 eval(fs.readFileSync('client/js/classes/missile.js')+'');
+eval(fs.readFileSync('client/js/classes/player.js')+'');
 
-eval(fs.readFileSync('server/classes/player.js')+'');
 eval(fs.readFileSync('server/classes/jeuServ.js')+'');
 eval(fs.readFileSync('server/classes/room.js')+'');
 
@@ -41,7 +41,6 @@ var roomsName = ['Room n°1','Room n°2','Room n°3'];
 // list des rooms instancié depuis la liste des noms de Rooms
 var rooms = {};
 for (var roomName in roomsName) {
-	console.log(roomsName[roomName]);
 	var tmpRoom = new Room();
 	tmpRoom.init(roomsName[roomName]);
 	rooms[roomsName[roomName]] = tmpRoom;
@@ -84,6 +83,15 @@ io.sockets.on('connection', function (socket)
 	// CLIENT A EMIS SENDCHAT, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATECHAT
 	socket.on('sendchat', function (data) {
 		io.sockets.in(socket.room).emit('updatechat', socket.username, ent.encode(data));
+console.log("startGame : " + ent.encode(data));
+		rooms[socket.room].startGame();
+
+		var test = rooms[socket.room].getPlayers();
+		var listName = {};
+		for(var key in test) {
+			listName[key] = test[key];
+		}
+		io.sockets.in(socket.room).emit('startClientGame', socket.username, listName);
 	});
 
 	/*/ CLIENT A EMIS SENDPOS, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATEPOS
@@ -103,9 +111,9 @@ io.sockets.on('connection', function (socket)
 		socket.room = roomsName[0];          // room 1 par défaut
 		socket.join(roomsName[0]);
 
-console.log(roomsName[0]);
+	// console.log(username);
 		rooms[roomsName[0]].addPlayer(username);
-
+		rooms[roomsName[0]].disp();
 		socket.emit('updatechat', 'SERVER', 'vous êtes connecté à la '+roomsName[0]+'.');  // info au client qu'il s'est connecté
 		socket.broadcast.to(roomsName[0]).emit('updatechat', 'SERVER', username + "s'est connecté à cette Room");  // info a tous les clients sauf le client courant que qqun s'est connecté
 		io.sockets.emit('updateusers', usernames);     // on demande a chaque client de mettre a jour la liste des clients sur sa page
@@ -113,7 +121,7 @@ console.log(roomsName[0]);
 		socket.emit('updaterooms', roomsName, roomsName[0]); // maj des roomsName
 
 		//listOfPlayers[username] = {'tank':null};
-		io.sockets.emit('updatePlayers', rooms[roomsName[0]].getPlayers());
+		//io.sockets.emit('updatePlayers', rooms[roomsName[0]].getPlayers());
 	});
 
 	// CHANGEMENT DE SALLE

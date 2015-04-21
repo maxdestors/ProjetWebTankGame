@@ -8,12 +8,18 @@ var Player = function()
 	/**
 	 *  INITIALISATION
 	 */
-	var init = function (playerName, playerType)
+	var init = function (playerName, playerType, isServeur)
 	{
+		// parametre facultatif : isServeur
+		if (!isServeur || isServeur === false) {
+			isServeur = false;
+		}
+
+
 		name = playerName;
 		type = playerType;
 		tank = new Tank();
-		tank.init(100, 100, 1, 'blue');
+		tank.init(100, 100, 1, 'blue', isServeur);
 	};
 
 
@@ -23,17 +29,17 @@ var Player = function()
 
 	var getType = function () {
 		return type;
-	}
+	};
 	var setType = function (newType) {
 		type = newType;
-	}
+	};
 
 	var getName = function () {
 		return name;
-	}
+	};
 	var setName = function (newName) {
 		name = newName;
-	}
+	};
 
 	var newMove = function (newMovement, state) {
 		switch (newMovement) {
@@ -70,7 +76,44 @@ var Player = function()
 				break;
 		}
 		return tank.getMembers();
-	}
+	};
+
+
+	var moveTank = function (deltaTime) {
+		tank.move(deltaTime);
+	};
+
+	var updateTank = function (newtank) {
+		tank.updateTank(newtank);
+	};
+
+	var drawTank = function (ctx) {
+		tank.draw(ctx);
+	};
+
+	var fireTank = function () {
+		return tank.fire();
+	};
+
+	var rotateWeaponTank = function (mousePosX, mousePosY) {
+		tank.rotateWeapon(mousePosX, mousePosY);
+	};
+
+	var getIsRotatingLeftTank = function () {
+		return tank.getIsRotatingLeft();
+	};
+
+	var getIsMovingForwardTank = function () {
+		return tank.getIsMovingForward();
+	};
+
+	var getIsRotatingRightTank = function () {
+		return tank.getIsRotatingRight();
+	};
+
+	var getIsMovingBackwardTank = function () {
+		return tank.getIsMovingBackward();
+	};
 
 
 
@@ -85,11 +128,16 @@ var Player = function()
 
 
 		newMove: newMove,
+		updateTank: updateTank,
 
-
-		// membres
-		tank: tank,
-
+		moveTank: moveTank,
+		drawTank: drawTank,
+		fireTank: fireTank,
+		rotateWeaponTank: rotateWeaponTank,
+		getIsRotatingLeftTank: getIsRotatingLeftTank,
+		getIsMovingForwardTank: getIsMovingForwardTank,
+		getIsRotatingRightTank: getIsRotatingRightTank,
+		getIsMovingBackwardTank: getIsMovingBackwardTank,
 
 		init: init
 	};

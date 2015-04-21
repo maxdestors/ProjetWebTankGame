@@ -27,7 +27,7 @@ window.addEventListener("load", function ()
 	users = document.querySelector("#users"); 
 
 	game = new Jeu();
-	game.init(username);
+	game.init();
 
 	// BOUTON ENVOYER
 	datasend.addEventListener("click", function (evt) {
@@ -92,7 +92,7 @@ socket.on('updateusers', function (listOfUsers) {
 		var userLineOfHTML = '<div>- ' + name + '</div>';
 		users.innerHTML += userLineOfHTML;
 	}
-    game.soundPlayer(listOfUsers);                              // TODO SOUND
+    //game.soundPlayer(listOfUsers);                              // TODO SOUND
 });
 
 /**
@@ -125,4 +125,16 @@ socket.on('sendAddMissile', function (newMissile) {
  */
 socket.on('updatePlayers', function (listOfplayers) {
 	game.updatePlayers(listOfplayers);   // appel fonction jeu.js
+});
+
+
+
+
+
+
+/**
+ * start Game
+ */
+socket.on('startClientGame', function (username, listOfNames) {
+	game.start(username, listOfNames); 
 });

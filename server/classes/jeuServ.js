@@ -31,11 +31,31 @@ var Jeu = function()
 	/**
 	 *  INITIALISATION
 	 */
-	var init = function ()
+	var init = function (arrayName)
+	{
+		for (var name in arrayName) {
+			allPlayers[name] = new Player();
+			allPlayers[name].init(name, arrayName[name], true)
+		}
+		// for(var valeur in arrayName){
+		// 	console.log(valeur + ' : ' + arrayName[valeur] + '  ');
+		// }
+		console.log('game.init ');
+		console.log(allPlayers);
+		start();
+	};
+
+	var start = function ()
 	{
 		isGameRunning = true;
 		prevTime = new Date().getTime();
 		mainLoop();
+	};
+
+	var stop = function ()
+	{
+		isGameRunning = false;
+		console.log('game stopped');
 	};
 
 	/**
@@ -61,17 +81,21 @@ var Jeu = function()
 		socket.emit('sendNewMove', newMove, state);
 	}
 
+	var newMove = function (name, newMovement, state) {
+		return allPlayers[name].newMove(newMovement, state);
+	};
+
 
 	/**
 	 * MAJ des positions de chaque tank
 	 * 
 	 */
-	function updatePlayerTank (name, tank) {			  // SERT A client.JS
-		if (userName === name) {
-			console.log('name');
-		}
-		allPlayers[name].tank.updateTank(tank);
-	}
+	// function updatePlayerTank (name, tank) {			  // SERT A client.JS
+	// 	if (userName === name) {
+	// 		console.log('name');
+	// 	}
+	// 	allPlayers[name].tank.updateTank(tank);
+	// }
 
 	/**
 	 * ajout d'un nouveau missile
@@ -81,7 +105,7 @@ var Jeu = function()
 		var miss = new Missile();
 		miss.updateMissile(newMissile);
 		allMissiles.push(miss);
-		soundMiss.play();                                                   // TODO new missile sound
+		//soundMiss.play();                                                   // TODO new missile sound
 	}
 
 
@@ -104,19 +128,11 @@ var Jeu = function()
 
 
 	/**
-	 * bouge le tank du joueur
-	 * @param tank
-	 */
-	function moveTank(userTank) {
-		userTank.tank.move(deltaTime/1000);
-	}
-
-	/**
 	 * Bouge tous les joueurs
 	 */
 	function moveAllPlayers() {
 		for (var name in allPlayers) {
-			moveTank(allPlayers[name]);
+			allPlayers[name].moveTank(deltaTime/1000);
 		}
 	}
 
@@ -141,9 +157,11 @@ var Jeu = function()
 	// methodes publiques
 	return {
 		init: init,
+		start: start,
+		stop: stop,
+		newMove: newMove,
 		updatePlayers: updatePlayers,
-		soundPlayer: soundPlayer,
-		updatePlayerTank: updatePlayerTank,
+		// updatePlayerTank: updatePlayerTank,
 		addNewMissile: addNewMissile
 	};
 };

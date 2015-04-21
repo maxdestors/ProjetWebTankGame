@@ -32,7 +32,7 @@ var Tank = function () {
     var imgTourelle = null;
 
 
-	var init = function (newX, newY, newAngle, newColor) {
+	var init = function (newX, newY, newAngle, newColor, isServeur) {
 		x = newX;
 		y = newY;
 		angle = newAngle;
@@ -48,11 +48,14 @@ var Tank = function () {
 		deltaDistance = 0;
 		frame = 0;
 
-        // sprites
-        imgTank = new Image();
-        imgTank.src = '../../img/tanks/grey_tank.png';
-        imgTourelle = new Image();
-        imgTourelle.src = '../../img/tanks/grey_tourelle.png';
+		// isServeur parametre facultatif
+		if (!isServeur || isServeur === false) {
+	        // sprites
+	        imgTank = new Image();
+	        imgTank.src = '../../img/tanks/grey_tank.png';
+	        imgTourelle = new Image();
+	        imgTourelle.src = '../../img/tanks/grey_tourelle.png';
+		}
 	};
 
 	/**

@@ -5,7 +5,7 @@ var Room = function()
 
 
 	var gameState;
-	var players;
+	var playersName;
 
 	var game;
 	
@@ -15,64 +15,70 @@ var Room = function()
 	var init = function (roomTitle)
 	{
 		title = roomTitle;
-		players = new Array();
+		playersName = new Array();
 
 		game = new Jeu();
 		console.log("init room : " + title);
 	};
 
 
-	var startGame = function (name) {
-		game.init();
+	var startGame = function () {
+		game.init(playersName);
 	};
 
 	var addPlayer = function (name) {
-		var type = (players.length >= 4) ? 0 : 1;
-		var newplayer = new Player();
-		newplayer.init(name,type);
-		players[name] = newplayer;
+		var type = (playersName.length >= 4) ? 0 : 1;
+		//var newplayer = new Player();
+		//newplayer.init(name,type);
+		playersName[name] = type;
+		console.log(playersName.length);
+		console.log('addplayer : ' + name + ' = ' + playersName[name]);
 	};
 	var removePlayer = function (name) {
-		players.splice(indexOf(players[name]), 1);
+		delete playersName[name];// .splice(indexOf(name), 1);
+		game.stop();
 	};
 
 
 	var newMove = function (name, newMovement, state) {
-		return players[name].newMove(newMovement, state);
+		return game.newMove(name, newMovement, state);
 	};
 
 	var disp = function () {
 
-		var strDisp = 'Room Title :' + title + 'players : ';
-		for (var i = players.length - 1; i >= 0; i--) {
-			strDisp += players[i].getName() + " : " + players[i].getType() + ", ";
-		}
+		var strDisp = 'Room Title :' + title + ' playersName : ';
+		//playersName.forEach(function(player) {
+			//strDisp += player.getName() + " : " + player.getType() + ", ";
+		    // console.log(player);
+		//});
 		console.log(strDisp);
+		console.log(playersName);
+
 	};
 
 
 	//GETTER / SETTER
 
 	var getPlayers = function () {
-		return players;
+		return playersName;
 	};
 
 
 	// private 
 
-
+/*
 	function findPlayer (name) {
 		var i = 0;
-		while(i < players.length && players[i].getName() != name) {
+		while(i < playersName.length && playersName[i].getName() != name) {
 			i++;
 		}
-		if (players[i].getName() != name) {
+		if (playersName[i].getName() != name) {
 			console.log("name : " + name + " not found !");
 			return null;
 		}
 		return i;
 	}
-
+*/
 
 
 
