@@ -288,6 +288,12 @@ var Tank = function () {
 		ctx.rotate(angle);
 		//ctx.fillStyle = color;
 		//ctx.fillRect(-15, -10, 30, 20);
+        ctx.save();
+        ctx.shadowColor = "#222"; // color
+        ctx.shadowBlur = 10;      // blur level
+        ctx.shadowOffsetX = 2;    // horizontal offset
+        ctx.shadowOffsetY = 2;    // vertical offset
+
         ctx.drawImage(
             imgTank,
             frame * 29,             // coordonnée x de départ
@@ -299,6 +305,7 @@ var Tank = function () {
             29,                     // largeur du morceau d'image
             24);                    // hauteur du morceau d'image
 		//draw tank weapon
+        ctx.restore();
 		ctx.rotate(weaponAngle-angle);
 		//ctx.fillStyle = 'red';
 		//ctx.fillRect(-10, -5, 40, 10);
