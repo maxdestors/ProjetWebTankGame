@@ -44,6 +44,11 @@ var Room = function()
 		return game.newMove(name, newMovement, state);
 	};
 
+	var addNewMissile = function (newMissile) {
+		game.addNewMissile(newMissile);
+	};
+
+
 	var disp = function () {
 		console.log('Room Title :' + title + ' playersName : ');
 		console.log(playersName);
@@ -68,6 +73,7 @@ var Room = function()
 		removePlayer: removePlayer,
 		addPlayer: addPlayer,
 		newMove: newMove,
+		addNewMissile: addNewMissile,
 
 
 		//getter setters

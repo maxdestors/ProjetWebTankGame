@@ -104,6 +104,9 @@ var Jeu = function()
 
 			moveAllPlayers();
 			drawAllPlayers();
+
+			checkCollision();
+
 		}
 		if (isGameRunning) {
 			requestAnimationFrame(mainLoop);
@@ -217,6 +220,54 @@ var Jeu = function()
 		soundMiss.play();
 	}
 
+	function checkCollision() {
+		var xyTank;
+		var xyrMissile;
+		for (var name in allPlayers) {
+			for (var i = allMissiles.length - 1; i >= 0; i--) {
+				
+				xyTank = allPlayers[name].getXYTank();
+				xyrMissile = allMissiles[i].getXYR();
+
+				if (circRectsOverlap(xyTank.x-xyTank.w/2, xyTank.y-xyTank.h/2, xyTank.w, xyTank.h, xyrMissile.x, xyrMissile.y, xyrMissile.r) ) {
+					//faire la vie du tank
+					//allPlayers[name].killTank();
+					killMissile(i);
+				}
+			}
+			
+		}
+	}
+
+	// Teste collisions entre cercles
+	function circleCollide(x1, y1, r1, x2, y2, r2) {
+		var dx = x1 - x2;
+		var dy = y1 - y2;
+		return ((dx * dx + dy * dy) < (r1 + r2)*(r1+r2));  
+	}
+	// Collisions between rectangle
+	function rectsOverlap(x0, y0, w0, h0, x2, y2, w2, h2) {
+		if ((x0 > (x2 + w2)) || ((x0 + w0) < x2))
+		    return false;
+
+		if ((y0 > (y2 + h2)) || ((y0 + h0) < y2))
+		    return false;
+		return true;
+	}
+	// Collisions between rectangle and circle
+	function circRectsOverlap(x0, y0, w0, h0, cx, cy, r) {
+		var testX=cx; 
+		var testY=cy; 
+
+		if (testX < x0) testX=x0; 
+		if (testX > (x0+w0)) testX=(x0+w0); 
+		if (testY < y0) testY=y0; 
+		if (testY > (y0+h0)) testY=(y0+h0); 
+
+		return (((cx-testX)*(cx-testX)+(cy-testY)*(cy-testY))<r*r); 
+	}
+
+
 	/**
 	 * MAJ du tableau des joueurs (connexion et deconnexion)
 	 * @param listOfPlayers
@@ -256,9 +307,13 @@ var Jeu = function()
 	function moveAllMissiles() {
 		for (var i = allMissiles.length - 1; i >= 0; i--) {
 			if (!allMissiles[i].move(deltaTime/1000)) {
-				allMissiles.splice(i, 1);
+				killMissile(i);
 			}
 		};
+	}
+
+	var killMissile = function(i) {
+		allMissiles.splice(i, 1);
 	}
 
 	/**
@@ -296,7 +351,7 @@ var Jeu = function()
      */
 	function showFPS() {
 		fpsContainer = document.createElement('div');
-		fpsContainer.setAttribute('style', 'color: red');
+		fpsContainer.setAttribute('style', 'color: red;');
 		document.querySelector('#fpsSpan').appendChild(fpsContainer);
 	}
 
@@ -329,6 +384,7 @@ var Jeu = function()
 		updatePlayers: updatePlayers,
 		soundPlayer: soundPlayer,
 		updatePlayerTank: updatePlayerTank,
-		addNewMissile: addNewMissile
+		addNewMissile: addNewMissile,
+		killMissile: killMissile
 	};
 };

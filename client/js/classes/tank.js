@@ -19,6 +19,8 @@ var Tank = function ()
 	var deltaDistance;
 	var frame;
 
+	var isAlive;
+
 	/* const */
 	const speedForward = 80;
 	const speedBackward = 40;
@@ -277,6 +279,15 @@ var Tank = function ()
 		}
 	};
 
+	var getXY = function () {
+		return {
+			'x' : x,
+			'y' : y,
+			'w' : 28,
+			'h' : 24
+		}
+	};
+
 
 	/**
 	 * Dessine le tank
@@ -326,6 +337,8 @@ var Tank = function ()
 		getIsMovingBackward: getIsMovingBackward,
 		getIsRotatingLeft: getIsRotatingLeft,
 		getIsRotatingRight: getIsRotatingRight,
+		
+		getXY: getXY,
 		//func
 		init: init,
 		move: move,

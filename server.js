@@ -74,8 +74,10 @@ io.sockets.on('connection', function (socket)
 
 	// envoie du nouveau missile
 	socket.on('sendNewMissile', function (newMissile) {
+		rooms[socket.room].addNewMissile(newMissile);
 		socket.in(socket.room).emit('sendAddMissile', newMissile);
     });
+
 
 	/**
 	*   Pour le chat :
@@ -106,7 +108,7 @@ io.sockets.on('connection', function (socket)
 	// un nouveau utilisateur ce connect
 	socket.on('adduser', function(username)
 	{
-		console.log("disconnect : " + username);
+		console.log("connect : " + username);
 
 		socket.username = username;                              // sorte de session pour stocker username
 		usernames[ent.encode(username)] = ent.encode(username);  // ajout du nom du client a la liste global

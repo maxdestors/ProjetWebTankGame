@@ -96,6 +96,10 @@ socket.on('sendUpdatePlayerTank', function (username, tank) {
 socket.on('sendAddMissile', function (newMissile) {
 	game.addNewMissile(newMissile);   // appel fonction jeu.js
 });
+// remove missile
+socket.on('sendKillMissile', function (i) {
+	game.killMissile(i);   // appel fonction jeu.js
+});
 
 // gestion liste joueurs avec les deconnexions
 socket.on('updatePlayers', function (listOfplayers) {

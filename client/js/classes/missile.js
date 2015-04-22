@@ -66,6 +66,14 @@ var Missile = function () {
 		}
 	};
 
+	var getXYR = function () {
+		return {
+			'x' : x,
+			'y' : y,
+			'r' : rayon
+		}
+	};
+
     /**
      * Dessine le missile
      * @param ctx
@@ -89,6 +97,7 @@ var Missile = function () {
 		move: move,
 		draw: draw,
 		updateMissile: updateMissile,
-		getMembers: getMembers
+		getMembers: getMembers,
+		getXYR: getXYR
 	}
 };

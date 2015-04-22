@@ -121,6 +121,9 @@ var Player = function()
 	var getIsMovingBackwardTank = function () {
 		return tank.getIsMovingBackward();
 	};
+	var getXYTank = function () {
+		return tank.getXY();
+	};
 
 	// methodes publiques
 	return {
@@ -141,6 +144,7 @@ var Player = function()
 		getIsMovingForwardTank: getIsMovingForwardTank,
 		getIsRotatingRightTank: getIsRotatingRightTank,
 		getIsMovingBackwardTank: getIsMovingBackwardTank,
+		getXYTank: getXYTank,
 
 		init: init
 	};

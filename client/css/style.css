@@ -131,3 +131,7 @@ h4 {
 #datasend {
     margin-left: 15px;
 }
+#fpsSpan {
+    text-align: center;
+    color: red;
+}
