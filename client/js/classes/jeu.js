@@ -114,6 +114,8 @@ var Jeu = function()
 	function traiteMouseMove(evt) {
 		mousePos = getMousePos(canvas, evt);
 		allPlayers[userName].rotateWeaponTank(mousePos.x, mousePos.y);
+		sendNewMove('mousePos', {'x' : mousePos.x,
+								 'y' : mousePos.y} );
 		//sendUpdateUserTank();
 	}
 	function getMousePos(canvas, evt) {
@@ -137,6 +139,7 @@ var Jeu = function()
 		if (evt.keyCode === 81) {
 			if (!allPlayers[userName].getIsRotatingLeftTank()) {
 				sendNewMove('isRotatingLeft', 'true');
+				// appliquer les moves ici a chaque fois pour plus de fluidité
 			}
 		}
 		if (evt.keyCode === 90) {

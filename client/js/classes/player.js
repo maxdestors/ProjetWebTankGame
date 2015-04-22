@@ -71,6 +71,14 @@ var Player = function()
 					tank.setIsRotatingRight(false);
 				}
 				break;
+			case 'mousePos':
+				console.log(state);
+				if (!state.x || !state.y) {
+
+				} else {
+					tank.rotateWeapon(state.x, state.y);
+				}
+				break;
 			default:
 				return false;
 				break;

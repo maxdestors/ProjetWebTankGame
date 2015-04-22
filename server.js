@@ -58,6 +58,7 @@ io.sockets.on('connection', function (socket)
 	*/
 	socket.on('sendNewMove', function (newMovement, state) {
 		console.log(newMovement + state);
+		console.log(socket.room);
 		var newTank = rooms[socket.room].newMove(socket.username, newMovement, state);
 
 		if (newTank !== false) {
