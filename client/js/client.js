@@ -4,15 +4,10 @@
 
 var usernameAsk, regex, res;
 var conversation, data, datasend, users;
-
-
 var game;
 var socket = io.connect();
 
-
-/**
- * ONLOAD : AU CHARGEMENT DE LA PAGE
- */
+// chargement de la page
 window.addEventListener("load", function ()
 {
 	conversation = document.querySelector("#conversation");
@@ -24,46 +19,37 @@ window.addEventListener("load", function ()
 	game = new Jeu();
 	game.init();
 
-	// BOUTON Start
+	// bouton start
 	startGameBtn.addEventListener("click", function (evt) {
         socket.emit('startGame');
 	});
-	// BOUTON ENVOYER
+	// bouton envoyer
 	datasend.addEventListener("click", function() {
 		sendMessage();
 	});
 
-	// TEST APPUI ENTER + TEST SI DANS INPUT
+	// test appui sur enter et test si dans input
 	data.addEventListener("keypress", function (evt) {
-		// if pressed ENTER, then send
 		if(evt.keyCode === 13) {
 			this.focus();
 			sendMessage();
 		}
 	});
 
-
-	/**
-	 *  CONNEXION SERVER ET DEMANDE PSEUDO
-	 */
-	socket.on('connect', function(){	  // call the server-side function 'adduser' and send one parameter (value of prompt)
+    // connexion server et demande pseudo
+	socket.on('connect', function(){
 		getPseudo();
 		socket.emit('adduser', usernameAsk);
 	});
 });
 
-
-/**
- * UPDATE TCHAT
- */
+// update chat
 socket.on('updatechat', function (username, data) {
 	var chatMessage = "<div><b>" + username + ":</b> " + data + "</br></div>";
 	conversation.innerHTML += chatMessage;
 });
 
-/**
- * SERVEUR EMET UPDATE ROOM
- */
+// le serveur emet update rooms
 socket.on('updaterooms', function (rooms, current_room) {
 	var rms = document.querySelector("#rooms");
 	rms.innerHTML = null;
@@ -77,89 +63,64 @@ socket.on('updaterooms', function (rooms, current_room) {
 	}
 });
 
-/**
- * CHANGEMENT DE SALLE
- * @param room
- */
+// changement de salle
 function switchRoom(room){
 	socket.emit('switchRoom', room);
 }
 
-/**
- * UPDATE LISTE AVEC LE NOUVEAU JOUEURs
- */
+// mise à jour de la liste avec le nouveau joueur
 socket.on('updateusers', function (listOfUsers) {
 	users.innerHTML = "";
 	for(var name in listOfUsers) {
 		var userLineOfHTML = '<div>- ' + name + '</div>';
 		users.innerHTML += userLineOfHTML;
 	}
-    //game.soundPlayer(listOfUsers);                              // TODO SOUND
 });
 
-/**
- * ENVOIE DU MESSAGE SENDCHAT AU SERVER
- */
+// envoie du message sendchat au serveur
 function sendMessage() {
     var message = data.value;
-    if(message != "") {        // TODO rom
+    if(message != "") {
         data.value = "";       // on efface l'input
         socket.emit('sendchat', message);
     }
 }
 
-/**
- * POSITION DU JOUEUR
- */
+// position du joueur
 socket.on('sendUpdatePlayerTank', function (username, tank) {
 	console.log(username);
 	game.updatePlayerTank(username, tank);   // appel fonction jeu.js
 });
 
-/**
- * Nouveau missile tiré
- */
+// nouveau missile tiré
 socket.on('sendAddMissile', function (newMissile) {
 	game.addNewMissile(newMissile);   // appel fonction jeu.js
 });
 
-/**
- * GESTION LISTE JOUEUR AVEC LES DECONNEXIONS
- */
+// gestion liste joueurs avec les deconnexions
 socket.on('updatePlayers', function (listOfplayers) {
 	game.updatePlayers(listOfplayers);   // appel fonction jeu.js
 });
 
-
-/**
- * Obtenir le pseudo
- */
+// obtention du pseudo
 function getPseudo() {
-    do
-    {
-        usernameAsk = prompt("Votre pseudo ?");	            // STOCKE NOM DU JOUEUR
+    do {
+        usernameAsk = prompt("Votre pseudo ?");	            // stocke le nom du joueur
         //usernameAsk = getUserName();
-        regex = new RegExp('^[a-z0-9A-Zéèêàâîô]{3,17}$');   // Pseudo de 3 à 17 caractères autorisés
+        regex = new RegExp('^[a-z0-9A-Zéèêàâîô]{3,17}$');   // pseudo de 3 à 17 caractères autorisés
         res = regex.test(usernameAsk);
     }
     while(res !== true);
 }
 
-
-
-
-/**
- * start Game
- */
+// start game
 socket.on('startClientGame', function (listOfNames) {
 	console.log('Start THE GAME');
 	game.start(usernameAsk, listOfNames);
 	startGameBtn.disabled = true;
 });
 
-/**
- * start Game
- */
+// stop game
 socket.on('stopClientGame', function () {
 	game.stop();
 	startGameBtn.disabled = false;

@@ -2,7 +2,8 @@
  * Created by Romain on 20/02/2015.
  */
 
-var Tank = function () {
+var Tank = function ()
+{
 	var x, y;
 	var angle;
 	var weaponAngle;
@@ -237,7 +238,6 @@ var Tank = function () {
 		mouseX = newtank.mouseX;
 		mouseY = newtank.mouseY;
 
-
 		isMovingForward = newtank.isMovingForward;
 		isMovingBackward = newtank.isMovingBackward;
 		isRotatingLeft = newtank.isRotatingLeft;
@@ -259,7 +259,6 @@ var Tank = function () {
 	var getIsRotatingRight = function () {
 		return isRotatingRight;
 	};
-
 	var getMembers = function () {
 		return {
 			'x' : x,
@@ -280,23 +279,18 @@ var Tank = function () {
 
 
 	/**
-	 * Draw
+	 * Dessine le tank
 	 */
-
 	var draw = function (ctx, username) {
 		ctx.save();
-		//sent pos
-		ctx.translate(x,y);
-		//draw tank body
+		ctx.translate(x,y);       //envoie position
+
+        // draw :
 		ctx.rotate(angle);
-
-
 		ctx.font = "8pt Calibri,Geneva,Arial";
 	    ctx.fillStyle = "rgb(0,20,180)";
 	    ctx.fillText(username, 0, 0);
 
-		//ctx.fillStyle = color;
-		//ctx.fillRect(-15, -10, 30, 20);
         ctx.save();
         ctx.shadowColor = "#222"; // color
         ctx.shadowBlur = 10;      // blur level
@@ -305,27 +299,22 @@ var Tank = function () {
 
         ctx.drawImage(
             imgTank,
-            frame * 29,             // coordonnée x de départ
-            0,                      // coordonnée y de départ
-            28,                     // largeur du morceau d'image
-            24,                     // hauteur du morceau d'image
-            -14.5,                  // x pos par rapport au canvas
-            -12,                    // y pos par rapport au canvas
-            29,                     // largeur du morceau d'image
-            24);                    // hauteur du morceau d'image
+            frame * 29,           // coordonnée x de départ
+            0,                    // coordonnée y de départ
+            28,                   // largeur du morceau d'image
+            24,                   // hauteur du morceau d'image
+            -14.5,                // x pos par rapport au canvas
+            -12,                  // y pos par rapport au canvas
+            29,                   // largeur du morceau d'image
+            24);                  // hauteur du morceau d'image
 		//draw tank weapon
         ctx.restore();
 		ctx.rotate(weaponAngle-angle);
-		//ctx.fillStyle = 'red';
-		//ctx.fillRect(-10, -5, 40, 10);
-		// ctx.fillRect(0, 0, 1, 1)
         ctx.drawImage(imgTourelle, -16, -7);
-
 		ctx.restore();
 	};
 
-
-
+    // methodes publiques
 	return {
 		//set params
 		setIsMovingForward: setIsMovingForward,
@@ -346,5 +335,4 @@ var Tank = function () {
 		rotateWeapon: rotateWeapon,
 		fire: fire
 	}
-
 };
