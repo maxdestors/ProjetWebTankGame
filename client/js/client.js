@@ -88,7 +88,6 @@ function sendMessage() {
 
 // position du joueur
 socket.on('sendUpdatePlayerTank', function (username, tank) {
-	console.log(username);
 	game.updatePlayerTank(username, tank);   // appel fonction jeu.js
 });
 

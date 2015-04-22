@@ -19,7 +19,7 @@ var Tank = function ()
 	var deltaDistance;
 	var frame;
 
-	var isAlive;
+	var hitPoint;
 
 	/* const */
 	const speedForward = 80;
@@ -27,7 +27,9 @@ var Tank = function ()
 	const rotateSpeed = 3;
 	const weaponRotateSpeed = 4;
 
-	const lengthWeapon = 18;     // ou les missiles commence
+	const maxHitPoint = 3;
+
+	const lengthWeapon = 20;     // ou les missiles commence
 
     // test sprite
     var imgTank = null;
@@ -46,18 +48,27 @@ var Tank = function ()
 		isMovingBackward = false;
 		isRotatingLeft = false;
 		isRotatingRight = false;
+		hitPoint = maxHitPoint;
 
 		deltaDistance = 0;
 		frame = 0;
 
 		// isServeur parametre facultatif
 		if (!isServeur || isServeur === false) {
+
+			// if numCouleur == 1
+			// img = orange_tank
+			
 	        // sprites
 	        imgTank = new Image();
 	        imgTank.src = '../../img/tanks/grey_tank.png';
 	        imgTourelle = new Image();
 	        imgTourelle.src = '../../img/tanks/grey_tourelle.png';
 		}
+
+
+
+
 	};
 
 	/**
@@ -214,6 +225,14 @@ var Tank = function ()
 		return newMissile;
 	};
 
+	var hit = function() {
+		hitPoint--;
+	};
+
+	var isDestroyed = function() {
+		return (hitPoint > 0) ? false : true;
+	};
+
 	/**
 	 *  Setters
 	 */
@@ -245,6 +264,7 @@ var Tank = function ()
 		isRotatingLeft = newtank.isRotatingLeft;
 		isRotatingRight = newtank.isRotatingRight;
 	};
+
 
 	/**
 	 *  Getters
@@ -296,11 +316,21 @@ var Tank = function ()
 		ctx.save();
 		ctx.translate(x,y);       //envoie position
 
+		ctx.beginPath();
+		ctx.lineWidth="1";
+		ctx.strokeStyle="rgb(0, 255, 0)";
+		ctx.rect(-15,-20,30,5);
+		ctx.stroke();
+
+		ctx.fillStyle="rgb(0, 255, 0)";
+		ctx.fillRect(-15,-20,30*hitPoint/maxHitPoint,5);
+
         // draw :
-		ctx.rotate(angle);
 		ctx.font = "8pt Calibri,Geneva,Arial";
 	    ctx.fillStyle = "rgb(0,20,180)";
-	    ctx.fillText(username, 0, 0);
+	    ctx.fillText(username, -15,-20);
+
+		ctx.rotate(angle);
 
         ctx.save();
         ctx.shadowColor = "#222"; // color
@@ -346,6 +376,8 @@ var Tank = function ()
 		updateTank: updateTank,
 		getMembers: getMembers,
 		rotateWeapon: rotateWeapon,
-		fire: fire
+		fire: fire,
+		hit: hit,
+		isDestroyed: isDestroyed
 	}
 };

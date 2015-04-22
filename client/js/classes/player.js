@@ -18,7 +18,7 @@ var Player = function()
 		name = playerName;
 		type = playerType;
 		tank = new Tank();
-		tank.init(100, 100, 1, 'blue', isServeur);
+		tank.init(100, 100, 0, 'blue', isServeur);
 	};
 
 	/* 
@@ -108,6 +108,15 @@ var Player = function()
 		tank.rotateWeapon(mousePosX, mousePosY);
 	};
 
+
+	var hitTank = function () {
+		tank.hit();
+	};
+
+	var isTankDestroyed = function () {
+		return tank.isDestroyed();
+	};
+
     // mouvements tanks :
 	var getIsRotatingLeftTank = function () {
 		return tank.getIsRotatingLeft();
@@ -140,6 +149,9 @@ var Player = function()
 		drawTank: drawTank,
 		fireTank: fireTank,
 		rotateWeaponTank: rotateWeaponTank,
+		hitTank: hitTank,
+		isTankDestroyed: isTankDestroyed,
+
 		getIsRotatingLeftTank: getIsRotatingLeftTank,
 		getIsMovingForwardTank: getIsMovingForwardTank,
 		getIsRotatingRightTank: getIsRotatingRightTank,

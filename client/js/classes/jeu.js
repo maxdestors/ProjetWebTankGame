@@ -50,10 +50,18 @@ var Jeu = function()
 	{
 		userName = newuserName;
 
+		for (var name in allPlayers) {
+			delete allPlayers[name];
+		}
+
+		// ici on set les couleur et x , y du tank qu'on passe en parame a init()
 		for (var name in listOfplayers) {
 			allPlayers[name] = new Player();
 			allPlayers[name].init(name, listOfplayers[name])
 		}
+
+		// sendNewMove('isRotatingLeft', 'false');
+
 
 		// affiche FPS pour debug
 		showFPS();
@@ -73,21 +81,24 @@ var Jeu = function()
 
 	var stop = function ()
 	{
-		for (var name in allPlayers) {
-			delete allPlayers[name];
-		}
+		isGameRunning = false;
+
 
 		hideFPS();
 
 		// Les écouteurs
+		removeEvents();
+		clearCanvas();
+
+		console.log('game stopped');
+	};
+
+	function removeEvents () {
 		canvas.removeEventListener("mousedown", traiteMouseDown);
 		canvas.removeEventListener("mousemove", traiteMouseMove);
 		document.removeEventListener('keydown', traiteKeyDown, false);
 		document.removeEventListener('keyup', traiteKeyUp, false);
-
-		isGameRunning = false;
-    console.log('game stopped');
-};
+	}
 
 	/**
 	 * ANIMATION MAINLOOP
@@ -224,18 +235,59 @@ var Jeu = function()
 		var xyTank;
 		var xyrMissile;
 		for (var name in allPlayers) {
-			for (var i = allMissiles.length - 1; i >= 0; i--) {
-				
-				xyTank = allPlayers[name].getXYTank();
-				xyrMissile = allMissiles[i].getXYR();
+			if (!allPlayers[name].isTankDestroyed()) {
 
-				if (circRectsOverlap(xyTank.x-xyTank.w/2, xyTank.y-xyTank.h/2, xyTank.w, xyTank.h, xyrMissile.x, xyrMissile.y, xyrMissile.r) ) {
-					//faire la vie du tank
-					//allPlayers[name].killTank();
-					killMissile(i);
+				for (var i = allMissiles.length - 1; i >= 0; i--) {
+					
+					xyTank = allPlayers[name].getXYTank();
+					xyrMissile = allMissiles[i].getXYR();
+
+					if (circRectsOverlap(xyTank.x-xyTank.w/2, xyTank.y-xyTank.h/2, xyTank.w, xyTank.h, xyrMissile.x, xyrMissile.y, xyrMissile.r) ) {
+						//faire la vie du tank
+						allPlayers[name].hitTank()
+						if (allPlayers[name].isTankDestroyed()) {
+							if (name === userName) {
+								removeEvents();
+								// dans clear canvas ajouter un "voile" (fond noir avec transparence) sur le canvas
+								// if (allPlayers[userName].isTankDestroyed()) {
+							}
+							afterDeath();
+						}
+						killMissile(i);
+					}
 				}
 			}
 			
+		}
+	}
+
+	function afterDeath () {
+		// does it left more than 1 player alive
+		var cptStillAlive = 0;
+		var winnerName;
+		for (var name in allPlayers) {
+			if (!allPlayers[name].isTankDestroyed()) {
+				cptStillAlive++;
+				winnerName = name;
+			}
+		}
+		if (cptStillAlive == 1) {
+			console.log('Winner : ' + winnerName);
+			alert('Winner : ' + winnerName);
+			//send winnerName
+//			if (winnerName === userName) {
+//				socket.emit('imTheWinner');
+//			}
+			stop();
+			document.querySelector("#startGameBtn").disabled = false;
+			//send stop
+		}
+		else if(cptStillAlive < 1) {
+			// send no winner
+			console.log('No Winner');
+			alert('No Winner');
+			stop();
+			document.querySelector("#startGameBtn").disabled = false;
 		}
 	}
 
@@ -288,7 +340,9 @@ var Jeu = function()
 	 */
 	function drawAllPlayers() {
 		for (var name in allPlayers) {
-			allPlayers[name].drawTank(ctx, name);
+			if (!allPlayers[name].isTankDestroyed()) {
+				allPlayers[name].drawTank(ctx, name);
+			}
 		}
 	}
 
@@ -297,7 +351,9 @@ var Jeu = function()
 	 */
 	function moveAllPlayers() {
 		for (var name in allPlayers) {
-			allPlayers[name].moveTank(deltaTime/1000);
+			if (!allPlayers[name].isTankDestroyed()) {
+				allPlayers[name].moveTank(deltaTime/1000);
+			}
 		}
 	}
 
@@ -351,7 +407,6 @@ var Jeu = function()
      */
 	function showFPS() {
 		fpsContainer = document.createElement('div');
-		fpsContainer.setAttribute('style', 'color: red;');
 		document.querySelector('#fpsSpan').appendChild(fpsContainer);
 	}
 

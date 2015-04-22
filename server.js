@@ -79,19 +79,13 @@ io.sockets.on('connection', function (socket)
     });
 
 
-	/**
-	*   Pour le chat :
-	*/
-
-	// client a emis sendchat, on ecoute et renvoie au client pour executer updatechat
-	socket.on('sendchat', function (data) {
-		console.log(socket.username + " a ecrit : " + ent.encode(data));
-		io.sockets.in(socket.room).emit('updatechat', socket.username, ent.encode(data));
-	});
 
 	// start game
 	socket.on('startGame', function () {
 
+		if (rooms[socket.room].getIsGameRunning()) {
+			return;
+		}
 		/* START THE GAME */
 		console.log("startGame : " + socket.username);
 
@@ -102,14 +96,34 @@ io.sockets.on('connection', function (socket)
 		for(var keyName in test) {
 			listName[keyName] = test[keyName];
 		}
+		// en plus aller chercher la list des tanks
 		io.sockets.in(socket.room).emit('startClientGame', listName);
+	});
+/*
+	// winner point
+	socket.on('imTheWinner', function () {
+		// score[socket.username] ++;
+		io.sockets.in(socket.room).emit('updateusers', usernames , score);
+
+	});
+*/
+	/**
+	*   Pour le chat :
+	*/
+
+	// client a emis sendchat, on ecoute et renvoie au client pour executer 
+	socket.on('sendchat', function (data) {
+		console.log(socket.username + " a ecrit : " + ent.encode(data));
+		io.sockets.in(socket.room).emit('updatechat', socket.username, ent.encode(data));
 	});
 
 	// un nouveau utilisateur ce connect
 	socket.on('adduser', function(username)
 	{
+		if (!username) {
+			return;
+		}
 		console.log("connect : " + username);
-
 		socket.username = username;                              // sorte de session pour stocker username
 		usernames[ent.encode(username)] = ent.encode(username);  // ajout du nom du client a la liste global
 

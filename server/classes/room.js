@@ -60,6 +60,9 @@ var Room = function()
 	var getPlayers = function () {
 		return playersName;
 	};
+	var getIsGameRunning = function () {
+		return game.getIsGameRunning();
+	};
 
 
 
@@ -78,6 +81,7 @@ var Room = function()
 
 		//getter setters
 		getPlayers: getPlayers,
+		getIsGameRunning: getIsGameRunning,
 
 		disp: disp
 	};
