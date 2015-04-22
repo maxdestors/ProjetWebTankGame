@@ -1,12 +1,13 @@
 /**
  * Created by Romain on 18/02/2015.
  */
+var usernameAsk;
 
 do
 {   // TODO rom
-	var username = prompt("Votre pseudo ?");	            // STOCKE NOM DU JOUEUR
+	usernameAsk = prompt("Votre pseudo ?");	            // STOCKE NOM DU JOUEUR
     var regex = new RegExp('^[a-z0-9A-Zéèêàâîô]{3,17}$');   // Pseudo de 3 à 17 caractères autorisés
-    var res = regex.test(username);
+    var res = regex.test(usernameAsk);
 }
 while(res !== true);
 
@@ -42,14 +43,16 @@ window.addEventListener("load", function ()
 			sendMessage();
 		}
 	});
+
+
+	/**
+	 *  CONNEXION SERVER ET DEMANDE PSEUDO
+	 */
+	socket.on('connect', function(){	  // call the server-side function 'adduser' and send one parameter (value of prompt)
+		socket.emit('adduser', usernameAsk);
+	});
 });
 
-/**
- *  CONNEXION SERVER ET DEMANDE PSEUDO
- */
-socket.on('connect', function(){	  // call the server-side function 'adduser' and send one parameter (value of prompt)
-	socket.emit('adduser', username);
-});
 
 /**
  * UPDATE TCHAT
@@ -110,6 +113,7 @@ function sendMessage() {
  * POSITION DU JOUEUR
  */
 socket.on('sendUpdatePlayerTank', function (username, tank) {
+	console.log(username);
 	game.updatePlayerTank(username, tank);   // appel fonction jeu.js
 });
 
@@ -135,6 +139,7 @@ socket.on('updatePlayers', function (listOfplayers) {
 /**
  * start Game
  */
-socket.on('startClientGame', function (username, listOfNames) {
-	game.start(username, listOfNames); 
+socket.on('startClientGame', function (listOfNames) {
+	console.log('Start THE GAME');
+	game.start(usernameAsk, listOfNames); 
 });

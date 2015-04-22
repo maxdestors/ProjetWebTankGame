@@ -284,12 +284,18 @@ var Tank = function () {
 	 * Draw
 	 */
 
-	var draw = function (ctx) {
+	var draw = function (ctx, username) {
 		ctx.save();
 		//sent pos
 		ctx.translate(x,y);
 		//draw tank body
 		ctx.rotate(angle);
+
+
+		ctx.font = "8pt Calibri,Geneva,Arial";
+	    ctx.fillStyle = "rgb(0,20,180)";
+	    ctx.fillText(username, 0, 0);
+
 		//ctx.fillStyle = color;
 		//ctx.fillRect(-15, -10, 30, 20);
         ctx.drawImage(

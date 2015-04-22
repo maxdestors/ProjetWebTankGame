@@ -51,13 +51,10 @@ var Jeu = function()
 	{
 		userName = newuserName;
 
-		console.log('lol');
-		console.log(listOfplayers);
 		for (var name in listOfplayers) {
 			allPlayers[name] = new Player();
 			allPlayers[name].init(name, listOfplayers[name])
 		}
-		console.log(allPlayers);
 
 		// affiche FPS pour debug
 		showFPS();
@@ -139,22 +136,22 @@ var Jeu = function()
 		// 40   Down arrow    ||  83   S
 		if (evt.keyCode === 81) {
 			if (!allPlayers[userName].getIsRotatingLeftTank()) {
-				sendNewMove('isMovingForward', true);
+				sendNewMove('isRotatingLeft', 'true');
 			}
 		}
 		if (evt.keyCode === 90) {
 			if (!allPlayers[userName].getIsMovingForwardTank()) {
-				sendNewMove('isMovingBackward', true);
+				sendNewMove('isMovingForward', 'true');
 			}
 		}
 		if (evt.keyCode === 68) {
 			if (!allPlayers[userName].getIsRotatingRightTank()) {
-				sendNewMove('isRotatingLeft', true);
+				sendNewMove('isRotatingRight', 'true');
 			}
 		}
 		if (evt.keyCode === 83) {
 			if (!allPlayers[userName].getIsMovingBackwardTank()) {
-				sendNewMove('isRotatingRight', true);
+				sendNewMove('isMovingBackward', 'true');
 			}
 		}
 	}
@@ -162,22 +159,22 @@ var Jeu = function()
 		//console.log("keyUp"+evt.keyCode);
 		if (evt.keyCode === 81) {
 			if (allPlayers[userName].getIsRotatingLeftTank()) {
-				sendNewMove('isMovingForward', false);
+				sendNewMove('isRotatingLeft', 'false');
 			}
 		}
 		if (evt.keyCode === 90) {
 			if (allPlayers[userName].getIsMovingForwardTank()) {
-				sendNewMove('isMovingBackward', false);
+				sendNewMove('isMovingForward', 'false');
 			}
 		}
 		if (evt.keyCode === 68) {
 			if (allPlayers[userName].getIsRotatingRightTank()) {
-				sendNewMove('isRotatingLeft', false);
+				sendNewMove('isRotatingRight', 'false');
 			}
 		}
 		if (evt.keyCode === 83) {
 			if (allPlayers[userName].getIsMovingBackwardTank()) {
-				sendNewMove('isRotatingRight', false);
+				sendNewMove('isMovingBackward', 'false');
 			}
 		}
 	}
@@ -241,7 +238,7 @@ var Jeu = function()
 	 */
 	function drawAllPlayers() {
 		for (var name in allPlayers) {
-			allPlayers[name].drawTank(ctx);
+			allPlayers[name].drawTank(ctx, name);
 		}
 	}
 

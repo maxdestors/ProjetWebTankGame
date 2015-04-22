@@ -57,9 +57,14 @@ io.sockets.on('connection', function (socket)
 	*  GAME
 	*/
 	socket.on('sendNewMove', function (newMovement, state) {
-		var newTank = rooms[socket.room].newMove(socket.username, newMovement, state)
+		console.log(newMovement + state);
+		var newTank = rooms[socket.room].newMove(socket.username, newMovement, state);
+
 		if (newTank !== false) {
-			socket.in(socket.room).emit('sendUpdatePlayerTank', socket.username, newTank);
+			console.log('passs');
+			// socket.in(socket.room).emit('sendUpdatePlayerTank', socket.username, newTank);
+			socket.broadcast.to(socket.room).emit('sendUpdatePlayerTank', socket.username, newTank);
+			socket.emit('sendUpdatePlayerTank', socket.username, newTank);
 		}
 	});
 
@@ -83,15 +88,17 @@ io.sockets.on('connection', function (socket)
 	// CLIENT A EMIS SENDCHAT, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATECHAT
 	socket.on('sendchat', function (data) {
 		io.sockets.in(socket.room).emit('updatechat', socket.username, ent.encode(data));
+
+		/* START THE GAME */
 console.log("startGame : " + ent.encode(data));
 		rooms[socket.room].startGame();
 
 		var test = rooms[socket.room].getPlayers();
 		var listName = {};
-		for(var key in test) {
-			listName[key] = test[key];
+		for(var keyName in test) {
+			listName[keyName] = test[keyName];
 		}
-		io.sockets.in(socket.room).emit('startClientGame', socket.username, listName);
+		io.sockets.in(socket.room).emit('startClientGame', listName);
 	});
 
 	/*/ CLIENT A EMIS SENDPOS, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATEPOS
@@ -106,7 +113,6 @@ console.log("startGame : " + ent.encode(data));
 	{
 		socket.username = ent.encode(username);   // sorte de session pour stocker username
 		usernames[username] = username;  // ajout du nom du client a la liste global
-
 
 		socket.room = roomsName[0];          // room 1 par défaut
 		socket.join(roomsName[0]);

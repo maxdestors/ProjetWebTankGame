@@ -44,28 +44,28 @@ var Player = function()
 	var newMove = function (newMovement, state) {
 		switch (newMovement) {
 			case 'isMovingForward':
-				if (state === true) {
+				if (state === 'true') {
 					tank.setIsMovingForward(true);
 				} else {
 					tank.setIsMovingForward(false);
 				}
 				break;
 			case 'isMovingBackward':
-				if (state === true) {
+				if (state === 'true') {
 					tank.setIsMovingBackward(true);
 				} else {
 					tank.setIsMovingBackward(false);
 				}
 				break;
 			case 'isRotatingLeft':
-				if (state === true) {
+				if (state === 'true') {
 					tank.setIsRotatingLeft(true);
 				} else {
 					tank.setIsRotatingLeft(false);
 				}
 				break;
 			case 'isRotatingRight':
-				if (state === true) {
+				if (state === 'true') {
 					tank.setIsRotatingRight(true);
 				} else {
 					tank.setIsRotatingRight(false);
@@ -87,8 +87,8 @@ var Player = function()
 		tank.updateTank(newtank);
 	};
 
-	var drawTank = function (ctx) {
-		tank.draw(ctx);
+	var drawTank = function (ctx, username) {
+		tank.draw(ctx, username);
 	};
 
 	var fireTank = function () {
