@@ -6,6 +6,8 @@ var Jeu = function()
 {
 	var canvas, ctx, w, h;
 
+	var isGameRunning;
+
 	var mousePos;
 	var userName;
 	var allPlayers = {};
@@ -29,13 +31,9 @@ var Jeu = function()
 	/**
 	 *  INITIALISATION
 	 */
-	var init = function (newuserName)
+	var init = function ()
 	{
 		console.log("initialisation ok");
-		userName = newuserName;
-		//tmp
-		//tank = new Tank();
-		//tank.init();
 
 		// Le canvas
 		canvas = document.querySelector("#tankCanvas");
@@ -43,9 +41,20 @@ var Jeu = function()
 		h = canvas.height;
 		ctx = canvas.getContext('2d');
 
+
 		// charge les sons
 		soundMiss = new Audio("sound/missile.wav");
 		soundNewPlayer = new Audio("sound/welcome.wav");
+	};
+
+	var start = function (newuserName, listOfplayers)
+	{
+		userName = newuserName;
+
+		for (var name in listOfplayers) {
+			allPlayers[name] = new Player();
+			allPlayers[name].init(name, listOfplayers[name])
+		}
 
 		// affiche FPS pour debug
 		showFPS();
@@ -57,8 +66,28 @@ var Jeu = function()
 		document.addEventListener('keyup', traiteKeyUp, false);
 
 		prevTime = new Date().getTime();
+
+		isGameRunning = true;
+		
 		requestAnimationFrame(mainLoop);
 	};
+
+	var stop = function ()
+	{
+		for (var name in allPlayers) {
+			delete allPlayers[name];
+		}
+
+		// Les écouteurs
+		canvas.removeEventListener("mousedown", traiteMouseDown);
+		canvas.removeEventListener("mousemove", traiteMouseMove);
+		document.removeEventListener('keydown', traiteKeyDown, false);
+		document.removeEventListener('keyup', traiteKeyUp, false);
+
+		isGameRunning = false;
+		console.log('game stopped');
+	};
+
 
 	/**
 	 * ANIMATION MAINLOOP
@@ -76,7 +105,9 @@ var Jeu = function()
 			moveAllPlayers();
 			drawAllPlayers();
 		}
-		requestAnimationFrame(mainLoop);
+		if (isGameRunning) {
+			requestAnimationFrame(mainLoop);
+		}
 	}
 
 	/**
@@ -85,15 +116,17 @@ var Jeu = function()
 	 */
 	function traiteMouseDown(evt) {
 		soundMiss.play();                                                   // TODO new missile sound
-		var missile = allPlayers[userName].tank.fire();
+		var missile = allPlayers[userName].fireTank();
 		socket.emit('sendNewMissile', missile.getMembers());
 		allMissiles.push(missile);
 		//console.log("mousedown");
 	}
 	function traiteMouseMove(evt) {
 		mousePos = getMousePos(canvas, evt);
-		allPlayers[userName].tank.rotateWeapon(mousePos.x, mousePos.y);
-		sendUpdateUserTank();
+		allPlayers[userName].rotateWeaponTank(mousePos.x, mousePos.y);
+		sendNewMove('mousePos', {'x' : mousePos.x,
+								 'y' : mousePos.y} );
+		//sendUpdateUserTank();
 	}
 	function getMousePos(canvas, evt) {
 		var rect = canvas.getBoundingClientRect();
@@ -114,61 +147,59 @@ var Jeu = function()
 		// 39   Right arrow   ||  68   D
 		// 40   Down arrow    ||  83   S
 		if (evt.keyCode === 81) {
-			if (!allPlayers[userName].tank.getIsRotatingLeft()) {
-				allPlayers[userName].tank.setIsRotatingLeft(true);
-				sendUpdateUserTank();
+			if (!allPlayers[userName].getIsRotatingLeftTank()) {
+				sendNewMove('isRotatingLeft', 'true');
+				// appliquer les moves ici a chaque fois pour plus de fluidité
 			}
 		}
 		if (evt.keyCode === 90) {
-			if (!allPlayers[userName].tank.getIsMovingForward()) {
-				allPlayers[userName].tank.setIsMovingForward(true);
-				sendUpdateUserTank();
+			if (!allPlayers[userName].getIsMovingForwardTank()) {
+				sendNewMove('isMovingForward', 'true');
 			}
 		}
 		if (evt.keyCode === 68) {
-			if (!allPlayers[userName].tank.getIsRotatingRight()) {
-				allPlayers[userName].tank.setIsRotatingRight(true);
-				sendUpdateUserTank();
+			if (!allPlayers[userName].getIsRotatingRightTank()) {
+				sendNewMove('isRotatingRight', 'true');
 			}
 		}
 		if (evt.keyCode === 83) {
-			if (!allPlayers[userName].tank.getIsMovingBackward()) {
-				allPlayers[userName].tank.setIsMovingBackward(true);
-				sendUpdateUserTank();
+			if (!allPlayers[userName].getIsMovingBackwardTank()) {
+				sendNewMove('isMovingBackward', 'true');
 			}
 		}
 	}
 	function traiteKeyUp(evt) {
 		//console.log("keyUp"+evt.keyCode);
 		if (evt.keyCode === 81) {
-			if (allPlayers[userName].tank.getIsRotatingLeft()) {
-				allPlayers[userName].tank.setIsRotatingLeft(false);
-				sendUpdateUserTank();
+			if (allPlayers[userName].getIsRotatingLeftTank()) {
+				sendNewMove('isRotatingLeft', 'false');
 			}
 		}
 		if (evt.keyCode === 90) {
-			if (allPlayers[userName].tank.getIsMovingForward()) {
-				allPlayers[userName].tank.setIsMovingForward(false);
-				sendUpdateUserTank();
+			if (allPlayers[userName].getIsMovingForwardTank()) {
+				sendNewMove('isMovingForward', 'false');
 			}
 		}
 		if (evt.keyCode === 68) {
-			if (allPlayers[userName].tank.getIsRotatingRight()) {
-				allPlayers[userName].tank.setIsRotatingRight(false);
-				sendUpdateUserTank();
+			if (allPlayers[userName].getIsRotatingRightTank()) {
+				sendNewMove('isRotatingRight', 'false');
 			}
 		}
 		if (evt.keyCode === 83) {
-			if (allPlayers[userName].tank.getIsMovingBackward()) {
-				allPlayers[userName].tank.setIsMovingBackward(false);
-				sendUpdateUserTank();
+			if (allPlayers[userName].getIsMovingBackwardTank()) {
+				sendNewMove('isMovingBackward', 'false');
 			}
 		}
 	}
 
-	function sendUpdateUserTank () {
-		socket.emit('sendUpdateUserTank', allPlayers[userName].tank.getMembers());
+	function sendNewMove (newMove, state) {
+		socket.emit('sendNewMove', newMove, state);
 	}
+
+	var newMove = function (name, newMovement, state) {
+		return playersName[name].newMove(newMovement, state);
+	};
+
 
 
 	/**
@@ -176,10 +207,10 @@ var Jeu = function()
 	 * 
 	 */
 	function updatePlayerTank (name, tank) {			  // SERT A client.JS
-		if (userName == name) {
+		if (userName === name) {
 			console.log('name');
 		}
-		allPlayers[name].tank.updateTank(tank);
+		allPlayers[name].updateTank(tank);
 	}
 
 	/**
@@ -200,12 +231,13 @@ var Jeu = function()
 	 */
 	function updatePlayers (listOfPlayers) {
 		allPlayers = listOfPlayers;
-		for (var name in allPlayers) {
-			if(allPlayers[name].tank == null) {
+		console.log("allPlayers" + allPlayers);
+		/*for (var name in allPlayers) {
+			if(allPlayers[name].tank === null) {
 				allPlayers[name].tank = new Tank();
 				allPlayers[name].tank.init(100, 100, 0, 'black');            // TODO couleur à virer
 			}
-		}
+		}*/
 	}
 
 	// TODO new player sound
@@ -213,29 +245,14 @@ var Jeu = function()
 		soundNewPlayer.play();
 	}
 
-	/**
-	 * Dessine le tank du joueur
-	 * @param tank
-	 */
-	function drawTank(userTank) {
-		userTank.tank.draw(ctx);
-	}
 
 	/**
 	 * Dessine tous les joueurs
 	 */
 	function drawAllPlayers() {
 		for (var name in allPlayers) {
-			drawTank(allPlayers[name]);
+			allPlayers[name].drawTank(ctx, name);
 		}
-	}
-
-	/**
-	 * bouge le tank du joueur
-	 * @param tank
-	 */
-	function moveTank(userTank) {
-		userTank.tank.move(deltaTime/1000);
 	}
 
 	/**
@@ -243,7 +260,7 @@ var Jeu = function()
 	 */
 	function moveAllPlayers() {
 		for (var name in allPlayers) {
-			moveTank(allPlayers[name]);
+			allPlayers[name].moveTank(deltaTime/1000);
 		}
 	}
 
@@ -309,6 +326,9 @@ var Jeu = function()
 	// methodes publiques
 	return {
 		init: init,
+		start: start,
+		stop: stop,
+		newMove: newMove,
 		updatePlayers: updatePlayers,
 		soundPlayer: soundPlayer,
 		updatePlayerTank: updatePlayerTank,

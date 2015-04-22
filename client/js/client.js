@@ -2,8 +2,9 @@
  * Created by Romain on 18/02/2015.
  */
 
-var username, regex, res;
+var usernameAsk, regex, res;
 var conversation, data, datasend, users;
+
 var game;
 var socket = io.connect();
 
@@ -17,11 +18,16 @@ window.addEventListener("load", function ()
 	conversation = document.querySelector("#conversation");
 	data = document.querySelector("#data");
 	datasend = document.querySelector("#datasend");
+	startGameBtn = document.querySelector("#startGameBtn");
 	users = document.querySelector("#users");
 
 	game = new Jeu();
-	game.init(username);
+	game.init();
 
+	// BOUTON Start
+	startGameBtn.addEventListener("click", function (evt) {
+        socket.emit('startGame');
+	});
 	// BOUTON ENVOYER
 	datasend.addEventListener("click", function() {
 		sendMessage();
@@ -35,14 +41,16 @@ window.addEventListener("load", function ()
 			sendMessage();
 		}
 	});
+
+
+	/**
+	 *  CONNEXION SERVER ET DEMANDE PSEUDO
+	 */
+	socket.on('connect', function(){	  // call the server-side function 'adduser' and send one parameter (value of prompt)
+		socket.emit('adduser', usernameAsk);
+	});
 });
 
-/**
- *  CONNEXION SERVER ET DEMANDE PSEUDO
- */
-socket.on('connect', function(){	  // call the server-side function 'adduser' and send one parameter (value of prompt)
-	socket.emit('adduser', username);
-});
 
 /**
  * UPDATE TCHAT
@@ -85,7 +93,7 @@ socket.on('updateusers', function (listOfUsers) {
 		var userLineOfHTML = '<div>- ' + name + '</div>';
 		users.innerHTML += userLineOfHTML;
 	}
-    game.soundPlayer(listOfUsers);                              // TODO SOUND
+    //game.soundPlayer(listOfUsers);                              // TODO SOUND
 });
 
 /**
@@ -103,6 +111,7 @@ function sendMessage() {
  * POSITION DU JOUEUR
  */
 socket.on('sendUpdatePlayerTank', function (username, tank) {
+	console.log(username);
 	game.updatePlayerTank(username, tank);   // appel fonction jeu.js
 });
 
@@ -127,10 +136,30 @@ socket.on('updatePlayers', function (listOfplayers) {
 function getPseudo() {
     do
     {
-        username = prompt("Votre pseudo ?");	            // STOCKE NOM DU JOUEUR
-        //username = getUserName();
+        usernameAsk = prompt("Votre pseudo ?");	            // STOCKE NOM DU JOUEUR
+        //usernameAsk = getUserName();
         regex = new RegExp('^[a-z0-9A-Zéèêàâîô]{3,17}$');   // Pseudo de 3 à 17 caractères autorisés
-        res = regex.test(username);
+        res = regex.test(usernameAsk);
     }
     while(res !== true);
 }
+
+
+
+
+/**
+ * start Game
+ */
+socket.on('startClientGame', function (listOfNames) {
+	console.log('Start THE GAME');
+	game.start(usernameAsk, listOfNames);
+	startGameBtn.disabled = true;
+});
+
+/**
+ * start Game
+ */
+socket.on('stopClientGame', function () {
+	game.stop();
+	startGameBtn.disabled = false;
+});

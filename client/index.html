@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
-<head lang="en">
-	<meta charset="UTF-8">
-	<title>Tank Game Project</title>
-	<link rel="stylesheet" type="text/css" href="css/style.css" />
-    <link rel="stylesheet" type="text/css" href="css/popup.css" />
+	<head lang="en">
+		<meta charset="UTF-8">
+		<title>Tank Game Project</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+	    <link rel="stylesheet" type="text/css" href="css/popup.css" />
 
-    <script src="js/popup.js"></script>
-	<script src="/socket.io/socket.io.js"></script>
-	<script src="js/classes/missile.js"></script>
-	<script src="js/classes/tank.js"></script>
-	<script src="js/classes/jeu.js"></script>
-	<script src="js/client.js"></script>
-</head>
-
+	    <script src="js/popup.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="js/classes/missile.js"></script>
+		<script src="js/classes/tank.js"></script>
+		<script src="js/classes/jeu.js"></script>
+		<script src="js/classes/player.js"></script>
+		<script src="js/client.js"></script>
+	</head>
     <body>
         <!-- POPUP POUR DEMANDER PSEUDO
         <div id="popup" class="popup-c">
@@ -38,6 +38,7 @@
             <div class="clearfloat"></div>
 
             <p id="game">
+				<button id="startGameBtn">Start Game</button><br>
                 <canvas width="800" height="500" id="tankCanvas"></canvas>
             </p>
 
