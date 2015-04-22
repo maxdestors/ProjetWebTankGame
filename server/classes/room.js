@@ -40,7 +40,6 @@ var Room = function()
 	};
 	var removePlayer = function (name) {
 		delete playersName[name];// .splice(indexOf(name), 1);
-		game.stop();
 	};
 
 

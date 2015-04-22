@@ -107,23 +107,16 @@ io.sockets.on('connection', function (socket)
 		io.sockets.in(socket.room).emit('startClientGame', listName);
 	});
 
-	/*/ CLIENT A EMIS SENDPOS, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATEPOS
-	socket.on('sendpos', function (newPos) {
-		socket.broadcast.emit('updatepos', socket.username, newPos);
-	});
-	//*/
-
 
 	// CLIENT A EMIS ADDUSER, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATEPOS
 	socket.on('adduser', function(username)
 	{
-		socket.username = ent.encode(username);   // sorte de session pour stocker username
-		usernames[username] = username;  // ajout du nom du client a la liste global
+		socket.username = username;   // sorte de session pour stocker username
+		usernames[ent.encode(username)] = ent.encode(username);  // ajout du nom du client a la liste global
 
 		socket.room = roomsName[0];          // room 1 par défaut
 		socket.join(roomsName[0]);
 
-	// console.log(username);
 		rooms[roomsName[0]].addPlayer(username);
 		rooms[roomsName[0]].disp();
 		socket.emit('updatechat', 'SERVER', 'vous êtes connecté à la '+roomsName[0]+'.');  // info au client qu'il s'est connecté
@@ -166,7 +159,8 @@ io.sockets.on('connection', function (socket)
 		socket.broadcast.to(socket.room).emit('stopClientGame');
 		socket.emit('stopClientGame');
 		rooms[socket.room].stopGame();
-
+		rooms[socket.room].removePlayer(socket.username);
+		console.log("disconnect : " + socket.username);
 
 		delete usernames[socket.username];            // supprrime le nom de la liste
 		io.sockets.emit('updateusers', usernames);    // maj de la liste des joueurs dans le chat
@@ -174,5 +168,6 @@ io.sockets.on('connection', function (socket)
 		io.sockets.emit('updatePlayers',listOfPlayers);
 		socket.broadcast.emit('updatechat', 'SERVER', socket.username + " s'est déconnecté");  // on dit à tout le monde quel joueur a quitté
 		socket.leave(socket.room);
+console.log(socket.username);
 	});
 });
