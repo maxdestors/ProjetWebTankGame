@@ -89,7 +89,6 @@ io.sockets.on('connection', function (socket)
 
 	// start game
 	socket.on('startGame', function () {
-		/* START THE GAME */
 		console.log("startGame : ");
 		rooms[socket.room].startGame();
 
@@ -104,18 +103,22 @@ io.sockets.on('connection', function (socket)
 	// un nouveau utilisateur ce connect
 	socket.on('adduser', function(username)
 	{
-		socket.username = username;   // sorte de session pour stocker username
+		socket.username = username;                              // sorte de session pour stocker username
 		usernames[ent.encode(username)] = ent.encode(username);  // ajout du nom du client a la liste global
 
-		socket.room = roomsName[0];          // room 1 par défaut
+		socket.room = roomsName[0];                              // room 1 par défaut
 		socket.join(roomsName[0]);
-
 
 		rooms[roomsName[0]].addPlayer(username);
 		rooms[roomsName[0]].disp();
-		socket.emit('updatechat', 'SERVER', 'vous êtes connecté à la '+roomsName[0]+'.');  // info au client qu'il s'est connecté
-		socket.broadcast.to(roomsName[0]).emit('updatechat', 'SERVER', username + "s'est connecté à cette Room");  // info a tous les clients sauf le client courant que qqun s'est connecté
-		io.sockets.emit('updateusers', usernames);     // on demande a chaque client de mettre a jour la liste des clients sur sa page
+
+        // info au client qu'il s'est connecté
+		socket.emit('updatechat', 'SERVER', 'vous êtes connecté à la '+roomsName[0]+'.');
+        // info a tous les clients sauf le client courant que qqun s'est connecté
+		socket.broadcast.to(roomsName[0]).emit('updatechat', 'SERVER', username + "s'est connecté à cette Room");
+
+        // on demande a chaque client de mettre a jour la liste des clients sur sa page
+        io.sockets.emit('updateusers', usernames);
 
 		socket.emit('updaterooms', roomsName, roomsName[0]); // maj des roomsName
 	});
@@ -126,7 +129,7 @@ io.sockets.on('connection', function (socket)
 		rooms[socket.room].removePlayer(socket.username);
 		socket.leave(socket.room);
 		socket.join(newroom);
-		//on le met dans celle choisi
+		//on le met dans celle choisie
 		rooms[newroom].addPlayer(socket.username);
 
 		socket.emit('updatechat', 'SERVER', 'vous êtes connecté à la salle '+ newroom);
@@ -153,12 +156,12 @@ io.sockets.on('connection', function (socket)
 		rooms[socket.room].removePlayer(socket.username);
 		console.log("disconnect : " + socket.username);
 
-		delete usernames[socket.username];            // supprrime le nom de la liste
-		io.sockets.emit('updateusers', usernames);    // maj de la liste des joueurs dans le chat
-		delete listOfPlayers[socket.username];          // suppression du joueur
+		delete usernames[socket.username];                  // supprrime le nom de la liste
+		io.sockets.emit('updateusers', usernames);          // maj de la liste des joueurs dans le chat
+		delete listOfPlayers[socket.username];              // suppression du joueur
 		io.sockets.emit('updatePlayers',listOfPlayers);
-		socket.broadcast.emit('updatechat', 'SERVER', socket.username + " s'est déconnecté");  // on dit à tout le monde quel joueur a quitté
+		socket.broadcast.emit('updatechat', 'SERVER', socket.username + " s'est déconnecté");   // on dit à tout le monde quel joueur a quitté
 		socket.leave(socket.room);
-console.log(socket.username);
+        console.log(socket.username);
 	});
 });
