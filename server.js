@@ -27,6 +27,7 @@ var fs = require('fs');
 eval(fs.readFileSync('client/js/classes/tank.js')+'');
 eval(fs.readFileSync('client/js/classes/missile.js')+'');
 eval(fs.readFileSync('client/js/classes/player.js')+'');
+
 eval(fs.readFileSync('server/classes/jeuServ.js')+'');
 eval(fs.readFileSync('server/classes/room.js')+'');
 
@@ -56,12 +57,10 @@ io.sockets.on('connection', function (socket)
 
     // modification des positions
 	socket.on('sendNewMove', function (newMovement, state) {
-		console.log(newMovement + state);
-		console.log(socket.room);
 		var newTank = rooms[socket.room].newMove(socket.username, newMovement, state);
 
 		if (newTank !== false) {
-			console.log('passs');
+			// pourquoi ca ne marche pas ?????
 			// socket.in(socket.room).emit('sendUpdatePlayerTank', socket.username, newTank);
 			socket.broadcast.to(socket.room).emit('sendUpdatePlayerTank', socket.username, newTank);
 			socket.emit('sendUpdatePlayerTank', socket.username, newTank);
@@ -84,13 +83,14 @@ io.sockets.on('connection', function (socket)
 
 	// client a emis sendchat, on ecoute et renvoie au client pour executer updatechat
 	socket.on('sendchat', function (data) {
+		console.log(socket.username + " a ecrit : " + ent.encode(data));
 		io.sockets.in(socket.room).emit('updatechat', socket.username, ent.encode(data));
 	});
 
 	// start game
 	socket.on('startGame', function () {
 		/* START THE GAME */
-		console.log("startGame : ");
+		console.log("startGame : " + socket.username);
 		rooms[socket.room].startGame();
 
 		var test = rooms[socket.room].getPlayers();
@@ -104,6 +104,8 @@ io.sockets.on('connection', function (socket)
 	// un nouveau utilisateur ce connect
 	socket.on('adduser', function(username)
 	{
+		console.log("disconnect : " + username);
+
 		socket.username = username;   // sorte de session pour stocker username
 		usernames[ent.encode(username)] = ent.encode(username);  // ajout du nom du client a la liste global
 
@@ -112,7 +114,7 @@ io.sockets.on('connection', function (socket)
 
 
 		rooms[roomsName[0]].addPlayer(username);
-		rooms[roomsName[0]].disp();
+
 		socket.emit('updatechat', 'SERVER', 'vous êtes connecté à la '+roomsName[0]+'.');  // info au client qu'il s'est connecté
 		socket.broadcast.to(roomsName[0]).emit('updatechat', 'SERVER', username + "s'est connecté à cette Room");  // info a tous les clients sauf le client courant que qqun s'est connecté
 		io.sockets.emit('updateusers', usernames);     // on demande a chaque client de mettre a jour la liste des clients sur sa page
@@ -122,6 +124,7 @@ io.sockets.on('connection', function (socket)
 
 	// changement de salle
 	socket.on('switchRoom', function(newroom){
+		console.log("switchRoom : " + socket.username + " from " + socket.room + " to " + newroom);
 		//retire le joueur de la room 
 		rooms[socket.room].removePlayer(socket.username);
 		socket.leave(socket.room);
@@ -132,6 +135,7 @@ io.sockets.on('connection', function (socket)
 		socket.emit('updatechat', 'SERVER', 'vous êtes connecté à la salle '+ newroom);
 		// sent message to OLD room
 		socket.broadcast.to(socket.room).emit('updatechat', 'SERVER', socket.username+' a quitté la salle.');
+		
 		// on stop le game
 		socket.broadcast.to(socket.room).emit('stopClientGame');
 		socket.emit('stopClientGame');
@@ -146,12 +150,12 @@ io.sockets.on('connection', function (socket)
 	// deconnexion du client
 	socket.on('disconnect', function()
 	{
+		console.log("disconnect : " + socket.username);
 		// on stop le game
 		socket.broadcast.to(socket.room).emit('stopClientGame');
 		socket.emit('stopClientGame');
 		rooms[socket.room].stopGame();
 		rooms[socket.room].removePlayer(socket.username);
-		console.log("disconnect : " + socket.username);
 
 		delete usernames[socket.username];            // supprrime le nom de la liste
 		io.sockets.emit('updateusers', usernames);    // maj de la liste des joueurs dans le chat
@@ -159,6 +163,5 @@ io.sockets.on('connection', function (socket)
 		io.sockets.emit('updatePlayers',listOfPlayers);
 		socket.broadcast.emit('updatechat', 'SERVER', socket.username + " s'est déconnecté");  // on dit à tout le monde quel joueur a quitté
 		socket.leave(socket.room);
-console.log(socket.username);
 	});
 });

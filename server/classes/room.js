@@ -18,7 +18,6 @@ var Room = function()
 		playersName = new Array();
 
 		game = new Jeu();
-		console.log("init room : " + title);
 	};
 
 
@@ -32,14 +31,12 @@ var Room = function()
 
 	var addPlayer = function (name) {
 		var type = (playersName.length >= 4) ? 0 : 1;
-		//var newplayer = new Player();
-		//newplayer.init(name,type);
 		playersName[name] = type;
-		console.log(playersName.length);
-		console.log('addplayer : ' + name + ' = ' + playersName[name]);
+		// console.log(playersName.length);
+		//console.log('addplayer : ' + name + ' = ' + playersName[name]);
 	};
 	var removePlayer = function (name) {
-		delete playersName[name];// .splice(indexOf(name), 1);
+		delete playersName[name];
 	};
 
 
@@ -48,15 +45,8 @@ var Room = function()
 	};
 
 	var disp = function () {
-
-		var strDisp = 'Room Title :' + title + ' playersName : ';
-		//playersName.forEach(function(player) {
-			//strDisp += player.getName() + " : " + player.getType() + ", ";
-		    // console.log(player);
-		//});
-		console.log(strDisp);
+		console.log('Room Title :' + title + ' playersName : ');
 		console.log(playersName);
-
 	};
 
 
@@ -65,23 +55,6 @@ var Room = function()
 	var getPlayers = function () {
 		return playersName;
 	};
-
-
-	// private 
-
-/*
-	function findPlayer (name) {
-		var i = 0;
-		while(i < playersName.length && playersName[i].getName() != name) {
-			i++;
-		}
-		if (playersName[i].getName() != name) {
-			console.log("name : " + name + " not found !");
-			return null;
-		}
-		return i;
-	}
-*/
 
 
 

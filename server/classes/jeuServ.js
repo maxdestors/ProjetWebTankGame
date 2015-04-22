@@ -37,11 +37,6 @@ var Jeu = function()
 			allPlayers[name] = new Player();
 			allPlayers[name].init(name, arrayName[name], true)
 		}
-		// for(var valeur in arrayName){
-		// 	console.log(valeur + ' : ' + arrayName[valeur] + '  ');
-		// }
-		console.log('game.init ');
-		console.log(allPlayers);
 		start();
 	};
 
@@ -91,17 +86,6 @@ var Jeu = function()
 
 
 	/**
-	 * MAJ des positions de chaque tank
-	 * 
-	 */
-	// function updatePlayerTank (name, tank) {			  // SERT A client.JS
-	// 	if (userName === name) {
-	// 		console.log('name');
-	// 	}
-	// 	allPlayers[name].tank.updateTank(tank);
-	// }
-
-	/**
 	 * ajout d'un nouveau missile
 	 * 
 	 */
@@ -120,12 +104,6 @@ var Jeu = function()
 	function updatePlayers (listOfPlayers) {
 		allPlayers = listOfPlayers;
 		console.log("allPlayers" + allPlayers);
-		/*for (var name in allPlayers) {
-			if(allPlayers[name].tank === null) {
-				allPlayers[name].tank = new Tank();
-				allPlayers[name].tank.init(100, 100, 0, 'black');            // TODO couleur à virer
-			}
-		}*/
 	}
 
 

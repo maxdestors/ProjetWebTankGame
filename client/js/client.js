@@ -58,7 +58,7 @@ socket.on('updaterooms', function (rooms, current_room) {
 			rms.innerHTML += '<div style="color:#37B76D">- ' + rooms[i] + '</div>';
 		}
 		else {
-			rms.innerHTML += '<div>- <a href="#" onclick="switchRoom(\'' + rooms[i] + '\')">' + rooms[i] + '</a></div>';
+			rms.innerHTML += '<div>- <button onclick="switchRoom(\'' + rooms[i] + '\')">' + rooms[i] + '</button></div>';
 		}
 	}
 });

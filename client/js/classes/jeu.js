@@ -41,7 +41,6 @@ var Jeu = function()
 		h = canvas.height;
 		ctx = canvas.getContext('2d');
 
-
 		// charge les sons
 		soundMiss = new Audio("sound/missile.wav");
 		soundNewPlayer = new Audio("sound/welcome.wav");
@@ -77,6 +76,8 @@ var Jeu = function()
 		for (var name in allPlayers) {
 			delete allPlayers[name];
 		}
+
+		hideFPS();
 
 		// Les écouteurs
 		canvas.removeEventListener("mousedown", traiteMouseDown);
@@ -203,9 +204,6 @@ var Jeu = function()
 	 * MAJ des positions de chaque tank
 	 */
 	function updatePlayerTank (name, tank) {			  // sert a client.JS
-		if (userName === name) {
-			console.log('name');
-		}
 		allPlayers[name].updateTank(tank);
 	}
 
@@ -225,13 +223,6 @@ var Jeu = function()
 	 */
 	function updatePlayers (listOfPlayers) {
 		allPlayers = listOfPlayers;
-		console.log("allPlayers" + allPlayers);
-		/*for (var name in allPlayers) {
-			if(allPlayers[name].tank === null) {
-				allPlayers[name].tank = new Tank();
-				allPlayers[name].tank.init(100, 100, 0, 'black');            // TODO COULEURS
-			}
-		}*/
 	}
 
     /**
@@ -306,7 +297,11 @@ var Jeu = function()
 	function showFPS() {
 		fpsContainer = document.createElement('div');
 		fpsContainer.setAttribute('style', 'color: red');
-		document.querySelector('#game').appendChild(fpsContainer);
+		document.querySelector('#fpsSpan').appendChild(fpsContainer);
+	}
+
+	function hideFPS() {
+		document.querySelector('#fpsSpan').innerHTML = '';
 	}
 
     /**

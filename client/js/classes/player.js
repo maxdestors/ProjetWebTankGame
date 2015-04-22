@@ -70,7 +70,6 @@ var Player = function()
 				}
 				break;
 			case 'mousePos':
-				console.log(state);
 				if (!state.x || !state.y) {
 
 				} else {
