@@ -24,7 +24,7 @@ var Jeu = function()
 	var fpsContainer;
 	var fps;
 
-	//deltatime
+	// deltatime
 	var prevTime;
 	var deltaTime;
 
@@ -85,9 +85,8 @@ var Jeu = function()
 		document.removeEventListener('keyup', traiteKeyUp, false);
 
 		isGameRunning = false;
-		console.log('game stopped');
-	};
-
+    console.log('game stopped');
+};
 
 	/**
 	 * ANIMATION MAINLOOP
@@ -200,13 +199,10 @@ var Jeu = function()
 		return playersName[name].newMove(newMovement, state);
 	};
 
-
-
 	/**
 	 * MAJ des positions de chaque tank
-	 * 
 	 */
-	function updatePlayerTank (name, tank) {			  // SERT A client.JS
+	function updatePlayerTank (name, tank) {			  // sert a client.JS
 		if (userName === name) {
 			console.log('name');
 		}
@@ -215,15 +211,13 @@ var Jeu = function()
 
 	/**
 	 * ajout d'un nouveau missile
-	 * 
 	 */
 	function addNewMissile (newMissile) {
 		var miss = new Missile();
 		miss.updateMissile(newMissile);
 		allMissiles.push(miss);
-		soundMiss.play();                                                   // TODO new missile sound
+		soundMiss.play();
 	}
-
 
 	/**
 	 * MAJ du tableau des joueurs (connexion et deconnexion)
@@ -235,16 +229,17 @@ var Jeu = function()
 		/*for (var name in allPlayers) {
 			if(allPlayers[name].tank === null) {
 				allPlayers[name].tank = new Tank();
-				allPlayers[name].tank.init(100, 100, 0, 'black');            // TODO couleur à virer
+				allPlayers[name].tank.init(100, 100, 0, 'black');            // TODO COULEURS
 			}
 		}*/
 	}
 
-	// TODO new player sound
+    /**
+     * Son pour nouveau joueur
+     */
 	function soundPlayer () {
 		soundNewPlayer.play();
 	}
-
 
 	/**
 	 * Dessine tous les joueurs
@@ -274,8 +269,9 @@ var Jeu = function()
 			}
 		};
 	}
+
 	/**
-	 * dessine tous les missiles
+	 * Dessine tous les missiles
 	 */
 	function drawAllMissiles() {
 		allMissiles.forEach(function(missile) { 
@@ -304,12 +300,18 @@ var Jeu = function()
 		frameCount++;
 	};
 
+    /**
+     * Affichage des FPS
+     */
 	function showFPS() {
 		fpsContainer = document.createElement('div');
 		fpsContainer.setAttribute('style', 'color: red');
 		document.querySelector('#game').appendChild(fpsContainer);
 	}
 
+    /**
+     * Gestion delta time
+     */
 	function manageDeltaTime() {
 		var newTime = new Date().getTime();
 		deltaTime = newTime - prevTime;

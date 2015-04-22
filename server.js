@@ -1,22 +1,21 @@
-
-// UTILISATION DU FRAMEWORK EXPRESS
+// utilisation du framework express
 var express = require('express');
 
-// VARIABLES POUR LES MODULES REQUIS
+// variables pour les différents modules requis
 var app = express()
 	, http = require('http')
-	, ent = require('ent')// encode les caracteres speciaux, equivalent à htmlentities
+	, ent = require('ent')                      // encode les caracteres speciaux, equivalent à htmlentities
 	, server = http.createServer(app)
 	, io = require('socket.io').listen(server);
 
+// port et lancement du serveur, process.env.PORT pour heroku
 var port = process.env.PORT || 28080;
+server.listen(port);
 
-server.listen(port);     // LANCEMENT SERVER SUR LE PORT 28080
-
-// INDICATION D'OU SONT LES FICHIERS LOCAUX
+// indication d'ou sont les fichiers locaux
 app.use(express.static(__dirname + '/client/'));
 
-// ON ROUTE VERS PAGE D'INDEX
+// on route vers la page d'index
 app.get('/', function (req, res) {
 	res.sendfile(__dirname + '/client/index.html');
 });
@@ -28,19 +27,15 @@ var fs = require('fs');
 eval(fs.readFileSync('client/js/classes/tank.js')+'');
 eval(fs.readFileSync('client/js/classes/missile.js')+'');
 eval(fs.readFileSync('client/js/classes/player.js')+'');
-
 eval(fs.readFileSync('server/classes/jeuServ.js')+'');
 eval(fs.readFileSync('server/classes/room.js')+'');
 
-
-
-
-// PSEUDO DES PERSONNES CONNECTES AU CHAT
+// pseudo des personnes connectées au chat
 var usernames = {};
 var listOfPlayers = {};
 var roomsName = ['Room n°1','Room n°2','Room n°3'];
 
-// list des rooms instancié depuis la liste des noms de Rooms
+// list des rooms instanciées depuis la liste des noms de Rooms
 var rooms = {};
 for (var roomName in roomsName) {
 	var tmpRoom = new Room();
@@ -50,14 +45,16 @@ for (var roomName in roomsName) {
 console.log(rooms);
 
 
-
-// CONNEXION ET TRAITEMENT DES MESSAGES
+/**
+ *  Connexion et traitement des messages
+ */
 io.sockets.on('connection', function (socket)
 {
+    /**
+     *   Pour le jeu :
+     */
 
-	/**
-	*  GAME
-	*/
+    // modification des positions
 	socket.on('sendNewMove', function (newMovement, state) {
 		console.log(newMovement + state);
 		console.log(socket.room);
@@ -71,29 +68,26 @@ io.sockets.on('connection', function (socket)
 		}
 	});
 
-
-	
-	// CLIENT A EMIS updateUserTank, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER updatePlayerTank
+    // client a emis updateUserTank, ecoute et renvoie au client pour executer updatePlayerTank
 	socket.on('sendUpdateUserTank', function (newTank) {
 		socket.in(socket.room).emit('sendUpdatePlayerTank', socket.username, newTank);
 	});
+
 	// envoie du nouveau missile
 	socket.on('sendNewMissile', function (newMissile) {
 		socket.in(socket.room).emit('sendAddMissile', newMissile);
     });
 
-
-
 	/**
-	*  CHAT
+	*   Pour le chat :
 	*/
 
-	// CLIENT A EMIS SENDCHAT, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATECHAT
+	// client a emis sendchat, on ecoute et renvoie au client pour executer updatechat
 	socket.on('sendchat', function (data) {
 		io.sockets.in(socket.room).emit('updatechat', socket.username, ent.encode(data));
 	});
 
-	// Start Game
+	// start game
 	socket.on('startGame', function () {
 		/* START THE GAME */
 		console.log("startGame : ");
@@ -113,8 +107,7 @@ io.sockets.on('connection', function (socket)
 	});
 	//*/
 
-
-	// CLIENT A EMIS ADDUSER, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATEPOS
+	// client a emis adduser, on ecoute et renvoie au client pour exercuter updatepos
 	socket.on('adduser', function(username)
 	{
 		socket.username = ent.encode(username);   // sorte de session pour stocker username
@@ -123,7 +116,7 @@ io.sockets.on('connection', function (socket)
 		socket.room = roomsName[0];          // room 1 par défaut
 		socket.join(roomsName[0]);
 
-	// console.log(username);
+	    // console.log(username);
 		rooms[roomsName[0]].addPlayer(username);
 		rooms[roomsName[0]].disp();
 		socket.emit('updatechat', 'SERVER', 'vous êtes connecté à la '+roomsName[0]+'.');  // info au client qu'il s'est connecté
@@ -136,7 +129,7 @@ io.sockets.on('connection', function (socket)
 		//io.sockets.emit('updatePlayers', rooms[roomsName[0]].getPlayers());
 	});
 
-	// CHANGEMENT DE SALLE
+	// changement de salle
 	socket.on('switchRoom', function(newroom){
 		//retire le joueur de la room 
 		rooms[socket.room].removePlayer(socket.username);
@@ -159,7 +152,7 @@ io.sockets.on('connection', function (socket)
 		socket.emit('updaterooms', roomsName, newroom);
 	});
 
-	// DECONNEXION DU CLIENT
+	// deconnexion du client
 	socket.on('disconnect', function()
 	{
 		// on stop le game

@@ -6,7 +6,7 @@ var Player = function()
 	var name;
 
 	/**
-	 *  INITIALISATION
+	 *  Initialisation du joueur
 	 */
 	var init = function (playerName, playerType, isServeur)
 	{
@@ -15,16 +15,14 @@ var Player = function()
 			isServeur = false;
 		}
 
-
 		name = playerName;
 		type = playerType;
 		tank = new Tank();
 		tank.init(100, 100, 1, 'blue', isServeur);
 	};
 
-
 	/* 
-	 * GETTERs/ SETTERS
+	 * Getters et setters
 	 */
 
 	var getType = function () {
@@ -33,7 +31,6 @@ var Player = function()
 	var setType = function (newType) {
 		type = newType;
 	};
-
 	var getName = function () {
 		return name;
 	};
@@ -41,6 +38,7 @@ var Player = function()
 		name = newName;
 	};
 
+    // mise a jour position
 	var newMove = function (newMovement, state) {
 		switch (newMovement) {
 			case 'isMovingForward':
@@ -86,45 +84,44 @@ var Player = function()
 		return tank.getMembers();
 	};
 
-
+    // mouvement du tank
 	var moveTank = function (deltaTime) {
 		tank.move(deltaTime);
 	};
 
+    // mise a jour du tank
 	var updateTank = function (newtank) {
 		tank.updateTank(newtank);
 	};
 
+    // dessine tank
 	var drawTank = function (ctx, username) {
 		tank.draw(ctx, username);
 	};
 
+    // le tank tire
 	var fireTank = function () {
 		return tank.fire();
 	};
 
+    // rotation de la tourelle du tank
 	var rotateWeaponTank = function (mousePosX, mousePosY) {
 		tank.rotateWeapon(mousePosX, mousePosY);
 	};
 
+    // mouvements tanks :
 	var getIsRotatingLeftTank = function () {
 		return tank.getIsRotatingLeft();
 	};
-
 	var getIsMovingForwardTank = function () {
 		return tank.getIsMovingForward();
 	};
-
 	var getIsRotatingRightTank = function () {
 		return tank.getIsRotatingRight();
 	};
-
 	var getIsMovingBackwardTank = function () {
 		return tank.getIsMovingBackward();
 	};
-
-
-
 
 	// methodes publiques
 	return {
@@ -133,7 +130,6 @@ var Player = function()
 		setType: setType,
 		getName: getName,
 		setName: setName,
-
 
 		newMove: newMove,
 		updateTank: updateTank,
