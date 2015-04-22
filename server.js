@@ -89,9 +89,12 @@ io.sockets.on('connection', function (socket)
 	// CLIENT A EMIS SENDCHAT, ON ECOUTE ET RENVOIE AU CLIENT POUR EXECUTER UPDATECHAT
 	socket.on('sendchat', function (data) {
 		io.sockets.in(socket.room).emit('updatechat', socket.username, ent.encode(data));
+	});
 
+	// Start Game
+	socket.on('startGame', function () {
 		/* START THE GAME */
-console.log("startGame : " + ent.encode(data));
+		console.log("startGame : ");
 		rooms[socket.room].startGame();
 
 		var test = rooms[socket.room].getPlayers();
@@ -143,6 +146,11 @@ console.log("startGame : " + ent.encode(data));
 		socket.emit('updatechat', 'SERVER', 'vous êtes connecté à la salle '+ newroom);
 		// sent message to OLD room
 		socket.broadcast.to(socket.room).emit('updatechat', 'SERVER', socket.username+' a quitté la salle.');
+		// on stop le game
+		socket.broadcast.to(socket.room).emit('stopClientGame');
+		socket.emit('stopClientGame');
+		rooms[socket.room].stopGame();
+
 		// update socket session room title
 		socket.room = newroom;
 		socket.broadcast.to(newroom).emit('updatechat', 'SERVER', socket.username+' a rejoint la salle');
@@ -152,6 +160,12 @@ console.log("startGame : " + ent.encode(data));
 	// DECONNEXION DU CLIENT
 	socket.on('disconnect', function()
 	{
+		// on stop le game
+		socket.broadcast.to(socket.room).emit('stopClientGame');
+		socket.emit('stopClientGame');
+		rooms[socket.room].stopGame();
+
+
 		delete usernames[socket.username];            // supprrime le nom de la liste
 		io.sockets.emit('updateusers', usernames);    // maj de la liste des joueurs dans le chat
 		delete listOfPlayers[socket.username];          // suppression du joueur

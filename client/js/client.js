@@ -25,11 +25,16 @@ window.addEventListener("load", function ()
 	conversation = document.querySelector("#conversation");
 	data = document.querySelector("#data");
 	datasend = document.querySelector("#datasend");
+	startGameBtn = document.querySelector("#startGameBtn");
 	users = document.querySelector("#users"); 
 
 	game = new Jeu();
 	game.init();
 
+	// BOUTON Start
+	startGameBtn.addEventListener("click", function (evt) {
+        socket.emit('startGame');
+	});
 	// BOUTON ENVOYER
 	datasend.addEventListener("click", function (evt) {
 		sendMessage();
@@ -141,5 +146,14 @@ socket.on('updatePlayers', function (listOfplayers) {
  */
 socket.on('startClientGame', function (listOfNames) {
 	console.log('Start THE GAME');
-	game.start(usernameAsk, listOfNames); 
+	game.start(usernameAsk, listOfNames);
+	startGameBtn.disabled = true;
+});
+
+/**
+ * start Game
+ */
+socket.on('stopClientGame', function () {
+	game.stop();
+	startGameBtn.disabled = false;
 });

@@ -25,6 +25,10 @@ var Room = function()
 	var startGame = function () {
 		game.init(playersName);
 	};
+	
+	var stopGame = function () {
+		game.stop();
+	};
 
 	var addPlayer = function (name) {
 		var type = (playersName.length >= 4) ? 0 : 1;
@@ -88,6 +92,7 @@ var Room = function()
 	return {
 		init: init,
 		startGame: startGame,
+		stopGame: stopGame,
 		removePlayer: removePlayer,
 		addPlayer: addPlayer,
 		newMove: newMove,

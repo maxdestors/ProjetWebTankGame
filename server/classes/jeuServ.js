@@ -54,6 +54,10 @@ var Jeu = function()
 
 	var stop = function ()
 	{
+		for (var name in allPlayers) {
+			delete allPlayers[name];
+		}
+		
 		isGameRunning = false;
 		console.log('game stopped');
 	};

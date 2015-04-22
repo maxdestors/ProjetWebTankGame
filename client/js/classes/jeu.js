@@ -74,6 +74,16 @@ var Jeu = function()
 
 	var stop = function ()
 	{
+		for (var name in allPlayers) {
+			delete allPlayers[name];
+		}
+
+		// Les écouteurs
+		canvas.removeEventListener("mousedown", traiteMouseDown);
+		canvas.removeEventListener("mousemove", traiteMouseMove);
+		document.removeEventListener('keydown', traiteKeyDown, false);
+		document.removeEventListener('keyup', traiteKeyUp, false);
+
 		isGameRunning = false;
 		console.log('game stopped');
 	};
