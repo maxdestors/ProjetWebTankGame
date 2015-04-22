@@ -5,10 +5,10 @@
 var usernameAsk, regex, res;
 var conversation, data, datasend, users;
 
+
 var game;
 var socket = io.connect();
 
-getPseudo();
 
 /**
  * ONLOAD : AU CHARGEMENT DE LA PAGE
@@ -47,6 +47,7 @@ window.addEventListener("load", function ()
 	 *  CONNEXION SERVER ET DEMANDE PSEUDO
 	 */
 	socket.on('connect', function(){	  // call the server-side function 'adduser' and send one parameter (value of prompt)
+		getPseudo();
 		socket.emit('adduser', usernameAsk);
 	});
 });
