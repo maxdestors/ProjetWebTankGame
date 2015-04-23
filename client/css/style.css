@@ -22,11 +22,17 @@ h2 {
     font-size: 25px;
     font-family: 'Trebuchet MS', sans-serif;
     color: #37B76D;
+    padding-bottom: 15px;
+    text-align:center;
+}
+h3 {
+    color: #37B3BB;
 }
 h4 {
 	text-align: center;
-	background-color: #3d9964;
+	background-color: #3D9964;
 	padding: 5px;
+    border:1px solid #21AB59;
 }
 #container {
     background-color: #222;
@@ -35,7 +41,6 @@ h4 {
     border-radius: 10px;
 	padding:5px;
 	width:900px;
-	min-height:900px;
 	margin: 0 auto;
 }
 .btn {
@@ -60,8 +65,8 @@ h4 {
 	color: #25DA72;
 }
 #menu {
-	width: 478px;         /* 500px sur portable TODO */
-	margin: 0px auto;
+	width: 515px;
+	margin: 0px auto 100px auto;
 }
 #menu li {
 	list-style: none;
@@ -90,20 +95,19 @@ h4 {
 }
 #corps {
     line-height: 1.8em;
-    background-color: #090909;
+    background-color: #121212;
     color: #FFF;
-    margin: 120px auto;
-    padding:20px;
-    border: 3px solid #333;
+    margin: 10px auto;
+    padding: 20px;
+    border: 3px solid #404040;
     width: 600px;
     min-height: 250px;
     overflow-x: hidden;
 }
 .rulesbox {
     height: 150px;
-    padding: 0px 8px;
+    padding: 0px 16px;
     float: left;
-    border-right: 1px dashed #444;
 }
 #boxchat {
 	background-color: #090909;
@@ -156,4 +160,22 @@ h4 {
 #fpsSpan {
     text-align: center;
     color: red;
+}
+#startGameBtn {
+    background-image: linear-gradient(to bottom, #37B76D, #37876f);
+    border:3px solid #43956D;
+    border-radius:20px;
+    color:#EEEEEE;
+    cursor:pointer;
+    font-family:'Trebuchet MS', sans-serif;
+    font-size:20px;
+    font-weight: bold;
+    margin:0 0 20px 0;
+    padding:12px;
+    text-align:center;
+    text-decoration:none;
+}
+#startGameBtn:hover {
+    background-image: linear-gradient(to bottom, #37876f, #37B76D);
+    border: 3px solid #2ECC71;
 }
