@@ -18,6 +18,11 @@ h1 {
 	text-align: center;
     letter-spacing: 0.02em;
 }
+h2 {
+    font-size: 25px;
+    font-family: 'Trebuchet MS', sans-serif;
+    color: #37B76D;
+}
 h4 {
 	text-align: center;
 	background-color: #3d9964;
@@ -82,6 +87,23 @@ h4 {
 #tankCanvas {
 	border: 3px solid #111111;
 	background: url('../img/map/map2.png') no-repeat;
+}
+#corps {
+    line-height: 1.8em;
+    background-color: #090909;
+    color: #FFF;
+    margin: 120px auto;
+    padding:20px;
+    border: 3px solid #333;
+    width: 600px;
+    min-height: 250px;
+    overflow-x: hidden;
+}
+.rulesbox {
+    height: 150px;
+    padding: 0px 8px;
+    float: left;
+    border-right: 1px dashed #444;
 }
 #boxchat {
 	background-color: #090909;
