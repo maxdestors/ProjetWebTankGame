@@ -181,4 +181,33 @@ h4 {
 }
 #startGameBtn:disabled {
     background-image: linear-gradient(to bottom, #333, #555);
+    border: 3px solid #777;
+    cursor: auto;
+}
+.btnrooms{
+    background-image: linear-gradient(to bottom, #333, #555);
+    border:1px solid #777;
+    border-radius:10px;
+    color:#EEEEEE;
+    cursor:pointer;
+    font-family:'Trebuchet MS', sans-serif;
+    font-size:13px;
+    padding:5px;
+    text-align:center;
+    text-decoration:none;
+}
+.btnrooms:hover {
+    background-image: linear-gradient(to bottom, #555, #333);
+    border: 1px solid #aaa;
+}
+.btnfocus {
+    background-image: linear-gradient(to bottom, #37B76D, #37876f);
+    border:1px solid #aaa;
+    border-radius:10px;
+    color:#EEEEEE;
+    font-family:'Trebuchet MS', sans-serif;
+    font-size:13px;
+    padding:5px;
+    text-align:center;
+    text-decoration:none;
 }
