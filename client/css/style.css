@@ -88,10 +88,18 @@ h4 {
 #game {
 	text-align:center;
 	padding-top:10px;
+    -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+    -moz-user-select: none; /* mozilla browsers */
+    -khtml-user-select: none; /* webkit (konqueror) browsers */
+    -ms-user-select: none;
 }
 #tankCanvas {
 	border: 3px solid #111111;
 	background: url('../img/map/map2.png') no-repeat;
+    -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+    -moz-user-select: none; /* mozilla browsers */
+    -khtml-user-select: none; /* webkit (konqueror) browsers */
+    -ms-user-select: none;
 }
 #corps {
     line-height: 1.8em;
