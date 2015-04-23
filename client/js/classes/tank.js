@@ -21,7 +21,9 @@ var Tank = function ()
 
 	var hitPoint;
 
-	/* const */
+    var prevFireTime;
+
+    /* const */
 	const speedForward = 80;
 	const speedBackward = 40;
 	const rotateSpeed = 3;
@@ -50,6 +52,7 @@ var Tank = function ()
 		isRotatingRight = false;
 		hitPoint = maxHitPoint;
 
+        prevFireTime = 0;
 		deltaDistance = 0;
 		frame = 0;
 
@@ -239,12 +242,20 @@ var Tank = function ()
 	};
 
 	var fire = function () {
-		var newMissile = new Missile();
-		//positionne le missile au bout de la tourelle
-		var xMiss = x + Math.cos(weaponAngle)*lengthWeapon;
-		var yMiss = y + Math.sin(weaponAngle)*lengthWeapon;
-		newMissile.init(xMiss, yMiss, 3, weaponAngle, 160, color);
-		return newMissile;
+        var newTime = new Date().getTime();
+        var deltaTime = newTime - prevFireTime;
+        console.log(deltaTime);
+        if(deltaTime > 1000) {
+            prevFireTime = newTime;
+
+            var newMissile = new Missile();
+            //positionne le missile au bout de la tourelle
+            var xMiss = x + Math.cos(weaponAngle)*lengthWeapon;
+            var yMiss = y + Math.sin(weaponAngle)*lengthWeapon;
+            newMissile.init(xMiss, yMiss, 3, weaponAngle, 160, color);
+            return newMissile;
+        }
+        return false;
 	};
 
 	var hit = function() {

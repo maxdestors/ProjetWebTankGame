@@ -154,11 +154,12 @@ var Jeu = function()
 	 * @param evt
 	 */
 	function traiteMouseDown(evt) {
-		soundMiss.play();                                                   // TODO new missile sound
 		var missile = allPlayers[userName].fireTank();
-		socket.emit('sendNewMissile', missile.getMembers());
-		allMissiles.push(missile);
-		//console.log("mousedown");
+        if(missile !== false) {
+            soundMiss.play();
+            socket.emit('sendNewMissile', missile.getMembers());
+            allMissiles.push(missile);
+        }
 	}
 	function traiteMouseMove(evt) {
 		mousePos = getMousePos(canvas, evt);
