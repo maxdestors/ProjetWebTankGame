@@ -69,15 +69,15 @@ var Tank = function ()
 			        imgTank.src = '../../img/tanks/blue_tank.png';
 			        imgTourelle.src = '../../img/tanks/blue_tourelle.png';
 					break;
-				case '#70b83b':
+				case '#56af15':
 			        imgTank.src = '../../img/tanks/green_tank.png';
 			        imgTourelle.src = '../../img/tanks/green_tourelle.png';
 					break;
-				case '#ff710f':
+				case '#ec6a11':
 			        imgTank.src = '../../img/tanks/orange_tank.png';
 			        imgTourelle.src = '../../img/tanks/orange_tourelle.png';
 					break;
-				case '#9337d7':
+				case '#891adc':
 			        imgTank.src = '../../img/tanks/purple_tank.png';
 			        imgTourelle.src = '../../img/tanks/purple_tourelle.png';
 					break;

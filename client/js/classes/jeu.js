@@ -65,13 +65,13 @@ var Jeu = function()
 					color = '#2e6b93';
 					break;
 				case 1:
-					color = '#70b83b';
+					color = '#56af15';
 					break;
 				case 2:
-					color = '#ff710f';
+					color = '#ec6a11';
 					break;
 				case 3:
-					color = '#9337d7';
+					color = '#891adc';
 					break;
 				default:
 					color = 'grey';
