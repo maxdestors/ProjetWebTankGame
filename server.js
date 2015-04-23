@@ -174,6 +174,9 @@ io.sockets.on('connection', function (socket)
 	// deconnexion du client
 	socket.on('disconnect', function()
 	{
+        if(!socket.username) {
+            return;
+        }
 		console.log("disconnect : " + socket.username);
 		// on stop le game
 		socket.broadcast.to(socket.room).emit('stopClientGame');

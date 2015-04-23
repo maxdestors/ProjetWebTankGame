@@ -179,3 +179,6 @@ h4 {
     background-image: linear-gradient(to bottom, #37876f, #37B76D);
     border: 3px solid #2ECC71;
 }
+#startGameBtn:disabled {
+    background-image: linear-gradient(to bottom, #333, #555);
+}
