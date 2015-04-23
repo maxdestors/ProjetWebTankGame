@@ -69,10 +69,10 @@ function switchRoom(room){
 }
 
 // mise à jour de la liste avec le nouveau joueur
-socket.on('updateusers', function (listOfUsers) {
+socket.on('updateusers', function (listOfUsers, listOfScores) {
 	users.innerHTML = "";
 	for(var name in listOfUsers) {
-		var userLineOfHTML = '<div>- ' + name + '</div>';
+		var userLineOfHTML = '<div>- ' + listOfUsers[name] + ' - '+ listOfScores[name] +'</div>';
 		users.innerHTML += userLineOfHTML;
 	}
 });
@@ -109,6 +109,9 @@ socket.on('updatePlayers', function (listOfplayers) {
 function getPseudo() {
     do {
         usernameAsk = prompt("Votre pseudo ?");	            // stocke le nom du joueur
+        if (usernameAsk === null) {
+        	usernameAsk = "Anonymous";
+        };
         //usernameAsk = getUserName();
         regex = new RegExp('^[a-z0-9A-Zéèêàâîô]{3,17}$');   // pseudo de 3 à 17 caractères autorisés
         res = regex.test(usernameAsk);

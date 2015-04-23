@@ -275,9 +275,9 @@ var Jeu = function()
 			console.log('Winner : ' + winnerName);
 			alert('Winner : ' + winnerName);
 			//send winnerName
-//			if (winnerName === userName) {
-//				socket.emit('imTheWinner');
-//			}
+			if (winnerName === userName) {
+				socket.emit('imTheWinner');
+			}
 			stop();
 			document.querySelector("#startGameBtn").disabled = false;
 			//send stop

@@ -33,6 +33,7 @@ eval(fs.readFileSync('server/classes/room.js')+'');
 
 // pseudo des personnes connectées au chat
 var usernames = {};
+var userScores = {};
 var listOfPlayers = {};
 var roomsName = ['Room n°1','Room n°2','Room n°3'];
 
@@ -99,14 +100,15 @@ io.sockets.on('connection', function (socket)
 		// en plus aller chercher la list des tanks
 		io.sockets.in(socket.room).emit('startClientGame', listName);
 	});
-/*
+
 	// winner point
 	socket.on('imTheWinner', function () {
-		// score[socket.username] ++;
-		io.sockets.in(socket.room).emit('updateusers', usernames , score);
+		userScores[socket.username]++;
+		console.log(socket.username + " score : " + userScores[socket.username]);
+		io.sockets.in(socket.room).emit('updateusers', usernames , userScores);
 
 	});
-*/
+
 	/**
 	*   Pour le chat :
 	*/
@@ -125,7 +127,8 @@ io.sockets.on('connection', function (socket)
 		}
 		console.log("connect : " + username);
 		socket.username = username;                              // sorte de session pour stocker username
-		usernames[ent.encode(username)] = ent.encode(username);  // ajout du nom du client a la liste global
+		usernames[username] = ent.encode(username);  // ajout du nom du client a la liste global
+		userScores[username] = 0;
 
 		socket.room = roomsName[0];                              // room 1 par défaut
 		socket.join(roomsName[0]);
@@ -138,7 +141,7 @@ io.sockets.on('connection', function (socket)
 		socket.broadcast.to(roomsName[0]).emit('updatechat', 'SERVER', username + "s'est connecté à cette Room");
 
         // on demande a chaque client de mettre a jour la liste des clients sur sa page
-        io.sockets.emit('updateusers', usernames);
+        io.sockets.emit('updateusers', usernames, userScores);
 
 		socket.emit('updaterooms', roomsName, roomsName[0]); // maj des roomsName
 	});
@@ -179,7 +182,8 @@ io.sockets.on('connection', function (socket)
 		rooms[socket.room].removePlayer(socket.username);
 
 		delete usernames[socket.username];                  // supprrime le nom de la liste
-		io.sockets.emit('updateusers', usernames);          // maj de la liste des joueurs dans le chat
+		delete userScores[socket.username];                  // supprrime le nom de la liste
+		io.sockets.emit('updateusers', usernames, userScores);          // maj de la liste des joueurs dans le chat
 		delete listOfPlayers[socket.username];              // suppression du joueur
 		io.sockets.emit('updatePlayers',listOfPlayers);
 		socket.broadcast.emit('updatechat', 'SERVER', socket.username + " s'est déconnecté");   // on dit à tout le monde quel joueur a quitté
