@@ -57,6 +57,7 @@ var Jeu = function()
 		// ici on set les couleur et x , y du tank qu'on passe en parame a init()
 		for (var name in listOfplayers) {
 			allPlayers[name] = new Player();
+            soundPlayer();
 			allPlayers[name].init(name, listOfplayers[name])
 		}
 
