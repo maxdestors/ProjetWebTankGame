@@ -55,10 +55,10 @@ socket.on('updaterooms', function (rooms, current_room) {
 	rms.innerHTML = null;
 	for (var i = 0; i < rooms.length; i++) {
 		if(rooms[i] === current_room){
-			rms.innerHTML += '<div style="color:#37B76D">- ' + rooms[i] + '</div>';
+			rms.innerHTML += '<div><button class="btnfocus" disabled> ' + rooms[i] + '</button></div>';
 		}
 		else {
-			rms.innerHTML += '<div>- <button onclick="switchRoom(\'' + rooms[i] + '\')">' + rooms[i] + '</button></div>';
+			rms.innerHTML += '<div><button class="btnrooms" onclick="switchRoom(\'' + rooms[i] + '\')">' + rooms[i] + '</button></div>';
 		}
 	}
 });
