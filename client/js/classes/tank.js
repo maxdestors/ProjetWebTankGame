@@ -65,7 +65,7 @@ var Tank = function ()
 
 
 			switch (color) {
-				case '#3c9bd8':
+				case '#2e6b93':
 			        imgTank.src = '../../img/tanks/blue_tank.png';
 			        imgTourelle.src = '../../img/tanks/blue_tourelle.png';
 					break;
@@ -341,17 +341,17 @@ var Tank = function ()
 		ctx.beginPath();
 		ctx.lineWidth="1";
 		// ctx.strokeStyle="rgb(55, 183, 109)"; // couleur plus foncé
-		ctx.strokeStyle="rgb(46, 204, 113)";
-		ctx.rect(-15,-20,30,5);
+		ctx.strokeStyle="rgb(55, 55, 55)";
+		ctx.rect(-15,-23,30,5);
 		ctx.stroke();
 
 		ctx.fillStyle="rgb(46, 204, 113)";
-		ctx.fillRect(-15,-20,30*hitPoint/maxHitPoint,5);
+		ctx.fillRect(-15,-23,30*hitPoint/maxHitPoint,5);
 
         // draw :
 		ctx.font = "8pt Calibri,Geneva,Arial";
 	    ctx.fillStyle = "rgb(0, 0, 0)";
-	    ctx.fillText(username, -15,-23);
+	    ctx.fillText(username, -15,-27);
 
 		ctx.rotate(angle);
 

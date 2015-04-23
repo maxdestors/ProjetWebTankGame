@@ -62,7 +62,7 @@ var Jeu = function()
             soundPlayer();
 			switch (cptColor) {
 				case 0:
-					color = '#3c9bd8';
+					color = '#2e6b93';
 					break;
 				case 1:
 					color = '#70b83b';

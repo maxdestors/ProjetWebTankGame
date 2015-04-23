@@ -55,7 +55,7 @@ socket.on('updaterooms', function (rooms, current_room) {
 	rms.innerHTML = null;
 	for (var i = 0; i < rooms.length; i++) {
 		if(rooms[i] === current_room){
-			rms.innerHTML += '<div style="color:#37B76D"> ' + rooms[i] + '</div>';
+			rms.innerHTML += '<div style="color:#37B76D">- ' + rooms[i] + '</div>';
 		}
 		else {
 			rms.innerHTML += '<div>- <button onclick="switchRoom(\'' + rooms[i] + '\')">' + rooms[i] + '</button></div>';
@@ -72,7 +72,7 @@ function switchRoom(room){
 socket.on('updateusers', function (listOfUsers, listOfScores) {
 	users.innerHTML = "";
 	for(var name in listOfUsers) {
-		var userLineOfHTML = '<div>- ' + listOfUsers[name] + ' - '+ listOfScores[name] +'</div>';
+		var userLineOfHTML = '<div>' + listOfUsers[name] + ' - '+ listOfScores[name] +'</div>';
 		users.innerHTML += userLineOfHTML;
 	}
 });

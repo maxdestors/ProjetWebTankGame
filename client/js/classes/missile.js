@@ -80,6 +80,10 @@ var Missile = function () {
      */
 	var draw = function (ctx) {
 		ctx.save();
+        ctx.shadowColor = "#111"; // color
+        ctx.shadowBlur = 6;      // blur level
+        ctx.shadowOffsetX = 1;    // horizontal offset
+        ctx.shadowOffsetY = 1;    // vertical offset
 		//sent pos
 		ctx.translate(x,y);
 		//draw tank body

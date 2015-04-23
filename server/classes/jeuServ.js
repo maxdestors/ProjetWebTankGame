@@ -38,7 +38,7 @@ var Jeu = function()
 			delete allPlayers[name];
 		}
 
-		// ici on set les couleur et x , y du tank qu'on passe en parame a init()
+		// ici on set les couleur et x , y du tank qu'on passe en parametre a init()
 		var cptColor = 0;
 		var color;
 		for (var name in arrayName) {
@@ -47,7 +47,7 @@ var Jeu = function()
 			var y = Math.floor((Math.random() * 400) + 50);
 			switch (cptColor) {
 				case 0:
-					color = '#3c9bd8';
+					color = '#2e6b93';
 					break;
 				case 1:
 					color = '#70b83b';
