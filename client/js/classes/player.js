@@ -8,7 +8,7 @@ var Player = function()
 	/**
 	 *  Initialisation du joueur
 	 */
-	var init = function (playerName, playerType, isServeur)
+	var init = function (playerName, playerType, tankX, tankY, tankAngle, tankColor, isServeur)
 	{
 		// parametre facultatif : isServeur
 		if (!isServeur || isServeur === false) {
@@ -18,7 +18,7 @@ var Player = function()
 		name = playerName;
 		type = playerType;
 		tank = new Tank();
-		tank.init(100, 100, 0, 'blue', isServeur);
+		tank.init(tankX, tankY, tankAngle, tankColor, isServeur);
 	};
 
 	/* 

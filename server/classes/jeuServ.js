@@ -39,9 +39,31 @@ var Jeu = function()
 		}
 
 		// ici on set les couleur et x , y du tank qu'on passe en parame a init()
+		var cptColor = 0;
+		var color;
 		for (var name in arrayName) {
 			allPlayers[name] = new Player();
-			allPlayers[name].init(name, arrayName[name], true)
+			var x = Math.floor((Math.random() * 700) + 50);
+			var y = Math.floor((Math.random() * 400) + 50);
+			switch (cptColor) {
+				case 0:
+					color = '#3c9bd8';
+					break;
+				case 1:
+					color = '#70b83b';
+					break;
+				case 2:
+					color = '#ff710f';
+					break;
+				case 3:
+					color = '#9337d7';
+					break;
+				default:
+					color = 'grey';
+					break;
+				}
+			allPlayers[name].init(name, arrayName[name], x, y, 0, color, true)
+			cptColor++;
 		}
 		start();
 	};

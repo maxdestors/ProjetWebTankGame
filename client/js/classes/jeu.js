@@ -55,13 +55,33 @@ var Jeu = function()
 		}
 
 		// ici on set les couleur et x , y du tank qu'on passe en parame a init()
+		var cptColor = 0;
+		var color;
 		for (var name in listOfplayers) {
 			allPlayers[name] = new Player();
             soundPlayer();
-			allPlayers[name].init(name, listOfplayers[name])
+			switch (cptColor) {
+				case 0:
+					color = '#3c9bd8';
+					break;
+				case 1:
+					color = '#70b83b';
+					break;
+				case 2:
+					color = '#ff710f';
+					break;
+				case 3:
+					color = '#9337d7';
+					break;
+				default:
+					color = 'grey';
+					break;
+				}
+			allPlayers[name].init(name, listOfplayers[name], 100, 100, 0, color)
+			cptColor++;
 		}
 
-		// sendNewMove('isRotatingLeft', 'false');
+		sendNewMove('isRotatingLeft', 'false');
 
 
 		// affiche FPS pour debug

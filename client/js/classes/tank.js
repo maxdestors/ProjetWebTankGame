@@ -61,9 +61,31 @@ var Tank = function ()
 			
 	        // sprites
 	        imgTank = new Image();
-	        imgTank.src = '../../img/tanks/grey_tank.png';
 	        imgTourelle = new Image();
-	        imgTourelle.src = '../../img/tanks/grey_tourelle.png';
+
+
+			switch (color) {
+				case '#3c9bd8':
+			        imgTank.src = '../../img/tanks/blue_tank.png';
+			        imgTourelle.src = '../../img/tanks/blue_tourelle.png';
+					break;
+				case '#70b83b':
+			        imgTank.src = '../../img/tanks/green_tank.png';
+			        imgTourelle.src = '../../img/tanks/green_tourelle.png';
+					break;
+				case '#ff710f':
+			        imgTank.src = '../../img/tanks/orange_tank.png';
+			        imgTourelle.src = '../../img/tanks/orange_tourelle.png';
+					break;
+				case '#9337d7':
+			        imgTank.src = '../../img/tanks/purple_tank.png';
+			        imgTourelle.src = '../../img/tanks/purple_tourelle.png';
+					break;
+				default:
+			        imgTank.src = '../../img/tanks/grey_tank.png';
+			        imgTourelle.src = '../../img/tanks/grey_tourelle.png';
+					break;
+			}
 		}
 
 
@@ -318,17 +340,18 @@ var Tank = function ()
 
 		ctx.beginPath();
 		ctx.lineWidth="1";
-		ctx.strokeStyle="rgb(0, 255, 0)";
+		// ctx.strokeStyle="rgb(55, 183, 109)"; // couleur plus foncé
+		ctx.strokeStyle="rgb(46, 204, 113)";
 		ctx.rect(-15,-20,30,5);
 		ctx.stroke();
 
-		ctx.fillStyle="rgb(0, 255, 0)";
+		ctx.fillStyle="rgb(46, 204, 113)";
 		ctx.fillRect(-15,-20,30*hitPoint/maxHitPoint,5);
 
         // draw :
 		ctx.font = "8pt Calibri,Geneva,Arial";
-	    ctx.fillStyle = "rgb(0,20,180)";
-	    ctx.fillText(username, -15,-20);
+	    ctx.fillStyle = "rgb(0, 0, 0)";
+	    ctx.fillText(username, -15,-23);
 
 		ctx.rotate(angle);
 
