@@ -54,6 +54,10 @@ var Jeu = function()
 			delete allPlayers[name];
 		}
 
+		for (var i = allMissiles.length - 1; i >= 0; i--) {
+			killMissile(i);
+		}
+
 		// ici on set les couleur et x , y du tank qu'on passe en parame a init()
 		var cptColor = 0;
 		var color;

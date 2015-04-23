@@ -38,6 +38,10 @@ var Jeu = function()
 			delete allPlayers[name];
 		}
 
+		for (var i = allMissiles.length - 1; i >= 0; i--) {
+			killMissile(i);
+		}
+
 		// ici on set les couleur et x , y du tank qu'on passe en parametre a init()
 		var cptColor = 0;
 		var color;
@@ -190,12 +194,13 @@ var Jeu = function()
 					if (circRectsOverlap(xyTank.x-xyTank.w/2, xyTank.y-xyTank.h/2, xyTank.w, xyTank.h, xyrMissile.x, xyrMissile.y, xyrMissile.r) ) {
 						allPlayers[name].hitTank()
 						if (allPlayers[name].isTankDestroyed()) {
-							console.log('C4EST LA MOURRANCE !');
+							console.log(name + ' est mort !');
 							afterDeath ();
 						}
 						killMissile(i);
 						// a comment qu'on fait ?
-						// socket.in(socket.room).emit('sendKillMissile', i);
+						// ON A VRAIMENT ENVIe DE LE SYNCHRONISER !
+						// socket.in(socket.room).emit('sendTankDead', i);
 					}
 				}
 			}
